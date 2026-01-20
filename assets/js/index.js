@@ -14834,12 +14834,12 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$I = [
+const __iconNode$J = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$I);
-const __iconNode$H = [
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$J);
+const __iconNode$I = [
   ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
   [
     "path",
@@ -14849,8 +14849,8 @@ const __iconNode$H = [
     }
   ]
 ];
-const Bell = createLucideIcon("bell", __iconNode$H);
-const __iconNode$G = [
+const Bell = createLucideIcon("bell", __iconNode$I);
+const __iconNode$H = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   [
     "path",
@@ -14860,8 +14860,8 @@ const __iconNode$G = [
     }
   ]
 ];
-const BookOpen = createLucideIcon("book-open", __iconNode$G);
-const __iconNode$F = [
+const BookOpen = createLucideIcon("book-open", __iconNode$H);
+const __iconNode$G = [
   [
     "path",
     {
@@ -14871,9 +14871,11 @@ const __iconNode$F = [
   ],
   ["circle", { cx: "12", cy: "13", r: "3", key: "1vg3eu" }]
 ];
-const Camera = createLucideIcon("camera", __iconNode$F);
-const __iconNode$E = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$E);
+const Camera = createLucideIcon("camera", __iconNode$G);
+const __iconNode$F = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$F);
+const __iconNode$E = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
+const ChevronUp = createLucideIcon("chevron-up", __iconNode$E);
 const __iconNode$D = [
   ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
   ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
@@ -14996,6 +14998,30 @@ const __iconNode$q = [
   [
     "path",
     {
+      d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
+      key: "zw3jo"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
+      key: "1wduqc"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
+      key: "kqbvx6"
+    }
+  ]
+];
+const Layers = createLucideIcon("layers", __iconNode$q);
+const __iconNode$p = [
+  [
+    "path",
+    {
       d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z",
       key: "c2jq9f"
     }
@@ -15003,18 +15029,18 @@ const __iconNode$q = [
   ["rect", { width: "4", height: "12", x: "2", y: "9", key: "mk3on5" }],
   ["circle", { cx: "4", cy: "4", r: "2", key: "bt5ra8" }]
 ];
-const Linkedin = createLucideIcon("linkedin", __iconNode$q);
-const __iconNode$p = [
+const Linkedin = createLucideIcon("linkedin", __iconNode$p);
+const __iconNode$o = [
   ["rect", { width: "18", height: "11", x: "3", y: "11", rx: "2", ry: "2", key: "1w4ew1" }],
   ["path", { d: "M7 11V7a5 5 0 0 1 10 0v4", key: "fwvmzm" }]
 ];
-const Lock = createLucideIcon("lock", __iconNode$p);
-const __iconNode$o = [
+const Lock = createLucideIcon("lock", __iconNode$o);
+const __iconNode$n = [
   ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
   ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
-const Mail = createLucideIcon("mail", __iconNode$o);
-const __iconNode$n = [
+const Mail = createLucideIcon("mail", __iconNode$n);
+const __iconNode$m = [
   [
     "path",
     {
@@ -15024,19 +15050,7 @@ const __iconNode$n = [
   ],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-const MapPin = createLucideIcon("map-pin", __iconNode$n);
-const __iconNode$m = [
-  [
-    "path",
-    {
-      d: "M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z",
-      key: "q8bfy3"
-    }
-  ],
-  ["path", { d: "M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14", key: "1853fq" }],
-  ["path", { d: "M8 6v8", key: "15ugcq" }]
-];
-const Megaphone = createLucideIcon("megaphone", __iconNode$m);
+const MapPin = createLucideIcon("map-pin", __iconNode$m);
 const __iconNode$l = [
   ["path", { d: "M4 5h16", key: "1tepv9" }],
   ["path", { d: "M4 12h16", key: "1lakjw" }],
@@ -18435,70 +18449,105 @@ const App$1 = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
   ] });
 };
-const Noksh = () => {
+const NokshaLab = () => {
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
+  const [showScrollTop, setShowScrollTop] = reactExports.useState(false);
   reactExports.useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
+      setShowScrollTop(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  reactExports.useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-reveal");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    const elements = document.querySelectorAll(".reveal-on-scroll");
+    elements.forEach((el) => observer.observe(el));
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const services = [
     {
       id: 1,
-      title: "ফেসবুক বুস্টিং",
-      desc: "আপনার ব্যবসার প্রচার বাড়াতে টার্গেটেড অডিয়েন্সের কাছে সঠিক অ্যাড পৌঁছানো।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(TrendingUp, { size: 40, color: "#3b82f6" })
+      title: "ফেসবুক মার্কেটিং",
+      desc: "সঠিক অডিয়েন্স টার্গেটিং এবং সেলস ফানেল তৈরির মাধ্যমে আপনার ব্যবসার বিক্রি বহুগুণ বৃদ্ধি করুন।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(TrendingUp, { size: 32 }),
+      gradient: "linear-gradient(135deg, #60a5fa, #2563eb)"
     },
     {
       id: 2,
-      title: "গ্রাফিক্স ডিজাইন",
-      desc: "লোগো, ব্যানার, পোস্টার সহ সব ধরনের ক্রিয়েটিভ ডিজাইন সলিউশন।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Palette, { size: 40, color: "#ec4899" })
+      title: "ক্রিয়েটিভ ডিজাইন",
+      desc: "ব্র্যান্ড আইডেন্টিটি, লোগো এবং সোশ্যাল মিডিয়া পোস্টের জন্য আই-ক্যাচি প্রফেশনাল ডিজাইন।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Palette, { size: 32 }),
+      gradient: "linear-gradient(135deg, #f472b6, #db2777)"
     },
     {
       id: 3,
-      title: "ভিডিও এডিটিং",
-      desc: "প্রফেশনাল রিলস, ইউটিউব ভিডিও এবং বিজ্ঞাপন ভিডিও এডিটিং।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Video, { size: 40, color: "#a855f7" })
+      title: "ভিডিও প্রোডাকশন",
+      desc: "রিলস, টিভিসি এবং প্রোমো ভিডিওর মাধ্যমে আপনার প্রোডাক্টকে ক্লায়েন্টের সামনে জীবন্ত করে তুলুন।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Video, { size: 32 }),
+      gradient: "linear-gradient(135deg, #c084fc, #9333ea)"
     },
     {
       id: 4,
-      title: "পেজ সেটআপ",
-      desc: "বিজনেস বা ফ্যান পেজ সম্পূর্ণ প্রফেশনালভাবে সেটআপ এবং অপ্টিমাইজেশন।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Monitor, { size: 40, color: "#22c55e" })
+      title: "ওয়েব ডেভেলপমেন্ট",
+      desc: "সুপার ফাস্ট, এসইও ফ্রেন্ডলি এবং রেসপন্সিভ ওয়েবসাইট যা আপনার ব্যবসার বিশ্বাসযোগ্যতা বাড়াবে।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Globe, { size: 32 }),
+      gradient: "linear-gradient(135deg, #22d3ee, #0891b2)"
     },
     {
       id: 5,
-      title: "ওয়েব ডেভেলপমেন্ট",
-      desc: "আপনার ব্যবসার জন্য আধুনিক ও রেসপন্সিভ ওয়েবসাইট তৈরি।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Globe, { size: 40, color: "#06b6d4" })
+      title: "ব্র্যান্ডিং সলিউশন",
+      desc: "শুধু লোগো নয়, সম্পূর্ণ ব্র্যান্ড গাইডলাইন এবং স্ট্যাটেজি যা আপনাকে অন্যদের থেকে আলাদা করবে।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 32 }),
+      gradient: "linear-gradient(135deg, #fbbf24, #d97706)"
     },
     {
       id: 6,
-      title: "ডিজিটাল মার্কেটিং",
-      desc: "সোশ্যাল মিডিয়া ম্যানেজমেন্ট এবং পূর্ণাঙ্গ ডিজিটাল মার্কেটিং স্ট্র্যাটেজি।",
-      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Megaphone, { size: 40, color: "#eab308" })
+      title: "এসইও অপ্টিমাইজেশন",
+      desc: "গুগল সার্চে আপনার ওয়েবসাইটকে প্রথম পেজে র‍্যাংক করানোর কার্যকরী কৌশল।",
+      icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 32 }),
+      gradient: "linear-gradient(135deg, #34d399, #059669)"
     }
   ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "Noksh-container", children: [
+  const workflow = [
+    { num: "০১", title: "আলোচনা", desc: "আমরা আপনার প্রয়োজন এবং লক্ষ্যগুলো মনোযোগ দিয়ে শুনি।" },
+    { num: "০২", title: "পরিকল্পনা", desc: "সেরা ফলাফলের জন্য আমরা একটি কাস্টম স্ট্র্যাটেজি তৈরি করি।" },
+    { num: "০৩", title: "বাস্তবায়ন", desc: "আমাদের দক্ষ টিম ডিজাইনিং এবং ডেভেলপমেন্ট শুরু করে।" },
+    { num: "০৪", title: "ডেলিভারি", desc: "নির্ধারিত সময়ে আমরা প্রজেক্ট হ্যান্ডওভার করি এবং সাপোর্ট দেই।" }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "nokshalab-wrapper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
-        /* Reset & Base Styles */
+        /* --- Reset & Variables --- */
         :root {
-          --bg-dark: #111827;
-          --bg-card: #1f2937;
+          --bg-dark: #020617;
+          --bg-card: rgba(30, 41, 59, 0.4);
           --text-primary: #f3f4f6;
           --text-secondary: #9ca3af;
-          --accent-blue: #60a5fa;
-          --accent-purple: #c084fc;
-          --accent-pink: #f472b6;
+          --text-muted: #6b7280;
+          --accent-purple: #9333ea;
+          --accent-blue: #2563eb;
+          --border-color: rgba(255, 255, 255, 0.05);
+          --nav-bg: rgba(15, 23, 42, 0.7);
         }
 
         * {
@@ -18508,623 +18557,608 @@ const Noksh = () => {
         }
 
         body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
           background-color: var(--bg-dark);
           color: var(--text-primary);
           line-height: 1.6;
         }
 
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
 
-        .Noksh-container {
-          min-height: 100vh;
+        .nokshalab-wrapper {
           overflow-x: hidden;
           position: relative;
         }
 
-        /* Utility Classes */
         .container {
           max-width: 1280px;
           margin: 0 auto;
           padding: 0 1.5rem;
         }
 
-        .section-title {
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
+        /* --- Animations --- */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        @keyframes reveal {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-soft {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
         }
 
-        .highlight-blue { color: #3b82f6; }
-        .highlight-purple { color: #a855f7; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 6s ease-in-out 3s infinite; }
+        .animate-reveal { animation: reveal 0.8s ease-out forwards; }
+        .reveal-on-scroll { opacity: 0; }
 
-        /* Navigation */
+        /* --- Background Effects --- */
+        .bg-blob {
+          position: fixed;
+          border-radius: 50%;
+          filter: blur(100px);
+          z-index: 0;
+          pointer-events: none;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 24rem; height: 24rem; background: rgba(147, 51, 234, 0.2); }
+        .blob-2 { top: 40%; right: -10%; width: 30rem; height: 30rem; background: rgba(37, 99, 235, 0.1); }
+        .blob-3 { bottom: -10%; left: 20%; width: 20rem; height: 20rem; background: rgba(219, 39, 119, 0.2); }
+
+        /* --- Components --- */
+        .gradient-text {
+          background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .glass-card {
+          background: var(--bg-card);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid var(--border-color);
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+          border-radius: 1rem;
+        }
+
+        /* --- Navbar --- */
         .navbar {
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           z-index: 1000;
-          padding: 1.25rem 0;
+          padding: 1.5rem 0;
           transition: all 0.3s ease;
         }
-
         .navbar.scrolled {
-          background: rgba(17, 24, 39, 0.85);
+          background: var(--nav-bg);
           backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           padding: 0.75rem 0;
+          border-bottom: 1px solid var(--border-color);
         }
-
         .nav-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
-
         .logo {
-          font-size: 1.875rem;
+          font-size: 1.5rem;
           font-weight: 700;
-          background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .logo span {
-          -webkit-text-fill-color: white;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .nav-links a {
-          color: #d1d5db;
-          font-weight: 500;
-          margin-left: 2rem;
-          transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-          color: white;
-        }
-
-        .b-baria-btn {
-          background: linear-gradient(90deg, #ff416c, #ff4b2b);
-          color: white;
-          padding: 0.5rem 1.5rem;
-          border-radius: 9999px;
-          font-weight: 700;
-          display: inline-flex;
+          display: flex;
           align-items: center;
           gap: 0.5rem;
-          margin-left: 2rem;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .b-baria-btn:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 15px rgba(255, 75, 43, 0.6);
-        }
-
-        .mobile-menu-btn {
-          background: none;
-          border: none;
-          color: white;
           cursor: pointer;
         }
+        .logo-icon {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 0.5rem;
+          background: linear-gradient(135deg, #3b82f6, #9333ea);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        }
+        .nav-links {
+          display: none;
+          align-items: center;
+          gap: 2rem;
+        }
+        .nav-link {
+          color: #d1d5db;
+          font-size: 0.95rem;
+          font-weight: 500;
+          transition: color 0.3s;
+        }
+        .nav-link:hover { color: white; text-decoration: underline; text-decoration-color: var(--accent-purple); text-underline-offset: 8px; }
+        
+        .b-baria-btn {
+          background: linear-gradient(90deg, #ec4899, #f97316);
+          color: white;
+          padding: 0.5rem 1.25rem;
+          border-radius: 9999px;
+          font-weight: 700;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .b-baria-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .mobile-toggle { display: block; color: #d1d5db; }
 
         /* Mobile Menu */
         .mobile-menu {
-          background-color: var(--bg-dark);
-          border-bottom: 1px solid #374151;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #0f172a;
+          border-bottom: 1px solid #1f2937;
           overflow: hidden;
           max-height: 0;
           opacity: 0;
           transition: all 0.3s ease-in-out;
         }
-
-        .mobile-menu.open {
-          max-height: 400px;
-          opacity: 1;
-        }
-
-        .mobile-links {
+        .mobile-menu.open { max-height: 400px; opacity: 1; }
+        .mobile-nav-content {
           display: flex;
           flex-direction: column;
           align-items: center;
           padding: 1.5rem 0;
+          gap: 1rem;
         }
 
-        .mobile-links a {
-          padding: 0.75rem;
-          color: #d1d5db;
-          font-weight: 500;
-        }
-
-        .mobile-btn {
-          width: 90%;
-          margin-top: 1rem;
-          justify-content: center;
-          margin-left: 0;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* --- Hero Section --- */
+        .hero-section {
           position: relative;
-          padding: 8rem 0 5rem;
-          text-align: center;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding-top: 5rem;
+          padding-bottom: 3rem;
           z-index: 10;
         }
-
-        .badge {
-          display: inline-block;
-          padding: 0.375rem 1rem;
-          margin-bottom: 1.5rem;
-          border-radius: 9999px;
-          background: rgba(168, 85, 247, 0.1);
-          border: 1px solid rgba(168, 85, 247, 0.3);
-          color: #d8b4fe;
-          font-size: 0.875rem;
-          font-weight: 600;
+        .hero-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 3rem;
+          align-items: center;
         }
-
-        .hero h1 {
+        .hero-text { text-align: center; width: 100%; }
+        .availability-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          background: #1e293b;
+          border: 1px solid #334155;
+          margin-bottom: 1.5rem;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #d1d5db;
+        }
+        .hero-title {
           font-size: 2.5rem;
           line-height: 1.2;
           font-weight: 800;
           margin-bottom: 1.5rem;
         }
-
-        .hero-gradient-text {
-          background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-          max-width: 42rem;
-          margin: 0 auto 2.5rem;
-          color: var(--text-secondary);
+        .hero-desc {
           font-size: 1.125rem;
+          color: var(--text-secondary);
+          margin-bottom: 2rem;
+          line-height: 1.6;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
         }
-
         .hero-buttons {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
         }
-
         .btn-primary {
-          background: white;
-          color: var(--bg-dark);
-          padding: 0.875rem 2rem;
+          background: linear-gradient(90deg, #2563eb, #9333ea);
+          color: white;
+          padding: 1rem 2rem;
           border-radius: 9999px;
           font-weight: 700;
-          font-size: 1.125rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
           transition: transform 0.2s;
         }
-
-        .btn-primary:hover {
-          background: #e5e7eb;
-          transform: scale(1.05);
-        }
-
-        .btn-secondary {
-          background: rgba(31, 41, 55, 0.5);
-          backdrop-filter: blur(4px);
-          border: 1px solid #4b5563;
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-outline {
+          background: #1e293b;
+          border: 1px solid #334155;
           color: white;
-          padding: 0.875rem 2rem;
+          padding: 1rem 2rem;
           border-radius: 9999px;
           font-weight: 700;
-          font-size: 1.125rem;
           display: flex;
           align-items: center;
           gap: 0.5rem;
           transition: background 0.2s;
         }
-
-        .btn-secondary:hover {
-          background: #1f2937;
+        .btn-outline:hover { background: #334155; }
+        
+        .client-avatars {
+          margin-top: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
         }
-
-        /* Blobs */
-        .blob {
-          position: absolute;
+        .avatar-group { display: flex; }
+        .avatar {
+          width: 2.5rem;
+          height: 2.5rem;
           border-radius: 50%;
-          filter: blur(80px);
-          opacity: 0.4;
-          z-index: 0;
-          animation: float 10s infinite alternate;
+          border: 2px solid var(--bg-dark);
+          background: #334155;
+          margin-left: -0.75rem;
+          overflow: hidden;
         }
+        .avatar img { width: 100%; height: 100%; }
 
-        .blob-1 {
-          background: #7c3aed;
-          width: 24rem;
-          height: 24rem;
-          top: 0;
-          left: 0;
-          transform: translate(-50%, -50%);
-        }
-
-        .blob-2 {
-          background: #2563eb;
-          width: 20rem;
-          height: 20rem;
-          bottom: 0;
-          right: 0;
-        }
-
-        @keyframes float {
-          0% { transform: translate(0, 0) rotate(0deg); }
-          100% { transform: translate(20px, 40px) rotate(10deg); }
-        }
-
-        /* Services Section */
-        .services {
-          padding: 5rem 0;
-          background: var(--bg-dark);
+        .hero-visual {
+          width: 100%;
+          max-width: 500px;
           position: relative;
-          z-index: 10;
+        }
+        .hero-card {
+          aspect-ratio: 1/1;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+        .floating-icon {
+          position: absolute;
+          padding: 1rem;
+          background: #1e293b;
+          border: 1px solid #334155;
+          border-radius: 0.75rem;
+          box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+          z-index: 20;
+        }
+        .icon-top-right { top: 2.5rem; right: 2.5rem; }
+        .icon-bottom-left { bottom: 5rem; left: 2.5rem; }
+        .hero-card-grid {
+          position: absolute;
+          inset: 0;
+          background-image: radial-gradient(#334155 1px, transparent 1px);
+          background-size: 30px 30px;
+          opacity: 0.2;
         }
 
-        .text-center { text-align: center; }
-        .mb-16 { margin-bottom: 4rem; }
-        .max-w-xl { max-width: 36rem; margin-left: auto; margin-right: auto; }
+        /* --- Services --- */
+        .section-padding { padding: 6rem 0; position: relative; z-index: 10; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-subtitle { color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
 
         .services-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 2rem;
         }
-
         .service-card {
-          background: linear-gradient(145deg, #1f2937, #111827);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 1rem;
           padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          transition: all 0.4s ease;
-          position: relative;
-          overflow: hidden;
+          transition: transform 0.3s, background 0.3s;
         }
-
-        .service-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
+        .service-card:hover {
+          background: rgba(30, 41, 59, 0.6);
+          transform: translateY(-8px);
+          border-color: #4b5563;
+        }
+        .service-icon-box {
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 0.75rem;
+          padding: 2px; /* for gradient border */
+          margin-bottom: 1.5rem;
+          transition: transform 0.3s;
+        }
+        .service-card:hover .service-icon-box { transform: scale(1.1); }
+        .service-icon-inner {
           width: 100%;
           height: 100%;
-          background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
-          transform: translateX(-100%);
-          transition: 0.6s;
-          z-index: 1;
-        }
-
-        .service-card:hover {
-          transform: translateY(-10px);
-          border-color: #8b5cf6;
-          box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
-        }
-
-        .service-card:hover::before {
-          transform: translateX(100%);
-        }
-
-        .icon-wrapper {
-          width: 5rem;
-          height: 5rem;
-          background: #1f2937;
-          border-radius: 50%;
+          background: #0f172a;
+          border-radius: 0.6rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 1.5rem;
-          border: 1px solid #374151;
-          transition: background 0.3s;
+          color: white;
         }
+        .service-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: #f3f4f6; }
+        .service-card:hover .service-title { color: #60a5fa; }
+        .service-desc { color: var(--text-secondary); font-size: 0.9rem; }
 
-        .service-card:hover .icon-wrapper {
-          background: #374151;
+        /* --- Process --- */
+        .process-bg { background: rgba(15, 23, 42, 0.5); }
+        .process-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
         }
-
-        .service-card h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 0.75rem;
-          transition: color 0.3s;
-        }
-
-        .service-card:hover h3 {
-          color: #60a5fa;
-        }
-
-        .service-card p {
-          color: var(--text-secondary);
-        }
-
-        /* About Section */
-        .about {
-          padding: 5rem 0;
+        .process-card {
+          background: #1e293b;
+          padding: 1.5rem;
+          border-radius: 0.75rem;
+          border: 1px solid #334155;
+          height: 100%;
           position: relative;
-          overflow: hidden;
         }
-
-        .about-overlay {
+        .process-num {
           position: absolute;
-          inset: 0;
-          background: linear-gradient(to bottom, var(--bg-dark), #1f2937);
-          opacity: 0.5;
+          top: 1rem;
+          right: 1rem;
+          font-size: 3rem;
+          font-weight: 900;
+          color: rgba(51, 65, 85, 0.5);
         }
+        .process-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: white; position: relative; z-index: 2; }
+        .process-desc { color: var(--text-secondary); font-size: 0.9rem; position: relative; z-index: 2; }
 
-        .about-grid {
+        /* --- About --- */
+        .about-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 4rem;
+        }
+        .about-image-wrapper { position: relative; }
+        .about-image {
+          width: 100%;
+          border-radius: 1rem;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          border: 1px solid #334155;
+          display: block;
+        }
+        .stat-card {
+          position: absolute;
+          bottom: -1.5rem;
+          right: -1rem;
+          background: #1e293b;
+          padding: 1.5rem;
+          border-radius: 0.75rem;
+          border: 1px solid #4b5563;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .check-icon-box {
+          padding: 0.75rem;
+          background: rgba(34, 197, 94, 0.2);
+          border-radius: 50%;
+          color: #4ade80;
+          display: flex;
+        }
+        .feature-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+        .feature-item { display: flex; align-items: center; gap: 0.75rem; color: #d1d5db; }
+        .btn-link {
+          display: inline-block;
+          padding: 0.75rem 2rem;
+          border-radius: 0.5rem;
+          border: 1px solid var(--accent-purple);
+          color: #c084fc;
+          font-weight: 600;
+          transition: all 0.2s;
+        }
+        .btn-link:hover { background: var(--accent-purple); color: white; }
+
+        /* --- Contact --- */
+        .contact-card {
+          padding: 2rem;
+        }
+        .contact-layout {
           display: grid;
           grid-template-columns: 1fr;
           gap: 3rem;
-          align-items: center;
-          position: relative;
-          z-index: 10;
         }
-
-        .stats-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.5rem;
-          padding-top: 1rem;
-        }
-
-        .stat-box {
-          background: rgba(31, 41, 55, 0.5);
-          padding: 1rem;
-          border-radius: 0.75rem;
-          border: 1px solid #374151;
-        }
-
-        .stat-number {
-          font-size: 1.875rem;
-          font-weight: 700;
-        }
-
-        .stat-label {
-          font-size: 0.875rem;
-          color: var(--text-secondary);
-        }
-
-        .creative-card-wrapper {
-          background: linear-gradient(to top right, #2563eb, #9333ea);
-          padding: 0.25rem;
-          border-radius: 1rem;
-          transform: rotate(3deg);
-          transition: transform 0.5s;
-        }
-
-        .creative-card-wrapper:hover {
-          transform: rotate(0deg);
-        }
-
-        .creative-card {
-          background: var(--bg-dark);
-          border-radius: 0.75rem;
-          padding: 2rem;
-          height: 100%;
+        .contact-info-list {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
+          gap: 1.5rem;
+          margin: 2rem 0;
         }
-
-        .card-visual {
-          width: 100%;
-          height: 12rem;
-          background: #1f2937;
+        .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .contact-icon {
+          padding: 0.75rem;
           border-radius: 0.5rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
-          overflow: hidden;
-          margin-top: 1.5rem;
         }
-
-        .pulse-emoji {
-          font-size: 3.75rem;
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: .5; }
-        }
-
-        /* Contact Section */
-        .contact {
-          padding: 5rem 0;
-          background: var(--bg-dark);
-        }
-
-        .contact-box {
-          max-width: 56rem;
-          margin: 0 auto;
-          background: #1f2937;
-          border-radius: 1.5rem;
-          padding: 2rem;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-          border: 1px solid #374151;
-        }
-
-        .contact-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2.5rem;
-          margin-top: 2.5rem;
-        }
-
-        .contact-item {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .icon-circle {
-          width: 3rem;
-          height: 3rem;
+        .social-row { display: flex; gap: 1rem; margin-top: 2rem; }
+        .social-btn {
+          width: 2.5rem;
+          height: 2.5rem;
           border-radius: 50%;
+          background: #1e293b;
           display: flex;
           align-items: center;
           justify-content: center;
+          color: #9ca3af;
+          transition: all 0.2s;
         }
+        .social-btn:hover { background: var(--accent-purple); color: white; }
         
-        .icon-circle.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .icon-circle.purple { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
-        .icon-circle.pink { background: rgba(236, 72, 153, 0.1); color: #ec4899; }
-
-        .contact-text label {
-          font-size: 0.875rem;
-          color: var(--text-secondary);
-          display: block;
+        .contact-form {
+          background: rgba(15, 23, 42, 0.5);
+          padding: 1.5rem;
+          border-radius: 1rem;
+          border: 1px solid #334155;
         }
-
-        .contact-text span {
-          font-size: 1.125rem;
-          font-weight: 600;
-        }
-
-        /* Form */
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        .form-input, .form-textarea {
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; font-size: 0.875rem; font-weight: 500; color: #9ca3af; margin-bottom: 0.25rem; }
+        .form-input {
           width: 100%;
-          background: var(--bg-dark);
-          border: 1px solid #374151;
+          background: #1e293b;
+          border: 1px solid #334155;
           border-radius: 0.5rem;
           padding: 0.75rem 1rem;
           color: white;
           font-size: 1rem;
           outline: none;
-          transition: border-color 0.3s;
+          transition: border-color 0.2s;
+          font-family: inherit;
         }
-
-        .form-input:focus, .form-textarea:focus {
-          border-color: #3b82f6;
-        }
-
+        .form-input:focus { border-color: var(--accent-purple); }
         .btn-submit {
           width: 100%;
-          background: linear-gradient(to right, #2563eb, #9333ea);
+          background: linear-gradient(90deg, #2563eb, #9333ea);
           color: white;
           font-weight: 700;
           padding: 0.75rem;
           border-radius: 0.5rem;
-          border: none;
-          cursor: pointer;
-          transition: opacity 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          transition: opacity 0.2s;
         }
+        .btn-submit:hover { opacity: 0.9; }
 
-        .btn-submit:hover {
-          opacity: 0.9;
-        }
-
-        /* Footer */
+        /* --- Footer --- */
         .footer {
-          background: #030712;
+          background: #020617;
+          border-top: 1px solid #0f172a;
           padding: 4rem 0 2rem;
-          border-top: 1px solid #1f2937;
+          position: relative;
+          z-index: 10;
         }
-
-        .footer-top {
+        .footer-content {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 2rem;
+          gap: 2rem;
           text-align: center;
+          margin-bottom: 2rem;
         }
-
-        .social-icons {
-          display: flex;
-          gap: 1.5rem;
-          margin-top: 1rem;
-        }
-
-        .social-icons a:hover {
-          color: #3b82f6;
-        }
-
-        .footer-bottom {
-          border-top: 1px solid #1f2937;
-          padding-top: 2rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: #6b7280;
-          font-size: 0.875rem;
-          gap: 1rem;
-        }
-        
         .footer-links {
           display: flex;
-          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1.5rem;
+          font-size: 0.875rem;
+          color: #9ca3af;
         }
-        
-        .footer-links a:hover {
+        .footer-links a:hover { color: #c084fc; }
+        .copyright {
+          border-top: 1px solid #0f172a;
+          padding-top: 2rem;
+          text-align: center;
+          color: #4b5563;
+          font-size: 0.875rem;
+        }
+
+        /* --- Scroll Top --- */
+        .scroll-top-btn {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          background: var(--accent-purple);
           color: white;
+          padding: 0.75rem;
+          border-radius: 50%;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+          z-index: 50;
+          transition: all 0.3s;
+          opacity: 0;
+          transform: translateY(10px);
+          pointer-events: none;
         }
+        .scroll-top-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .scroll-top-btn:hover { background: #7e22ce; }
 
-        /* Responsive Media Queries */
-        @media (min-width: 640px) {
-          .hero h1 { font-size: 3.75rem; }
-          .hero-buttons { flex-direction: row; }
-        }
-
+        /* --- Responsive Queries --- */
         @media (min-width: 768px) {
-          .nav-links { display: flex; align-items: center; }
-          .mobile-menu-btn { display: none; }
+          .navbar { padding: 1.5rem 0; }
+          .nav-links { display: flex; }
+          .mobile-toggle { display: none; }
+          
+          .hero-layout { flex-direction: row; text-align: left; }
+          .hero-text { width: 50%; text-align: left; }
+          .hero-title { font-size: 3.5rem; }
+          .hero-buttons { flex-direction: row; justify-content: flex-start; }
+          .client-avatars { justify-content: flex-start; }
+          .hero-visual { width: 50%; }
           
           .services-grid { grid-template-columns: repeat(2, 1fr); }
+          .process-grid { grid-template-columns: repeat(2, 1fr); }
           
-          .about-grid { grid-template-columns: 1fr 1fr; }
+          .contact-layout { grid-template-columns: 1fr 1fr; }
+          .contact-card { padding: 3rem; }
           
-          .contact-box { padding: 3rem; }
-          .contact-grid { grid-template-columns: 1fr 1fr; }
-          
-          .footer-top { flex-direction: row; text-align: left; }
-          .social-icons { margin-top: 0; }
-          .footer-bottom { flex-direction: row; justify-content: space-between; }
+          .footer-content { flex-direction: row; justify-content: space-between; text-align: left; }
         }
 
         @media (min-width: 1024px) {
-          .hero { padding-top: 12rem; padding-bottom: 8rem; }
-          .hero h1 { font-size: 4.5rem; }
+          .hero-title { font-size: 4.5rem; }
           .services-grid { grid-template-columns: repeat(3, 1fr); }
+          .process-grid { grid-template-columns: repeat(4, 1fr); }
+          .about-layout { flex-direction: row; align-items: center; }
+          .about-image-wrapper, .about-text { width: 50%; }
+          .process-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -1rem;
+            width: 1.5rem;
+            height: 2px;
+            background: #334155;
+            z-index: 0;
+          }
+          .process-card:last-child::after { display: none; }
         }
       ` }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "blob blob-1" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "blob blob-2" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blob blob-1 animate-float" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blob blob-2 animate-float-delayed" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blob blob-3 animate-float" }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: `navbar ${scrolled ? "scrolled" : ""}`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "nav-content", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "logo", children: [
-          "Noksha",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Lab" })
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "logo", onClick: scrollToTop, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "logo-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Code, { size: 20 }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            "Noksha",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#60a5fa" }, children: "Lab" })
+          ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "nav-links", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#home", children: "হোম" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#services", children: "সার্ভিসসমূহ" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#about", children: "আমাদের সম্পর্কে" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#contact", children: "যোগাযোগ" }),
+          ["হোম", "সার্ভিসসমূহ", "প্রসেস", "সম্পর্কে", "যোগাযোগ"].map((item, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "a",
+            {
+              href: `#${item === "হোম" ? "home" : item === "সার্ভিসসমূহ" ? "services" : item === "প্রসেস" ? "process" : item === "সম্পর্কে" ? "about" : "contact"}`,
+              className: "nav-link",
+              children: item
+            },
+            idx
+          )),
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "a",
             {
@@ -19134,146 +19168,252 @@ const Noksh = () => {
               className: "b-baria-btn",
               children: [
                 "B-Baria ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { size: 16 })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { size: 14 })
               ]
             }
           )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "mobile-menu-btn", onClick: toggleMenu, children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 28 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 28 }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "mobile-toggle", onClick: toggleMenu, children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 28 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 28 }) })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `mobile-menu ${isMenuOpen ? "open" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mobile-links", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#home", onClick: toggleMenu, children: "হোম" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#services", onClick: toggleMenu, children: "সার্ভিসসমূহ" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#about", onClick: toggleMenu, children: "আমাদের সম্পর্কে" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#contact", onClick: toggleMenu, children: "যোগাযোগ" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `mobile-menu ${isMenuOpen ? "open" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mobile-nav-content", children: [
+        ["হোম", "সার্ভিসসমূহ", "প্রসেস", "সম্পর্কে", "যোগাযোগ"].map((item, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "a",
+          {
+            href: `#${item === "হোম" ? "home" : item === "সার্ভিসসমূহ" ? "services" : item === "প্রসেস" ? "process" : item === "সম্পর্কে" ? "about" : "contact"}`,
+            onClick: toggleMenu,
+            style: { color: "#d1d5db", fontWeight: "500" },
+            children: item
+          },
+          idx
+        )),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "a",
           {
-            href: "https://example.com/b-baria",
-            className: "b-baria-btn mobile-btn",
-            children: "B-Baria"
+            href: "#",
+            className: "b-baria-btn",
+            style: { marginTop: "0.5rem" },
+            children: "B-Baria Zone"
           }
         )
       ] }) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "home", className: "hero", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "badge", children: "অনলাইন সলিউশনের বিশ্বস্ত সহযোগী" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { children: [
-        "আপনার ডিজিটাল স্বপ্নের ",
-        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "hero-gradient-text", children: "নিখুঁত কারিগর" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "ডিজাইন, মার্কেটিং কিংবা ডেভেলপমেন্ট— Noksha Lab আছে আপনার পাশে। আমরা দিচ্ছি আপনার ব্যবসার জন্য সম্পূর্ণ ডিজিটাল সমাধান।" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-buttons", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#services", className: "btn-primary", children: "আমাদের সার্ভিস" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#contact", className: "btn-secondary", children: [
-          "কথা বলুন ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { size: 20 })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "home", className: "hero-section", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-layout", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-text reveal-on-scroll", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "availability-badge", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { width: "8px", height: "8px", background: "#22c55e", borderRadius: "50%" } }),
+          "বর্তমানে কাজের জন্য অ্যাভেইলেবল"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "hero-title", children: [
+          "ডিজিটাল ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: "সলিউশনের" }),
+          " নতুন ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          "দিগন্ত"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "hero-desc", children: "আমরা আপনার ব্যবসাকে দিচ্ছি আধুনিকতার ছোঁয়া। ডিজাইন, ডেভেলপমেন্ট এবং মার্কেটিং—সবকিছু এখন এক ছাদের নিচে, Noksha Lab এ।" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-buttons", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#services", className: "btn-primary", children: [
+            "শুরু করা যাক ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowRight, { size: 20 })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#contact", className: "btn-outline", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { size: 20 }),
+            " কথা বলুন"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "client-avatars", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "avatar-group", children: [1, 2, 3, 4].map((i) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "avatar", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: `https://api.dicebear.com/9.x/avataaars/svg?seed=${i * 123}`, alt: "User" }) }, i)) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "0.9rem", color: "#9ca3af" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "white", fontWeight: "700", display: "block" }, children: "৫০০+" }),
+            " হ্যাপি ক্লায়েন্ট"
+          ] })
         ] })
-      ] })
-    ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "services", className: "services", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center mb-16", children: [
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hero-visual reveal-on-scroll", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-card animate-float glass-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hero-card-grid" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "floating-icon icon-top-right animate-float-delayed", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TrendingUp, { color: "#4ade80", size: 32 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "floating-icon icon-bottom-left animate-float", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Palette, { color: "#f472b6", size: 32 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "6rem", fontWeight: "900", color: "#1e293b", opacity: 0.8, userSelect: "none" }, children: "NL" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "8rem",
+          height: "8rem",
+          background: "rgba(147, 51, 234, 0.3)",
+          filter: "blur(40px)",
+          zIndex: -1
+        } })
+      ] }) })
+    ] }) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "services", className: "section-padding", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-header reveal-on-scroll", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "section-title", children: [
           "আমাদের ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "highlight-blue", children: "সেবাসমূহ" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: "সেবাসমূহ" })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-xl", style: { color: "#9ca3af" }, children: "আমরা দিচ্ছি ডিজাইন এবং মার্কেটিং রিলেটেড সব ধরনের সার্ভিস। নিচে আমাদের প্রধান কাজগুলো তুলে ধরা হলো।" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-subtitle", children: "আমরা আপনার ব্যবসার প্রতিটি ধাপের জন্য সম্পূর্ণ সমাধান দিচ্ছি। নিচে আমাদের এক্সপার্টাইজগুলো দেখুন।" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "services-grid", children: services.map((service) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "service-card", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "icon-wrapper", children: service.icon }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: service.title }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: service.desc })
-      ] }, service.id)) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "services-grid", children: services.map((service, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "service-card glass-card reveal-on-scroll",
+          style: { animationDelay: `${index * 100}ms` },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "service-icon-box", style: { background: service.gradient }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "service-icon-inner", children: service.icon }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "service-title", children: service.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "service-desc", children: service.desc })
+          ]
+        },
+        service.id
+      )) })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "about", className: "about", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "about-overlay" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "about-grid", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "about-content", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "section-title", children: [
-            "কেন বেছে নেবেন ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "highlight-purple", children: "Noksha Lab?" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#d1d5db", fontSize: "1.125rem", marginBottom: "1.5rem" }, children: "আমরা শুধু কাজ করি না, আমরা আপনার ব্র্যান্ডের ভ্যালু বাড়াতে সাহায্য করি। আধুনিক প্রযুক্তি এবং ক্রিয়েটিভ আইডিয়া দিয়ে আমরা আপনার ব্যবসাকে অনন্য উচ্চতায় নিয়ে যাই।" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stats-grid", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stat-box", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "stat-number highlight-blue", children: "৫০০+" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "stat-label", children: "সফল প্রজেক্ট" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stat-box", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "stat-number highlight-purple", children: "৯৮%" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "stat-label", children: "হ্যাপি ক্লায়েন্ট" })
-            ] })
-          ] })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "process", className: "section-padding process-bg", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "section-header reveal-on-scroll", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "section-title", children: [
+          "কাজের ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#c084fc" }, children: "প্রক্রিয়া" })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "creative-card-wrapper", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "creative-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { fontSize: "1.5rem", fontWeight: "700", marginBottom: "0.5rem" }, children: "ক্রিয়েটিভ সলিউশন" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#9ca3af", marginBottom: "1.5rem" }, children: "আপনার আইডিয়া, আমাদের ডিজাইন" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card-visual", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pulse-emoji", children: "🎨" }) })
-        ] }) })
-      ] }) })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "contact", className: "contact", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-box", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "section-title", style: { fontSize: "2rem" }, children: "আমাদের সাথে যোগাযোগ করুন" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#9ca3af" }, children: "আপনার প্রজেক্ট নিয়ে আলোচনা করতে ফর্মটি পূরণ করুন অথবা সরাসরি কল করুন।" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "section-subtitle", children: "খুব সহজ ৪টি ধাপে আমরা আপনার প্রজেক্ট সম্পন্ন করি" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-grid", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-info", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "icon-circle blue", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { size: 24 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-text", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "ফোন করুন" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "+880 1703 582125" })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "icon-circle purple", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { size: 24 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-text", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "ইমেইল" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "NokshaLab@gmail.com" })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "icon-circle pink", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { size: 24 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-text", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: "অফিস" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ঢাকা, বাংলাদেশ" })
-            ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "process-grid", children: workflow.map((step, index) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "reveal-on-scroll", style: { animationDelay: `${index * 150}ms`, position: "relative" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "process-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "process-num", children: step.num }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "process-title", children: step.title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "process-desc", children: step.desc })
+      ] }) }, index)) })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "about", className: "section-padding", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "about-layout", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "about-image-wrapper reveal-on-scroll", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to right, #2563eb, #9333ea)",
+          borderRadius: "1rem",
+          transform: "rotate(4deg)",
+          opacity: 0.3,
+          filter: "blur(10px)",
+          zIndex: 0
+        } }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
+          {
+            src: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            alt: "Team",
+            className: "about-image",
+            style: { position: "relative", zIndex: 1 }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stat-card animate-float", style: { zIndex: 2 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "check-icon-box", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheckBig, { size: 24 }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { fontSize: "1.5rem", fontWeight: "700", color: "white" }, children: "৯৮%" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "0.8rem", color: "#9ca3af" }, children: "সফলতার হার" })
           ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "form", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "text", placeholder: "আপনার নাম", className: "form-input" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "email", placeholder: "আপনার ইমেইল", className: "form-input" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "form-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("textarea", { rows: "4", placeholder: "মেসেজ লিখুন...", className: "form-textarea" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "btn-submit", children: "মেসেজ পাঠান" })
         ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "about-text reveal-on-scroll", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "section-title", style: { textAlign: "left", fontSize: "2.5rem" }, children: [
+          "কেন আমরাই ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: "সেরা?" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#d1d5db", fontSize: "1.125rem", marginBottom: "2rem" }, children: "Noksha Lab কোনো সাধারণ এজেন্সি নয়। আমরা আপনার ব্র্যান্ডের ভ্যালু বুঝি। আমাদের দক্ষ টিম দিনরাত পরিশ্রম করে আপনার ব্যবসাকে অনন্য উচ্চতায় নিয়ে যেতে।" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "feature-list", children: [
+          "অভিজ্ঞ এবং দক্ষ টিম মেম্বার",
+          "২৪/৭ কাস্টমার সাপোর্ট",
+          "প্রজেক্ট শেষেও টেকনিক্যাল সহায়তা",
+          "বাজেট ফ্রেন্ডলি এবং স্বচ্ছ প্রাইসিং"
+        ].map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheckBig, { color: "#a855f7", size: 20 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
+        ] }, i)) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#contact", className: "btn-link", children: "আমাদের সম্পর্কে আরও জানুন" })
       ] })
     ] }) }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-top", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "logo", style: { fontSize: "1.5rem" }, children: [
-            "Noksha",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Lab" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "contact", className: "section-padding", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-card contact-card reveal-on-scroll", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-layout", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { fontSize: "2rem", fontWeight: "700", color: "white", marginBottom: "1rem" }, children: "আসুন কথা বলি" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#9ca3af", marginBottom: "2rem" }, children: "আপনার প্রজেক্টের ব্যাপারে বিস্তারিত আলোচনা করতে ফর্মটি পূরণ করুন অথবা সরাসরি আমাদের সাথে যোগাযোগ করুন।" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-info-list", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "contact-icon", style: { background: "rgba(59, 130, 246, 0.1)", color: "#60a5fa" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { size: 24 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { fontWeight: "600", color: "white" }, children: "ফোন" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#9ca3af" }, children: "+৮৮০ ১৭০৩ ৫৮২১২৫" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#6b7280", fontSize: "0.875rem" }, children: "সকাল ১০টা - রাত ১০টা" })
+            ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#6b7280", fontSize: "0.875rem", marginTop: "0.5rem" }, children: "আপনার বিশ্বস্ত ডিজিটাল পার্টনার" })
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "contact-icon", style: { background: "rgba(168, 85, 247, 0.1)", color: "#c084fc" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Mail, { size: 24 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { fontWeight: "600", color: "white" }, children: "ইমেইল" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#9ca3af" }, children: "nokshalab@gmail.com" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "contact-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "contact-icon", style: { background: "rgba(236, 72, 153, 0.1)", color: "#f472b6" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { size: 24 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { fontWeight: "600", color: "white" }, children: "অফিস" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { color: "#9ca3af" }, children: [
+                "হাউজ #১২, রোড #৪, সেক্টর #১০",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                "উত্তরা, ঢাকা - ১২৩০"
+              ] })
+            ] })
+          ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "social-icons", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Facebook, { size: 20 }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Instagram, { size: 20 }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Linkedin, { size: 20 }) })
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "social-row", children: [Facebook, Instagram, Linkedin].map((Icon2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", className: "social-btn", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { size: 20 }) }, i)) })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-bottom", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "© 2024 Noksha Lab. সর্বস্বত্ব সংরক্ষিত।" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-links", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "Privacy Policy" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "Terms of Service" })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "contact-form", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "form-label", children: "আপনার নাম" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "text", className: "form-input", placeholder: "জন ডো" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "form-label", children: "ইমেইল এড্রেস" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "email", className: "form-input", placeholder: "example@gmail.com" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "form-label", children: "মেসেজ" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("textarea", { rows: "4", className: "form-input", placeholder: "আপনার প্রজেক্ট সম্পর্কে লিখুন..." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "btn-submit", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 18 }),
+          " মেসেজ পাঠান"
         ] })
       ] })
-    ] }) })
+    ] }) }) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("footer", { className: "footer", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "left" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { fontSize: "1.5rem", fontWeight: "700", color: "white", marginBottom: "0.5rem" }, children: [
+            "Noksha",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#3b82f6" }, children: "Lab" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#6b7280", fontSize: "0.875rem" }, children: "ডিজিটাল সলিউশনের বিশ্বস্ত সহযোগী" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-links", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "সার্ভিসসমূহ" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "আমাদের কাজ" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "Terms & Condition" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", children: "Privacy Policy" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "copyright", children: [
+        "© ",
+        (/* @__PURE__ */ new Date()).getFullYear(),
+        " Noksha Lab. All rights reserved. Design & Developed with ❤️ by Noksha Team."
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        onClick: scrollToTop,
+        className: `scroll-top-btn ${showScrollTop ? "visible" : ""}`,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronUp, { size: 24 })
+      }
+    )
   ] });
 };
 const products = [
@@ -20074,7 +20214,7 @@ function App() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/family", element: /* @__PURE__ */ jsxRuntimeExports.jsx(FamilyStarApp, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$2, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$1, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha", element: /* @__PURE__ */ jsxRuntimeExports.jsx(Noksh, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha", element: /* @__PURE__ */ jsxRuntimeExports.jsx(NokshaLab, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/tobeer", element: /* @__PURE__ */ jsxRuntimeExports.jsx(TobeerGallery, {}) })
   ] }) });
 }
