@@ -15260,7 +15260,7 @@ const __iconNode = [
   ]
 ];
 const Zap = createLucideIcon("zap", __iconNode);
-const Navbar$2 = ({ scrolled }) => {
+const Navbar$3 = ({ scrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: `navbar ${scrolled ? "scrolled" : ""}`, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "logo", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }), children: [
@@ -15276,7 +15276,7 @@ const Navbar$2 = ({ scrolled }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "menu-icon", onClick: () => setIsMenuOpen(!isMenuOpen), children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 28 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 28 }) })
   ] });
 };
-const Footer$1 = () => {
+const Footer$2 = () => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { className: "footer", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-content", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-brand", children: [
@@ -15325,7 +15325,7 @@ function MizentiaMain() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app-container", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, { scrolled }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$3, { scrolled }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "hero", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { children: [
         "ভবিষ্যৎ গড়ুন ",
@@ -15359,7 +15359,7 @@ function MizentiaMain() {
         ] })
       ] }, company.id)) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$1, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$2, {})
   ] });
 }
 const cssStyles = `
@@ -15875,7 +15875,7 @@ const FadeInSection = ({ children, delay = 0 }) => {
     }
   );
 };
-const Navbar$1 = () => {
+const Navbar$2 = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -16084,7 +16084,7 @@ function App$3() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: cssStyles }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Hero$1, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Services, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Stats, {}),
@@ -18226,7 +18226,7 @@ body {
   .video-player { padding-bottom: 56.25%; }
 }
 `;
-const Navbar = () => {
+const Navbar$1 = () => {
   const [scrolled, setScrolled] = reactExports.useState(false);
   const [mobileMenu, setMobileMenu] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -18365,7 +18365,7 @@ const YoutubeSection = () => {
     ] })
   ] });
 };
-const Footer = () => {
+const Footer$1 = () => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { className: "footer", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-grid", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-col", children: [
@@ -18419,7 +18419,7 @@ const App$1 = () => {
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Hero, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Categories, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "20px" }, children: [
@@ -18446,10 +18446,19 @@ const App$1 = () => {
         ] }, short.id)) })
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$1, {})
   ] });
 };
 const NokshaLab = () => {
+  const navigate = useNavigate();
+  const companies2 = [
+    {
+      id: 1,
+      path: "/Noksha/B_baria",
+      btnText: "B-Baria Zone",
+      color: "#ec4899"
+    }
+  ];
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
   const [showScrollTop, setShowScrollTop] = reactExports.useState(false);
@@ -18585,10 +18594,6 @@ const NokshaLab = () => {
         @keyframes reveal {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-soft {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
         }
 
         .animate-float { animation: float 6s ease-in-out infinite; }
@@ -19159,19 +19164,18 @@ const NokshaLab = () => {
             },
             idx
           )),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "a",
+          companies2.map((company) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
             {
-              href: "https://example.com/b-baria",
-              target: "_blank",
-              rel: "noopener noreferrer",
+              onClick: () => navigate(company.path),
               className: "b-baria-btn",
               children: [
-                "B-Baria ",
+                company.btnText,
                 /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { size: 14 })
               ]
-            }
-          )
+            },
+            company.id
+          ))
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "mobile-toggle", onClick: toggleMenu, children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 28 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 28 }) })
       ] }) }),
@@ -19186,15 +19190,7 @@ const NokshaLab = () => {
           },
           idx
         )),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "a",
-          {
-            href: "#",
-            className: "b-baria-btn",
-            style: { marginTop: "0.5rem" },
-            children: "B-Baria Zone"
-          }
-        )
+        companies2.map((company) => /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: company.path, style: { marginTop: "0.5rem" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "b-baria-btn", children: company.btnText }) }, company.id))
       ] }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "home", className: "hero-section", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hero-layout", children: [
@@ -19414,6 +19410,58 @@ const NokshaLab = () => {
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronUp, { size: 24 })
       }
     )
+  ] });
+};
+const Bacground = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Bacground" });
+};
+const Clock = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Clock" });
+};
+const Data_Base = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Data_Base" });
+};
+const Drag_And_Drop = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Drag_And_Drop" });
+};
+const Footer = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Footer" });
+};
+const Hobar = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Hobar" });
+};
+const LogIn = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "LogIn" });
+};
+const Navbar = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Navbar" });
+};
+const Report = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Report" });
+};
+const ShortCut = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "ShortCut" });
+};
+const Theames = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Theames" });
+};
+const Togol_Menu = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Togol_Menu" });
+};
+const B_Baria = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Bacground, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Data_Base, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Drag_And_Drop, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Hobar, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LogIn, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Report, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ShortCut, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Theames, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Togol_Menu, {})
   ] });
 };
 const products = [
@@ -20215,6 +20263,7 @@ function App() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$2, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$1, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha", element: /* @__PURE__ */ jsxRuntimeExports.jsx(NokshaLab, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha/b_baria", element: /* @__PURE__ */ jsxRuntimeExports.jsx(B_Baria, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/tobeer", element: /* @__PURE__ */ jsxRuntimeExports.jsx(TobeerGallery, {}) })
   ] }) });
 }
