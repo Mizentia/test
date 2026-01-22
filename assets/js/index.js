@@ -15260,7 +15260,7 @@ const __iconNode = [
   ]
 ];
 const Zap = createLucideIcon("zap", __iconNode);
-const Navbar$3 = ({ scrolled }) => {
+const Navbar$2 = ({ scrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: `navbar ${scrolled ? "scrolled" : ""}`, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "logo", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }), children: [
@@ -15276,7 +15276,7 @@ const Navbar$3 = ({ scrolled }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "menu-icon", onClick: () => setIsMenuOpen(!isMenuOpen), children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 28 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 28 }) })
   ] });
 };
-const Footer$2 = () => {
+const Footer$1 = () => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { className: "footer", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-content", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-brand", children: [
@@ -15325,7 +15325,7 @@ function MizentiaMain() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app-container", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$3, { scrolled }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, { scrolled }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "hero", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { children: [
         "ভবিষ্যৎ গড়ুন ",
@@ -15359,7 +15359,7 @@ function MizentiaMain() {
         ] })
       ] }, company.id)) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$2, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$1, {})
   ] });
 }
 const cssStyles = `
@@ -15875,7 +15875,7 @@ const FadeInSection = ({ children, delay = 0 }) => {
     }
   );
 };
-const Navbar$2 = () => {
+const Navbar$1 = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -16084,7 +16084,7 @@ function App$3() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: cssStyles }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Hero$1, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Services, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Stats, {}),
@@ -18226,7 +18226,7 @@ body {
   .video-player { padding-bottom: 56.25%; }
 }
 `;
-const Navbar$1 = () => {
+const Navbar = () => {
   const [scrolled, setScrolled] = reactExports.useState(false);
   const [mobileMenu, setMobileMenu] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -18365,7 +18365,7 @@ const YoutubeSection = () => {
     ] })
   ] });
 };
-const Footer$1 = () => {
+const Footer = () => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("footer", { className: "footer", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-grid", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "footer-col", children: [
@@ -18419,7 +18419,7 @@ const App$1 = () => {
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Hero, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Categories, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "20px" }, children: [
@@ -18446,7 +18446,7 @@ const App$1 = () => {
         ] }, short.id)) })
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer$1, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
   ] });
 };
 const NokshaLab = () => {
@@ -19412,57 +19412,300 @@ const NokshaLab = () => {
     )
   ] });
 };
-const Bacground = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Bacground" });
-};
-const Clock = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Clock" });
-};
-const Data_Base = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Data_Base" });
-};
-const Drag_And_Drop = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Drag_And_Drop" });
-};
-const Footer = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Footer" });
-};
-const Hobar = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Hobar" });
-};
-const LogIn = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "LogIn" });
-};
-const Navbar = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Navbar" });
-};
-const Report = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Report" });
-};
-const ShortCut = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "ShortCut" });
-};
-const Theames = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Theames" });
-};
-const Togol_Menu = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Togol_Menu" });
+const InteractiveBackground = () => {
+  const canvasRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let particles = [];
+    let animationFrameId;
+    const state = {
+      x: null,
+      y: null,
+      isDown: false,
+      isDragging: false,
+      lastClickTime: 0,
+      mode: "AUTO",
+      // বর্তমান মোড: AUTO, HOVER, CLICK, HOLD, DRAG, RELEASE, DOUBLE_CLICK ইত্যাদি
+      inputType: "MOUSE"
+      // MOUSE or TOUCH
+    };
+    const colors = {
+      // গাঢ় ব্যাকগ্রাউন্ড
+      particles: {
+        auto: "#4f46e5",
+        // ইন্ডিগো (স্বাভাবিক)
+        hover: "#06b6d4",
+        // সায়ান (মাউস মুভ)
+        click: "#ec4899",
+        // পিঙ্ক (ক্লিক)
+        hold: "#f59e0b",
+        // অ্যাম্বার (ধরে রাখা)
+        release: "#10b981",
+        // ভায়োলেট (ডাবল ক্লিক)
+        drag: "#ef4444",
+        // রেড (ড্র্যাগিং)
+        touch: "#22c55e"
+        // গ্রিন (টাচ)
+      }
+    };
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      initParticles();
+    };
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.baseSize = this.size;
+        this.color = colors.particles.auto;
+        this.friction = 0.95;
+        this.ease = 0.1;
+      }
+      update() {
+        this.vx;
+        this.vy;
+        let forceDirectionX = 0;
+        let forceDirectionY = 0;
+        let distance = 0;
+        let force = 0;
+        if (state.x != null && state.y != null) {
+          const dx = state.x - this.x;
+          const dy = state.y - this.y;
+          distance = Math.sqrt(dx * dx + dy * dy);
+          forceDirectionX = dx / distance;
+          forceDirectionY = dy / distance;
+        }
+        if (state.mode === "AUTO") {
+          this.color = colors.particles.auto;
+        } else if (state.mode === "HOVER") {
+          this.color = colors.particles.hover;
+          if (distance < 150) {
+            force = (150 - distance) / 150;
+            this.vx -= forceDirectionX * force * 2;
+            this.vy -= forceDirectionY * force * 2;
+          }
+        } else if (state.mode === "CLICK") {
+          this.color = colors.particles.click;
+          if (distance < 200) {
+            force = (200 - distance) / 200;
+            this.vx -= forceDirectionX * force * 15;
+            this.vy -= forceDirectionY * force * 15;
+          }
+        } else if (state.mode === "HOLD") {
+          this.color = colors.particles.hold;
+          if (distance < 400 && distance > 10) {
+            force = (400 - distance) / 400;
+            this.vx += forceDirectionX * force * 1;
+            this.vy += forceDirectionY * force * 1;
+          }
+        } else if (state.mode === "RELEASE") {
+          this.color = colors.particles.release;
+          this.vx += (Math.random() - 0.5) * 5;
+          this.vy += (Math.random() - 0.5) * 5;
+        } else if (state.mode === "DOUBLE_CLICK") {
+          this.color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+          this.vx = (Math.random() - 0.5) * 10;
+          this.vy = (Math.random() - 0.5) * 10;
+        } else if (state.mode === "DRAG" && state.inputType === "MOUSE") {
+          this.color = colors.particles.drag;
+          if (distance < 100) {
+            this.vx += (state.x - this.x) * 0.05;
+            this.vy += (state.y - this.y) * 0.05;
+          }
+        } else if (state.mode === "TOUCH_START") {
+          this.color = colors.particles.touch;
+          this.size = this.baseSize * 3;
+        } else if (state.mode === "TOUCH_HOLD") {
+          this.color = "#ffff00";
+          this.x += (Math.random() - 0.5) * 2;
+          this.y += (Math.random() - 0.5) * 2;
+        } else if (state.mode === "TOUCH_DOUBLE") {
+          this.color = "#0f0";
+          this.vy = 5;
+          this.vx = 0;
+        } else if (state.mode === "DRAG" && state.inputType === "TOUCH") {
+          this.color = "#fff";
+          if (distance < 50) {
+            this.size = Math.random() * 5;
+          }
+        } else if (state.mode === "TOUCH_RELEASE") {
+          this.vx *= 0.5;
+          this.vy *= 0.5;
+        }
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+        if (state.mode !== "AUTO") {
+          this.vx *= this.friction;
+          this.vy *= this.friction;
+        } else {
+          if (Math.abs(this.vx) < 0.1) this.vx = (Math.random() - 0.5) * 0.5;
+          if (Math.abs(this.vy) < 0.1) this.vy = (Math.random() - 0.5) * 0.5;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+    const initParticles = () => {
+      particles = [];
+      const particleCount = width * height / 9e3;
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+    const animate = () => {
+      ctx.fillStyle = "rgba(10, 10, 15, 0.2)";
+      ctx.fillRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = particles[i].color;
+            ctx.lineWidth = 0.2;
+            ctx.globalAlpha = 1 - distance / 100;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      if (["CLICK", "RELEASE", "DOUBLE_CLICK", "TOUCH_RELEASE", "TOUCH_START"].includes(state.mode)) {
+        setTimeout(() => {
+          if (!state.isDown) state.mode = "AUTO";
+        }, 300);
+      } else if (!state.isDown && state.mode !== "AUTO" && state.mode !== "HOVER") {
+        state.mode = "AUTO";
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    const handleMouseMove = (e) => {
+      state.x = e.clientX;
+      state.y = e.clientY;
+      state.inputType = "MOUSE";
+      if (state.isDown) {
+        state.isDragging = true;
+        state.mode = "DRAG";
+      } else {
+        state.mode = "HOVER";
+      }
+    };
+    const handleMouseDown = (e) => {
+      state.isDown = true;
+      state.inputType = "MOUSE";
+      const now = Date.now();
+      if (now - state.lastClickTime < 300) {
+        state.mode = "DOUBLE_CLICK";
+      } else {
+        state.mode = "CLICK";
+        setTimeout(() => {
+          if (state.isDown && state.mode !== "DRAG") state.mode = "HOLD";
+        }, 500);
+      }
+      state.lastClickTime = now;
+    };
+    const handleMouseUp = () => {
+      state.isDown = false;
+      state.isDragging = false;
+      state.mode = "RELEASE";
+    };
+    const handleTouchStart = (e) => {
+      state.x = e.touches[0].clientX;
+      state.y = e.touches[0].clientY;
+      state.isDown = true;
+      state.inputType = "TOUCH";
+      const now = Date.now();
+      if (now - state.lastClickTime < 300) {
+        state.mode = "TOUCH_DOUBLE";
+      } else {
+        state.mode = "TOUCH_START";
+        setTimeout(() => {
+          if (state.isDown && !state.isDragging) state.mode = "TOUCH_HOLD";
+        }, 500);
+      }
+      state.lastClickTime = now;
+    };
+    const handleTouchMove = (e) => {
+      state.x = e.touches[0].clientX;
+      state.y = e.touches[0].clientY;
+      state.isDragging = true;
+      state.mode = "DRAG";
+    };
+    const handleTouchEnd = () => {
+      state.isDown = false;
+      state.isDragging = false;
+      state.x = null;
+      state.y = null;
+      state.mode = "TOUCH_RELEASE";
+    };
+    const handleMouseLeave = () => {
+      state.x = null;
+      state.y = null;
+      state.mode = "AUTO";
+    };
+    window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mouseout", handleMouseLeave);
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+    canvas.addEventListener("touchend", handleTouchEnd);
+    resize();
+    animate();
+    return () => {
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mouseout", handleMouseLeave);
+      canvas.removeEventListener("touchstart", handleTouchStart);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleTouchEnd);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen overflow-hidden bg-[#0a0a0f]", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "canvas",
+      {
+        ref: canvasRef,
+        className: "absolute top-0 left-0 w-full h-full block touch-none",
+        style: { zIndex: 0 }
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center z-10 pointer-events-none", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center opacity-80 mix-blend-screen", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 tracking-widest uppercase animate-pulse", children: "Future Matrix" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-gray-400 text-sm md:text-lg font-light tracking-[0.5em]", children: "Interactive Particle Core" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 text-xs text-gray-600", children: "Try: Click • Hold • Drag • Double Click" })
+    ] }) })
+  ] });
 };
 const B_Baria = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Bacground, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Data_Base, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Drag_And_Drop, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Hobar, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LogIn, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Report, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ShortCut, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Theames, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Togol_Menu, {})
-  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(InteractiveBackground, {}) });
 };
 const products = [
   {
