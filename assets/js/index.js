@@ -16080,7 +16080,7 @@ const Contact = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "copyright", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "© ২০২৪ AuraSyncra. সর্বস্বত্ব সংরক্ষিত | ডিজাইন করা হয়েছে ভালোবাসার সাথে ❤️" }) })
   ] }) });
 };
-function App$3() {
+function App$6() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: cssStyles }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app", children: [
@@ -16939,7 +16939,7 @@ const FamilyStarApp = () => {
     ] }) })
   ] });
 };
-const App$2 = () => {
+const App$5 = () => {
   const [isScrolled, setIsScrolled] = reactExports.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -18398,7 +18398,7 @@ const Footer = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "copyright", children: "© ২০২৪ MoviePer. সর্বস্বত্ব সংরক্ষিত।" })
   ] });
 };
-const App$1 = () => {
+const App$4 = () => {
   const trendingMovies = [
     { id: 1, title: "ব্যাটল ফিল্ড", type: "অ্যাকশন", img: "https://images.unsplash.com/photo-1535016120720-40c6874c3b13?q=80&w=1470&auto=format&fit=crop", rating: "4.8" },
     { id: 2, title: "স্পেস ওয়ার", type: "সাই-ফাই", img: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000&auto=format&fit=crop", rating: "4.5" },
@@ -19412,7 +19412,213 @@ const NokshaLab = () => {
     )
   ] });
 };
-const InteractiveBackground = () => {
+const App$3 = () => {
+  const canvasRef = reactExports.useRef(null);
+  const requestRef = reactExports.useRef(null);
+  const particles = reactExports.useRef([]);
+  reactExports.useRef(0);
+  const mouse = reactExports.useRef({ x: void 0, y: void 0 });
+  const isMouseDown = reactExports.useRef(false);
+  const isHolding = reactExports.useRef(false);
+  const holdTimer = reactExports.useRef(null);
+  const lastClickTime = reactExports.useRef(0);
+  const config = reactExports.useRef({
+    particleCount: window.innerWidth < 768 ? 60 : 150,
+    // Fewer particles on mobile for performance
+    connectionDistance: 120,
+    baseSpeed: 0.5,
+    holdThreshold: 300,
+    // ms to consider it a "hold"
+    colorMode: 0
+    // 0: Neon Blue/Purple, 1: Fire/Gold, 2: Matrix Green
+  });
+  class Particle {
+    constructor(w, h) {
+      this.w = w;
+      this.h = h;
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * config.current.baseSpeed;
+      this.vy = (Math.random() - 0.5) * config.current.baseSpeed;
+      this.size = Math.random() * 2 + 1;
+      this.color = this.getColor();
+      this.originalSize = this.size;
+    }
+    getColor() {
+      const mode = config.current.colorMode;
+      if (mode === 0) return `hsl(${Math.random() * 60 + 180}, 100%, 50%)`;
+      if (mode === 1) return `hsl(${Math.random() * 60 + 0}, 100%, 60%)`;
+      if (mode === 2) return `hsl(${Math.random() * 50 + 100}, 100%, 50%)`;
+      return "white";
+    }
+    update(ctx) {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > this.w) this.vx *= -1;
+      if (this.y < 0 || this.y > this.h) this.vy *= -1;
+      if (isHolding.current && mouse.current.x) {
+        const dx = mouse.current.x - this.x;
+        const dy = mouse.current.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const force = (1e3 - distance) / 1e3;
+        if (distance < 1e3) {
+          this.x += dx / distance * force * 15;
+          this.y += dy / distance * force * 15;
+        }
+      }
+      if (!isHolding.current && mouse.current.x) {
+        const dx = mouse.current.x - this.x;
+        const dy = mouse.current.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 150) {
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const force = (150 - distance) / 150;
+          this.vx -= forceDirectionX * force * 0.5;
+          this.vy -= forceDirectionY * force * 0.5;
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+    // 6 & 10. DOUBLE CLICK/TAP EFFECT (Scramble/Warp)
+    scramble() {
+      this.vx = (Math.random() - 0.5) * 15;
+      this.vy = (Math.random() - 0.5) * 15;
+      this.color = this.getColor();
+    }
+    // 5 & 9. RELEASE EFFECT (Explosion/Shockwave)
+    explode(x, y) {
+      const dx = this.x - x;
+      const dy = this.y - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const force = Math.max(0, (500 - distance) / 10);
+      if (distance === 0) return;
+      this.vx += dx / distance * force;
+      this.vy += dy / distance * force;
+    }
+  }
+  const initParticles = (width, height) => {
+    particles.current = [];
+    for (let i = 0; i < config.current.particleCount; i++) {
+      particles.current.push(new Particle(width, height));
+    }
+  };
+  const animate = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = isMouseDown.current ? "rgba(0, 0, 0, 0.1)" : "rgba(5, 5, 5, 0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    particles.current.forEach((particle) => {
+      particle.update(ctx);
+    });
+    connectParticles(ctx);
+    requestRef.current = requestAnimationFrame(animate);
+  };
+  const connectParticles = (ctx) => {
+    const p = particles.current;
+    for (let i = 0; i < p.length; i++) {
+      for (let j = i; j < p.length; j++) {
+        const dx = p[i].x - p[j].x;
+        const dy = p[i].y - p[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < config.current.connectionDistance) {
+          ctx.beginPath();
+          const opacity = 1 - distance / config.current.connectionDistance;
+          ctx.strokeStyle = isHolding.current ? `rgba(255, 50, 50, ${opacity})` : `rgba(100, 200, 255, ${opacity * 0.5})`;
+          ctx.lineWidth = 1;
+          ctx.moveTo(p[i].x, p[i].y);
+          ctx.lineTo(p[j].x, p[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  };
+  const handleResize = () => {
+    if (canvasRef.current) {
+      canvasRef.current.width = window.innerWidth;
+      canvasRef.current.height = window.innerHeight;
+      initParticles(window.innerWidth, window.innerHeight);
+    }
+  };
+  const handleInputStart = (x, y) => {
+    mouse.current = { x, y };
+    isMouseDown.current = true;
+    holdTimer.current = setTimeout(() => {
+      isHolding.current = true;
+    }, config.current.holdThreshold);
+    const now = Date.now();
+    if (now - lastClickTime.current < 300) {
+      handleDoubleClick();
+    }
+    lastClickTime.current = now;
+  };
+  const handleInputEnd = () => {
+    if (isHolding.current) {
+      particles.current.forEach((p) => p.explode(mouse.current.x, mouse.current.y));
+    }
+    clearTimeout(holdTimer.current);
+    isMouseDown.current = false;
+    isHolding.current = false;
+    mouse.current = { x: void 0, y: void 0 };
+  };
+  const handleInputMove = (x, y) => {
+    mouse.current = { x, y };
+  };
+  const handleDoubleClick = () => {
+    config.current.colorMode = (config.current.colorMode + 1) % 3;
+    particles.current.forEach((p) => p.scramble());
+  };
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.touchAction = "none";
+    initParticles(canvas.width, canvas.height);
+    requestRef.current = requestAnimationFrame(animate);
+    window.addEventListener("resize", handleResize);
+    const onMouseMove = (e) => handleInputMove(e.clientX, e.clientY);
+    const onMouseDown = (e) => handleInputStart(e.clientX, e.clientY);
+    const onMouseUp = () => handleInputEnd();
+    const onTouchMove = (e) => handleInputMove(e.touches[0].clientX, e.touches[0].clientY);
+    const onTouchStart = (e) => {
+      handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
+    };
+    const onTouchEnd = (e) => handleInputEnd();
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mouseup", onMouseUp);
+    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+    canvas.addEventListener("touchend", onTouchEnd);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(requestRef.current);
+      if (canvas) {
+        canvas.removeEventListener("mousemove", onMouseMove);
+        canvas.removeEventListener("mousedown", onMouseDown);
+        canvas.removeEventListener("mouseup", onMouseUp);
+        canvas.removeEventListener("touchmove", onTouchMove);
+        canvas.removeEventListener("touchstart", onTouchStart);
+        canvas.removeEventListener("touchend", onTouchEnd);
+      }
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen bg-black overflow-hidden font-sans", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "canvas",
+      {
+        ref: canvasRef,
+        className: "block absolute top-0 left-0 w-full h-full cursor-pointer z-10"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#050510] via-[#000000] to-[#0a0a20] z-0 pointer-events-none" })
+  ] });
+};
+const InteractiveBackground$1 = () => {
   const canvasRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     const canvas = canvasRef.current;
@@ -19688,24 +19894,1039 @@ const InteractiveBackground = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen overflow-hidden bg-[#0a0a0f]", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative w-full h-screen overflow-hidden bg-[#0a0a0f]", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "canvas",
+    {
+      ref: canvasRef,
+      className: "absolute top-0 left-0 w-full h-full block touch-none",
+      style: { zIndex: 0 }
+    }
+  ) });
+};
+const UltimateBackground = () => {
+  const canvasRef = reactExports.useRef(null);
+  const interactionRef = reactExports.useRef({
+    x: 0,
+    y: 0,
+    isDown: false,
+    isDragging: false,
+    lastX: 0,
+    lastY: 0,
+    interactionType: "idle",
+    // idle, hover, click, hold, drag, release, doubleClick
+    deviceType: "mouse"
+    // mouse or touch
+  });
+  const config = {
+    particleCount: 100,
+    // খুব বেশি দিলে লোড বাড়বে, ১০০ পারফেক্ট
+    connectionRadius: 120,
+    baseSpeed: 0.5,
+    colors: {
+      // ডিপ ব্ল্যাক
+      primary: "#00f2ff",
+      // সায়ান
+      secondary: "#ff0055",
+      // ম্যাজেন্টা
+      tertiary: "#ccff00",
+      // লাইম গ্রিন (ডাবল ক্লিকে)
+      drag: "#ffffff"
+      // ড্র্যাগ করার সময় সাদা ট্রেইল
+    }
+  };
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
+    let particles = [];
+    let w, h;
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      initParticles();
+    };
+    class Particle {
+      constructor() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = (Math.random() - 0.5) * config.baseSpeed;
+        this.vy = (Math.random() - 0.5) * config.baseSpeed;
+        this.size = Math.random() * 2 + 1;
+        this.color = config.colors.primary;
+        this.originalColor = config.colors.primary;
+        this.life = 1;
+      }
+      update(interaction) {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > w) this.vx *= -1;
+        if (this.y < 0 || this.y > h) this.vy *= -1;
+        const dx = interaction.x - this.x;
+        const dy = interaction.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const forceDirectionX = dx / distance;
+        const forceDirectionY = dy / distance;
+        if (distance < 200) {
+          if (interaction.interactionType === "hover") {
+            const force = (200 - distance) / 200;
+            this.vx -= forceDirectionX * force * 0.5;
+            this.vy -= forceDirectionY * force * 0.5;
+            this.color = config.colors.primary;
+          }
+          if (interaction.interactionType === "hold") {
+            const force = (200 - distance) / 200;
+            this.vx += forceDirectionX * force * 1.5;
+            this.vy += forceDirectionY * force * 1.5;
+            this.color = config.colors.secondary;
+          }
+          if (interaction.interactionType === "drag") {
+            this.vx += forceDirectionX * 2;
+            this.vy -= forceDirectionY * 2;
+            this.color = config.colors.drag;
+          }
+        }
+        if (interaction.interactionType === "release") {
+          this.vx *= 1.05;
+          this.vy *= 1.05;
+        }
+        if (interaction.interactionType === "doubleClick") {
+          this.color = config.colors.tertiary;
+          this.vx *= 1.1;
+          this.vy *= 1.1;
+        }
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+        if (Math.abs(this.vx) < 0.2) this.vx = (Math.random() - 0.5) * 0.5;
+        if (Math.abs(this.vy) < 0.2) this.vy = (Math.random() - 0.5) * 0.5;
+      }
+      draw(ctx2) {
+        ctx2.beginPath();
+        ctx2.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx2.fillStyle = this.color;
+        ctx2.fill();
+      }
+    }
+    const initParticles = () => {
+      particles = [];
+      for (let i = 0; i < config.particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+    const animate = () => {
+      ctx.fillStyle = "rgba(5, 5, 5, 0.2)";
+      ctx.fillRect(0, 0, w, h);
+      particles.forEach((particle, index) => {
+        particle.update(interactionRef.current);
+        particle.draw(ctx);
+        for (let j = index + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = particle.x - p2.x;
+          const dy = particle.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < config.connectionRadius) {
+            ctx.beginPath();
+            ctx.strokeStyle = particle.color === config.colors.tertiary ? `rgba(204, 255, 0, ${1 - dist / config.connectionRadius})` : `rgba(0, 242, 255, ${0.15 - dist / config.connectionRadius * 0.15})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      });
+      if (interactionRef.current.interactionType === "release" || interactionRef.current.interactionType === "doubleClick") {
+        setTimeout(() => {
+          if (interactionRef.current.interactionType !== "hold") {
+            interactionRef.current.interactionType = "idle";
+          }
+        }, 500);
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    const handleMouseMove = (e) => {
+      interactionRef.current.x = e.clientX;
+      interactionRef.current.y = e.clientY;
+      interactionRef.current.deviceType = "mouse";
+      if (interactionRef.current.isDown) {
+        interactionRef.current.interactionType = "drag";
+        interactionRef.current.isDragging = true;
+      } else {
+        interactionRef.current.interactionType = "hover";
+      }
+    };
+    const handleMouseDown = (e) => {
+      interactionRef.current.isDown = true;
+      interactionRef.current.x = e.clientX;
+      interactionRef.current.y = e.clientY;
+      interactionRef.current.interactionType = "hold";
+    };
+    const handleMouseUp = () => {
+      interactionRef.current.isDown = false;
+      interactionRef.current.isDragging = false;
+      interactionRef.current.interactionType = "release";
+    };
+    const handleDoubleClick = () => {
+      interactionRef.current.interactionType = "doubleClick";
+    };
+    const handleTouchStart = (e) => {
+      if (e.cancelable) e.preventDefault();
+      interactionRef.current.isDown = true;
+      interactionRef.current.x = e.touches[0].clientX;
+      interactionRef.current.y = e.touches[0].clientY;
+      interactionRef.current.deviceType = "touch";
+      interactionRef.current.interactionType = "hold";
+    };
+    const handleTouchMove = (e) => {
+      if (e.cancelable) e.preventDefault();
+      interactionRef.current.x = e.touches[0].clientX;
+      interactionRef.current.y = e.touches[0].clientY;
+      interactionRef.current.interactionType = "drag";
+      interactionRef.current.isDragging = true;
+    };
+    const handleTouchEnd = () => {
+      interactionRef.current.isDown = false;
+      interactionRef.current.isDragging = false;
+      interactionRef.current.interactionType = "release";
+    };
+    let lastTap = 0;
+    const handleTap = (e) => {
+      const currentTime = (/* @__PURE__ */ new Date()).getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 500 && tapLength > 0) {
+        interactionRef.current.interactionType = "doubleClick";
+        if (e.cancelable) e.preventDefault();
+      }
+      lastTap = currentTime;
+    };
+    window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("dblclick", handleDoubleClick);
+    canvas.addEventListener("touchstart", (e) => {
+      handleTouchStart(e);
+      handleTap(e);
+    }, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+    canvas.addEventListener("touchend", handleTouchEnd);
+    resize();
+    animate();
+    return () => {
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("dblclick", handleDoubleClick);
+      canvas.removeEventListener("touchstart", handleTouchStart);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleTouchEnd);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+        body, html {
+          margin: 0;
+          padding: 0;
+          overflow: hidden; /* স্ক্রলবার যাতে না আসে */
+          background-color: #050505;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .canvas-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: -1; /* ব্যাকগ্রাউন্ড হিসেবে রাখার জন্য */
+        }
+
+        /* প্রিমিয়াম ভিনেট ইফেক্ট (কোণাগুলো অন্ধকার দেখাবে) */
+        .vignette {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none; /* যাতে মাউস ক্লিক ক্যানভাসে পৌঁছায় */
+          background: radial-gradient(circle, transparent 40%, #000000 100%);
+          z-index: 0;
+        }
+
+        /* ডেমো টেক্সট - শুধু বোঝানোর জন্য যে ব্যাকগ্রাউন্ড কাজ করছে */
+        .content-placeholder {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: rgba(255, 255, 255, 0.1);
+          font-size: 2rem;
+          pointer-events: none;
+          text-transform: uppercase;
+          letter-spacing: 10px;
+          text-align: center;
+          font-weight: 300;
+        }
+      ` }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "canvas-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "vignette" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-placeholder", children: "B - BARIA TELICOM" })
+  ] });
+};
+const App$2 = () => {
+  const canvasRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let particles = [];
+    let animationFrameId;
+    const config = {
+      particleCount: window.innerWidth < 768 ? 60 : 120,
+      // মোবাইলে কম, পিসিতে বেশি
+      connectionRadius: 120,
+      baseSpeed: 0.3,
+      color: { r: 100, g: 255, b: 218 },
+      // সায়ান টাইপ কালার (Cyberpunk feel)
+      secondaryColor: { r: 168, g: 85, b: 247 }
+      // পার্পল অ্যাকসেন্ট
+    };
+    const input = {
+      x: null,
+      y: null,
+      isDown: false,
+      isDragging: false
+    };
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      initParticles();
+    };
+    class Particle {
+      constructor(x, y, type = "base") {
+        this.x = x || Math.random() * width;
+        this.y = y || Math.random() * height;
+        this.vx = (Math.random() - 0.5) * config.baseSpeed;
+        this.vy = (Math.random() - 0.5) * config.baseSpeed;
+        this.size = type === "base" ? Math.random() * 2 + 1 : Math.random() * 4 + 2;
+        this.life = type === "burst" ? 1 : 100;
+        this.type = type;
+        if (Math.random() > 0.5) {
+          this.color = `rgba(${config.color.r}, ${config.color.g}, ${config.color.b},`;
+        } else {
+          this.color = `rgba(${config.secondaryColor.r}, ${config.secondaryColor.g}, ${config.secondaryColor.b},`;
+        }
+      }
+      update() {
+        if (this.type === "base") {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0) this.x = width;
+          if (this.x > width) this.x = 0;
+          if (this.y < 0) this.y = height;
+          if (this.y > height) this.y = 0;
+        } else {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.life -= 0.02;
+          this.size -= 0.05;
+        }
+        if (input.x != null && input.y != null) {
+          const dx = input.x - this.x;
+          const dy = input.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 150 && !input.isDown) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (150 - distance) / 150;
+            const directionX = forceDirectionX * force * 2;
+            const directionY = forceDirectionY * force * 2;
+            this.x -= directionX;
+            this.y -= directionY;
+          }
+          if (input.isDown && !input.isDragging && distance < 300) {
+            this.x += dx / distance * 3;
+            this.y += dy / distance * 3;
+          }
+          if (input.isDragging && distance < 200) {
+            this.vx += dx / distance * 0.5;
+            this.vy += dy / distance * 0.5;
+            this.vx *= 0.9;
+            this.vy *= 0.9;
+          }
+        }
+      }
+      draw() {
+        if (this.size <= 0 || this.life <= 0) return;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        const alpha = this.type === "base" ? 0.6 : this.life;
+        ctx.fillStyle = `${this.color} ${alpha})`;
+        ctx.fill();
+      }
+    }
+    const initParticles = () => {
+      particles = [];
+      for (let i = 0; i < config.particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+    const spawnParticles = (x, y, count, type, speedMultiplier = 1) => {
+      for (let i = 0; i < count; i++) {
+        const p = new Particle(x, y, type);
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 * speedMultiplier;
+        p.vx = Math.cos(angle) * speed;
+        p.vy = Math.sin(angle) * speed;
+        particles.push(p);
+      }
+    };
+    const animate = () => {
+      ctx.fillStyle = "rgba(2, 6, 23, 0.2)";
+      ctx.fillRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].type === "base") {
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < config.connectionRadius) {
+              ctx.beginPath();
+              const opacity = 1 - distance / config.connectionRadius;
+              ctx.strokeStyle = `rgba(100, 255, 218, ${opacity * 0.15})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        if (particles[i].life <= 0 || particles[i].size <= 0) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+      const baseParticles = particles.filter((p) => p.type === "base").length;
+      if (baseParticles < config.particleCount) {
+        particles.push(new Particle(null, null, "base"));
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    const onMouseMove = (e) => {
+      input.x = e.clientX;
+      input.y = e.clientY;
+      if (input.isDown) {
+        input.isDragging = true;
+        if (Math.random() > 0.8) {
+          spawnParticles(input.x, input.y, 1, "trail", 0.5);
+        }
+      }
+    };
+    const onMouseDown = (e) => {
+      input.isDown = true;
+      input.isDragging = false;
+      input.x = e.clientX;
+      input.y = e.clientY;
+      spawnParticles(input.x, input.y, 5, "burst", 0.5);
+    };
+    const onMouseUp = () => {
+      input.isDown = false;
+      if (input.isDragging) ;
+      else {
+        spawnParticles(input.x, input.y, 15, "burst", 2);
+      }
+      input.isDragging = false;
+      input.x = null;
+      input.y = null;
+    };
+    const onDoubleClick = (e) => {
+      spawnParticles(e.clientX, e.clientY, 40, "burst", 4);
+    };
+    const onTouchStart = (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      input.x = touch.clientX;
+      input.y = touch.clientY;
+      input.isDown = true;
+      input.isDragging = false;
+      spawnParticles(input.x, input.y, 5, "burst", 0.5);
+    };
+    const onTouchMove = (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      input.x = touch.clientX;
+      input.y = touch.clientY;
+      input.isDragging = true;
+      if (Math.random() > 0.7) {
+        spawnParticles(input.x, input.y, 2, "trail", 0.5);
+      }
+    };
+    const onTouchEnd = () => {
+      input.isDown = false;
+      if (!input.isDragging) {
+        spawnParticles(input.x, input.y, 15, "burst", 2);
+      }
+      input.isDragging = false;
+      input.x = null;
+      input.y = null;
+    };
+    const onMouseOut = () => {
+      input.x = null;
+      input.y = null;
+      input.isDown = false;
+    };
+    window.addEventListener("resize", handleResize);
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mouseup", onMouseUp);
+    canvas.addEventListener("dblclick", onDoubleClick);
+    canvas.addEventListener("mouseout", onMouseOut);
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+    canvas.addEventListener("touchend", onTouchEnd);
+    handleResize();
+    animate();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mouseup", onMouseUp);
+      canvas.removeEventListener("dblclick", onDoubleClick);
+      canvas.removeEventListener("mouseout", onMouseOut);
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEnd);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen bg-slate-950 overflow-hidden", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "canvas",
       {
         ref: canvasRef,
-        className: "absolute top-0 left-0 w-full h-full block touch-none",
-        style: { zIndex: 0 }
+        className: "block absolute top-0 left-0 w-full h-full cursor-pointer z-0"
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center z-10 pointer-events-none", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center opacity-80 mix-blend-screen", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-4xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 tracking-widest uppercase animate-pulse", children: "Future Matrix" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-gray-400 text-sm md:text-lg font-light tracking-[0.5em]", children: "Interactive Particle Core" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-8 text-xs text-gray-600", children: "Try: Click • Hold • Drag • Double Click" })
-    ] }) })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-slate-800 text-6xl md:text-8xl font-black tracking-tighter opacity-20 select-none mix-blend-overlay", children: "INTERACTIVE" }) })
   ] });
 };
+const InteractiveBackground = () => {
+  const canvasRef = reactExports.useRef(null);
+  const [debugInfo, setDebugInfo] = reactExports.useState("");
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let config = {
+      particleCount: 120,
+      // মোবাইলে কম, ডেস্কটপে বেশি হবে (রিসাইজ ফাংশনে সেট হবে)
+      connectionRadius: 150,
+      baseSpeed: 0.5,
+      color: "255, 255, 255",
+      // সাদা পার্টিকেল
+      accentColor: "0, 195, 255"
+    };
+    let width, height;
+    let particles = [];
+    let animationId;
+    const mouse = {
+      x: null,
+      y: null,
+      isPressed: false,
+      isDragging: false,
+      clickStartTime: 0,
+      interactionType: "idle"
+      // idle, hover, click, hold, drag, doubleClick, release
+    };
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * config.baseSpeed;
+        this.vy = (Math.random() - 0.5) * config.baseSpeed;
+        this.size = Math.random() * 2 + 0.5;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = Math.random() * 30 + 1;
+        this.colorAlpha = Math.random() * 0.5 + 0.2;
+        this.glow = 0;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x > width || this.x < 0) this.vx = -this.vx;
+        if (this.y > height || this.y < 0) this.vy = -this.vy;
+        if (mouse.x != null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const maxDistance = mouse.isPressed ? 300 : 150;
+          const force = (maxDistance - distance) / maxDistance;
+          if (distance < maxDistance) {
+            if (mouse.isPressed && !mouse.isDragging) {
+              const attractionSpeed = 5;
+              this.vx += forceDirectionX * force * attractionSpeed;
+              this.vy += forceDirectionY * force * attractionSpeed;
+              this.glow = 1;
+            } else if (mouse.isDragging) {
+              const dragForce = 2;
+              this.vx -= forceDirectionX * force * dragForce;
+              this.vy -= forceDirectionY * force * dragForce;
+              this.colorAlpha = 1;
+            } else {
+              const repelForce = 2;
+              this.x -= forceDirectionX * force * repelForce;
+              this.y -= forceDirectionY * force * repelForce;
+            }
+          }
+        }
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+        if (Math.abs(this.vx) < 0.1) this.vx = (Math.random() - 0.5) * 0.5;
+        if (Math.abs(this.vy) < 0.1) this.vy = (Math.random() - 0.5) * 0.5;
+        if (this.glow > 0) this.glow -= 0.05;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        if (this.glow > 0) {
+          ctx.fillStyle = `rgba(${config.accentColor}, ${this.colorAlpha + this.glow})`;
+        } else {
+          ctx.fillStyle = `rgba(${config.color}, ${this.colorAlpha})`;
+        }
+        ctx.fill();
+      }
+    }
+    const init = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      config.particleCount = width < 768 ? 60 : 130;
+      particles = [];
+      for (let i = 0; i < config.particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+    const createShockwave = (x, y) => {
+      particles.forEach((p) => {
+        let dx = p.x - x;
+        let dy = p.y - y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        let force = 2e3 / (dist + 1);
+        let angle = Math.atan2(dy, dx);
+        p.vx += Math.cos(angle) * force;
+        p.vy += Math.sin(angle) * force;
+        p.glow = 2;
+      });
+    };
+    const triggerReleaseEffect = () => {
+      particles.forEach((p) => {
+        p.vx = -p.vx * 1.5;
+        p.vy = -p.vy * 1.5;
+      });
+    };
+    const animate = () => {
+      ctx.fillStyle = `rgba(15, 23, 42, 0.2)`;
+      ctx.fillRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < config.connectionRadius) {
+            ctx.beginPath();
+            let opacity = 1 - distance / config.connectionRadius;
+            if (mouse.isPressed && distance < 100) {
+              ctx.strokeStyle = `rgba(${config.accentColor}, ${opacity})`;
+            } else {
+              ctx.strokeStyle = `rgba(${config.color}, ${opacity * 0.2})`;
+            }
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+    init();
+    animate();
+    const handleResize = () => {
+      init();
+    };
+    const onMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (mouse.isPressed) {
+        mouse.isDragging = true;
+        mouse.interactionType = "drag";
+      } else {
+        mouse.interactionType = "hover";
+      }
+    };
+    const onMouseDown = (e) => {
+      mouse.isPressed = true;
+      mouse.clickStartTime = Date.now();
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.interactionType = "hold";
+    };
+    const onMouseUp = () => {
+      mouse.isPressed = false;
+      mouse.isDragging = false;
+      mouse.x = null;
+      mouse.y = null;
+      mouse.interactionType = "release";
+      triggerReleaseEffect();
+    };
+    const onDoubleClick = (e) => {
+      createShockwave(e.clientX, e.clientY);
+      mouse.interactionType = "doubleClick";
+    };
+    const onTouchStart = (e) => {
+      mouse.isPressed = true;
+      mouse.clickStartTime = Date.now();
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+      mouse.interactionType = "touchHold";
+    };
+    const onTouchMove = (e) => {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+      mouse.isDragging = true;
+      mouse.interactionType = "touchDrag";
+    };
+    const onTouchEnd = () => {
+      mouse.isPressed = false;
+      mouse.isDragging = false;
+      mouse.x = null;
+      mouse.y = null;
+      mouse.interactionType = "touchRelease";
+      triggerReleaseEffect();
+    };
+    let lastTap = 0;
+    const onTouchEndDoubleTapCheck = (e) => {
+      const currentTime = (/* @__PURE__ */ new Date()).getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        if (e.changedTouches[0]) {
+          createShockwave(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+        }
+      }
+      lastTap = currentTime;
+      onTouchEnd();
+    };
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("dblclick", onDoubleClick);
+    canvas.addEventListener("touchstart", onTouchStart, { passive: true });
+    canvas.addEventListener("touchmove", onTouchMove, { passive: true });
+    canvas.addEventListener("touchend", onTouchEndDoubleTapCheck);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("dblclick", onDoubleClick);
+      canvas.removeEventListener("touchstart", onTouchStart);
+      canvas.removeEventListener("touchmove", onTouchMove);
+      canvas.removeEventListener("touchend", onTouchEndDoubleTapCheck);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full h-screen overflow-hidden bg-slate-900 relative", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "absolute inset-0 z-0 pointer-events-none",
+        style: {
+          background: "radial-gradient(circle at center, #1e293b 0%, #020617 100%)"
+        }
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "canvas",
+      {
+        ref: canvasRef,
+        className: "absolute top-0 left-0 w-full h-full block z-0 cursor-pointer",
+        style: { touchAction: "none" }
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center opacity-0 hover:opacity-100 transition-opacity duration-1000", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-white text-4xl font-light tracking-widest", children: "INTERACTIVE SPACE" }) }) })
+  ] });
+};
+const App$1 = () => {
+  const canvasRef = reactExports.useRef(null);
+  const [debugInfo, setDebugInfo] = reactExports.useState("Idle Mode");
+  reactExports.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    let particlesArray = [];
+    const numberOfParticles = Math.min(window.innerWidth * window.innerHeight / 9e3, 150);
+    const mouse = {
+      x: null,
+      y: null,
+      radius: 150,
+      isDown: false,
+      interactionType: "idle"
+    };
+    const colors = {
+      idle: "rgba(66, 153, 225, ",
+      hover: "rgba(99, 179, 237, ",
+      click: "rgba(245, 101, 101, ",
+      hold: "rgba(237, 137, 54, ",
+      drag: "rgba(72, 187, 120, ",
+      dblclick: "rgba(159, 122, 234, ",
+      release: "rgba(255, 255, 255, "
+    };
+    class Particle {
+      constructor(x, y, directionX, directionY, size) {
+        this.x = x;
+        this.y = y;
+        this.directionX = directionX;
+        this.directionY = directionY;
+        this.size = size;
+        this.baseSize = size;
+        this.density = Math.random() * 30 + 1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+        let currentColor = colors.idle;
+        if (mouse.interactionType === "hover") currentColor = colors.hover;
+        else if (mouse.interactionType === "click") currentColor = colors.click;
+        else if (mouse.interactionType === "hold") currentColor = colors.hold;
+        else if (mouse.interactionType === "drag") currentColor = colors.drag;
+        else if (mouse.interactionType === "dblclick") currentColor = colors.dblclick;
+        else if (mouse.interactionType === "release") currentColor = colors.release;
+        ctx.fillStyle = currentColor + "0.6)";
+        ctx.fill();
+      }
+      update() {
+        if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+        if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < mouse.radius && mouse.x !== null) {
+          let forceDirectionX = dx / distance;
+          let forceDirectionY = dy / distance;
+          let maxDistance = mouse.radius;
+          let force = (maxDistance - distance) / maxDistance;
+          let directionX = forceDirectionX * force * this.density;
+          let directionY = forceDirectionY * force * this.density;
+          if (mouse.interactionType === "hold") {
+            this.x += directionX * 1.5;
+            this.y += directionY * 1.5;
+          } else if (mouse.interactionType === "click" || mouse.interactionType === "dblclick") {
+            this.x -= directionX * 4;
+            this.y -= directionY * 4;
+          } else if (mouse.interactionType === "drag") {
+            this.x += directionX * 0.8;
+            this.y += directionY * 0.8;
+            this.size = this.baseSize * 2.5;
+          } else {
+            this.x -= directionX;
+            this.y -= directionY;
+            this.size = this.baseSize * 1.8;
+          }
+        } else {
+          if (this.size > this.baseSize) this.size -= 0.1;
+        }
+        this.x += this.directionX * 0.4;
+        this.y += this.directionY * 0.4;
+        this.draw();
+      }
+    }
+    const init = () => {
+      particlesArray = [];
+      for (let i = 0; i < numberOfParticles; i++) {
+        let size = Math.random() * 2 + 1;
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * canvas.height;
+        let directionX = Math.random() * 2 - 1;
+        let directionY = Math.random() * 2 - 1;
+        particlesArray.push(new Particle(x, y, directionX, directionY, size));
+      }
+    };
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particlesArray.length; i++) {
+        for (let j = i; j < particlesArray.length; j++) {
+          let dx = particlesArray[i].x - particlesArray[j].x;
+          let dy = particlesArray[i].y - particlesArray[j].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 120) {
+            ctx.beginPath();
+            let opacity = 1 - distance / 120;
+            ctx.strokeStyle = `rgba(100, 180, 255, ${opacity * 0.2})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+            ctx.stroke();
+          }
+        }
+        particlesArray[i].update();
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    let holdTimer;
+    let dragActive = false;
+    const onStart = (x, y, type) => {
+      mouse.x = x;
+      mouse.y = y;
+      mouse.isDown = true;
+      dragActive = false;
+      mouse.interactionType = "click";
+      setDebugInfo(type + " Click");
+      holdTimer = setTimeout(() => {
+        if (mouse.isDown && !dragActive) {
+          mouse.interactionType = "hold";
+          setDebugInfo(type + " Hold");
+        }
+      }, 500);
+    };
+    const onMove = (x, y, type) => {
+      mouse.x = x;
+      mouse.y = y;
+      if (mouse.isDown) {
+        dragActive = true;
+        mouse.interactionType = "drag";
+        setDebugInfo(type + " Dragging");
+      } else {
+        mouse.interactionType = "hover";
+        setDebugInfo(type + " Hover");
+      }
+    };
+    const onEnd = () => {
+      mouse.isDown = false;
+      dragActive = false;
+      clearTimeout(holdTimer);
+      mouse.interactionType = "release";
+      setDebugInfo("Released");
+      setTimeout(() => {
+        if (!mouse.isDown) {
+          mouse.interactionType = "idle";
+          setDebugInfo("Idle Mode");
+        }
+      }, 400);
+    };
+    const mDown = (e) => onStart(e.clientX, e.clientY, "Mouse");
+    const mMove = (e) => onMove(e.clientX, e.clientY, "Mouse");
+    const mUp = () => onEnd();
+    const dblClick = (e) => {
+      mouse.interactionType = "dblclick";
+      setDebugInfo("Double Interaction");
+      setTimeout(onEnd, 500);
+    };
+    const tStart = (e) => onStart(e.touches[0].clientX, e.touches[0].clientY, "Touch");
+    const tMove = (e) => onMove(e.touches[0].clientX, e.touches[0].clientY, "Touch");
+    const tEnd = () => onEnd();
+    window.addEventListener("mousedown", mDown);
+    window.addEventListener("mousemove", mMove);
+    window.addEventListener("mouseup", mUp);
+    window.addEventListener("dblclick", dblClick);
+    window.addEventListener("touchstart", tStart);
+    window.addEventListener("touchmove", tMove);
+    window.addEventListener("touchend", tEnd);
+    init();
+    animate();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousedown", mDown);
+      window.removeEventListener("mousemove", mMove);
+      window.removeEventListener("mouseup", mUp);
+      window.removeEventListener("dblclick", dblClick);
+      window.removeEventListener("touchstart", tStart);
+      window.removeEventListener("touchmove", tMove);
+      window.removeEventListener("touchend", tEnd);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "#050505",
+    margin: 0,
+    padding: 0,
+    overflow: "hidden",
+    position: "relative"
+  }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "canvas",
+      {
+        ref: canvasRef,
+        style: {
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 0,
+          display: "block",
+          touchAction: "none"
+        }
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: 10,
+      pointerEvents: "none",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "rgba(255,255,255,0.1)",
+      fontFamily: "sans-serif",
+      userSelect: "none"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { style: {
+        fontSize: "3rem",
+        fontWeight: "bold",
+        letterSpacing: "0.4em",
+        textTransform: "uppercase",
+        margin: 0
+      }, children: "b - baria telicom" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { marginTop: "10px", fontSize: "0.9rem" }, children: debugInfo })
+    ] })
+  ] });
+};
+const Background = () => {
+  const backgroundList = [
+    App$3,
+    InteractiveBackground$1,
+    UltimateBackground,
+    App$2,
+    InteractiveBackground,
+    App$1
+  ];
+  const SelectedBackground = reactExports.useMemo(() => {
+    const randomIndex = Math.floor(Math.random() * backgroundList.length);
+    return backgroundList[randomIndex];
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SelectedBackground, {}) });
+};
 const B_Baria = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(InteractiveBackground, {}) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}) });
 };
 const products = [
   {
@@ -20501,10 +21722,10 @@ function TobeerGallery() {
 function App() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(HashRouter, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Routes, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(MizentiaMain, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/aura", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$3, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/aura", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$6, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/family", element: /* @__PURE__ */ jsxRuntimeExports.jsx(FamilyStarApp, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$2, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$1, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$5, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$4, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha", element: /* @__PURE__ */ jsxRuntimeExports.jsx(NokshaLab, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha/b_baria", element: /* @__PURE__ */ jsxRuntimeExports.jsx(B_Baria, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/tobeer", element: /* @__PURE__ */ jsxRuntimeExports.jsx(TobeerGallery, {}) })
