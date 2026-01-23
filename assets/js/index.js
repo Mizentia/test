@@ -16080,7 +16080,7 @@ const Contact = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "copyright", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "© ২০২৪ AuraSyncra. সর্বস্বত্ব সংরক্ষিত | ডিজাইন করা হয়েছে ভালোবাসার সাথে ❤️" }) })
   ] }) });
 };
-function App$6() {
+function App$3() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: cssStyles }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app", children: [
@@ -16939,7 +16939,7 @@ const FamilyStarApp = () => {
     ] }) })
   ] });
 };
-const App$5 = () => {
+const App$2 = () => {
   const [isScrolled, setIsScrolled] = reactExports.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -18398,7 +18398,7 @@ const Footer = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "copyright", children: "© ২০২৪ MoviePer. সর্বস্বত্ব সংরক্ষিত।" })
   ] });
 };
-const App$4 = () => {
+const App$1 = () => {
   const trendingMovies = [
     { id: 1, title: "ব্যাটল ফিল্ড", type: "অ্যাকশন", img: "https://images.unsplash.com/photo-1535016120720-40c6874c3b13?q=80&w=1470&auto=format&fit=crop", rating: "4.8" },
     { id: 2, title: "স্পেস ওয়ার", type: "সাই-ফাই", img: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1000&auto=format&fit=crop", rating: "4.5" },
@@ -19412,25 +19412,21 @@ const NokshaLab = () => {
     )
   ] });
 };
-const App$3 = () => {
+const Background$2 = () => {
   const canvasRef = reactExports.useRef(null);
   const requestRef = reactExports.useRef(null);
   const particles = reactExports.useRef([]);
-  reactExports.useRef(0);
   const mouse = reactExports.useRef({ x: void 0, y: void 0 });
   const isMouseDown = reactExports.useRef(false);
   const isHolding = reactExports.useRef(false);
   const holdTimer = reactExports.useRef(null);
   const lastClickTime = reactExports.useRef(0);
   const config = reactExports.useRef({
-    particleCount: window.innerWidth < 768 ? 60 : 150,
-    // Fewer particles on mobile for performance
+    particleCount: typeof window !== "undefined" && window.innerWidth < 768 ? 60 : 150,
     connectionDistance: 120,
     baseSpeed: 0.5,
     holdThreshold: 300,
-    // ms to consider it a "hold"
     colorMode: 0
-    // 0: Neon Blue/Purple, 1: Fire/Gold, 2: Matrix Green
   });
   class Particle {
     constructor(w, h) {
@@ -19442,7 +19438,6 @@ const App$3 = () => {
       this.vy = (Math.random() - 0.5) * config.current.baseSpeed;
       this.size = Math.random() * 2 + 1;
       this.color = this.getColor();
-      this.originalSize = this.size;
     }
     getColor() {
       const mode = config.current.colorMode;
@@ -19483,13 +19478,11 @@ const App$3 = () => {
       ctx.fillStyle = this.color;
       ctx.fill();
     }
-    // 6 & 10. DOUBLE CLICK/TAP EFFECT (Scramble/Warp)
     scramble() {
       this.vx = (Math.random() - 0.5) * 15;
       this.vy = (Math.random() - 0.5) * 15;
       this.color = this.getColor();
     }
-    // 5 & 9. RELEASE EFFECT (Explosion/Shockwave)
     explode(x, y) {
       const dx = this.x - x;
       const dy = this.y - y;
@@ -19500,25 +19493,13 @@ const App$3 = () => {
       this.vy += dy / distance * force;
     }
   }
-  const initParticles = (width, height) => {
-    particles.current = [];
-    for (let i = 0; i < config.current.particleCount; i++) {
-      particles.current.push(new Particle(width, height));
-    }
-  };
   const animate = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = isMouseDown.current ? "rgba(0, 0, 0, 0.1)" : "rgba(5, 5, 5, 0.2)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    particles.current.forEach((particle) => {
-      particle.update(ctx);
-    });
-    connectParticles(ctx);
-    requestRef.current = requestAnimationFrame(animate);
-  };
-  const connectParticles = (ctx) => {
+    particles.current.forEach((particle) => particle.update(ctx));
     const p = particles.current;
     for (let i = 0; i < p.length; i++) {
       for (let j = i; j < p.length; j++) {
@@ -19536,89 +19517,65 @@ const App$3 = () => {
         }
       }
     }
-  };
-  const handleResize = () => {
-    if (canvasRef.current) {
-      canvasRef.current.width = window.innerWidth;
-      canvasRef.current.height = window.innerHeight;
-      initParticles(window.innerWidth, window.innerHeight);
-    }
-  };
-  const handleInputStart = (x, y) => {
-    mouse.current = { x, y };
-    isMouseDown.current = true;
-    holdTimer.current = setTimeout(() => {
-      isHolding.current = true;
-    }, config.current.holdThreshold);
-    const now = Date.now();
-    if (now - lastClickTime.current < 300) {
-      handleDoubleClick();
-    }
-    lastClickTime.current = now;
-  };
-  const handleInputEnd = () => {
-    if (isHolding.current) {
-      particles.current.forEach((p) => p.explode(mouse.current.x, mouse.current.y));
-    }
-    clearTimeout(holdTimer.current);
-    isMouseDown.current = false;
-    isHolding.current = false;
-    mouse.current = { x: void 0, y: void 0 };
-  };
-  const handleInputMove = (x, y) => {
-    mouse.current = { x, y };
-  };
-  const handleDoubleClick = () => {
-    config.current.colorMode = (config.current.colorMode + 1) % 3;
-    particles.current.forEach((p) => p.scramble());
+    requestRef.current = requestAnimationFrame(animate);
   };
   reactExports.useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.style.touchAction = "none";
-    initParticles(canvas.width, canvas.height);
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = window.innerWidth;
+        canvasRef.current.height = window.innerHeight;
+        particles.current = Array.from({ length: config.current.particleCount }, () => new Particle(window.innerWidth, window.innerHeight));
+      }
+    };
+    handleResize();
     requestRef.current = requestAnimationFrame(animate);
     window.addEventListener("resize", handleResize);
-    const onMouseMove = (e) => handleInputMove(e.clientX, e.clientY);
-    const onMouseDown = (e) => handleInputStart(e.clientX, e.clientY);
-    const onMouseUp = () => handleInputEnd();
-    const onTouchMove = (e) => handleInputMove(e.touches[0].clientX, e.touches[0].clientY);
-    const onTouchStart = (e) => {
-      handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
+    const onMouseMove = (e) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
     };
-    const onTouchEnd = (e) => handleInputEnd();
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", onMouseDown);
-    canvas.addEventListener("mouseup", onMouseUp);
-    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
-    canvas.addEventListener("touchend", onTouchEnd);
+    const onMouseDown = (e) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+      isMouseDown.current = true;
+      holdTimer.current = setTimeout(() => {
+        isHolding.current = true;
+      }, config.current.holdThreshold);
+      const now = Date.now();
+      if (now - lastClickTime.current < 300) {
+        config.current.colorMode = (config.current.colorMode + 1) % 3;
+        particles.current.forEach((p) => p.scramble());
+      }
+      lastClickTime.current = now;
+    };
+    const onMouseUp = () => {
+      if (isHolding.current) particles.current.forEach((p) => p.explode(mouse.current.x, mouse.current.y));
+      clearTimeout(holdTimer.current);
+      isMouseDown.current = false;
+      isHolding.current = false;
+    };
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
       cancelAnimationFrame(requestRef.current);
-      if (canvas) {
-        canvas.removeEventListener("mousemove", onMouseMove);
-        canvas.removeEventListener("mousedown", onMouseDown);
-        canvas.removeEventListener("mouseup", onMouseUp);
-        canvas.removeEventListener("touchmove", onTouchMove);
-        canvas.removeEventListener("touchstart", onTouchStart);
-        canvas.removeEventListener("touchend", onTouchEnd);
-      }
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen bg-black overflow-hidden font-sans", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "canvas",
-      {
-        ref: canvasRef,
-        className: "block absolute top-0 left-0 w-full h-full cursor-pointer z-10"
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#050510] via-[#000000] to-[#0a0a20] z-0 pointer-events-none" })
-  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "fixed top-0 left-0 w-full h-full bg-black -z-50 pointer-events-none overflow-hidden",
+      style: { position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: -50 },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, className: "block w-full h-full" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#050510] via-black to-[#0a0a20] opacity-70" })
+      ]
+    }
+  );
 };
-const InteractiveBackground$1 = () => {
+const InteractiveBackground$2 = () => {
   const canvasRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     const canvas = canvasRef.current;
@@ -19633,27 +19590,17 @@ const InteractiveBackground$1 = () => {
       isDragging: false,
       lastClickTime: 0,
       mode: "AUTO",
-      // বর্তমান মোড: AUTO, HOVER, CLICK, HOLD, DRAG, RELEASE, DOUBLE_CLICK ইত্যাদি
       inputType: "MOUSE"
-      // MOUSE or TOUCH
     };
     const colors = {
-      // গাঢ় ব্যাকগ্রাউন্ড
       particles: {
         auto: "#4f46e5",
-        // ইন্ডিগো (স্বাভাবিক)
         hover: "#06b6d4",
-        // সায়ান (মাউস মুভ)
         click: "#ec4899",
-        // পিঙ্ক (ক্লিক)
         hold: "#f59e0b",
-        // অ্যাম্বার (ধরে রাখা)
         release: "#10b981",
-        // ভায়োলেট (ডাবল ক্লিক)
         drag: "#ef4444",
-        // রেড (ড্র্যাগিং)
         touch: "#22c55e"
-        // গ্রিন (টাচ)
       }
     };
     const resize = () => {
@@ -19670,17 +19617,14 @@ const InteractiveBackground$1 = () => {
       reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = (Math.random() - 0.5) * 1.5;
         this.size = Math.random() * 2 + 1;
         this.baseSize = this.size;
         this.color = colors.particles.auto;
         this.friction = 0.95;
-        this.ease = 0.1;
       }
       update() {
-        this.vx;
-        this.vy;
         let forceDirectionX = 0;
         let forceDirectionY = 0;
         let distance = 0;
@@ -19751,10 +19695,16 @@ const InteractiveBackground$1 = () => {
         }
         this.x += this.vx;
         this.y += this.vy;
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
+        if (this.x < 0 || this.x > width) {
+          this.vx = -this.vx;
+          if (this.x < 0) this.x = 0;
+          if (this.x > width) this.x = width;
+        }
+        if (this.y < 0 || this.y > height) {
+          this.vy = -this.vy;
+          if (this.y < 0) this.y = 0;
+          if (this.y > height) this.y = height;
+        }
         if (state.mode !== "AUTO") {
           this.vx *= this.friction;
           this.vy *= this.friction;
@@ -19894,14 +19844,28 @@ const InteractiveBackground$1 = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative w-full h-screen overflow-hidden bg-[#0a0a0f]", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "canvas",
     {
       ref: canvasRef,
-      className: "absolute top-0 left-0 w-full h-full block touch-none",
-      style: { zIndex: 0 }
+      style: {
+        display: "block",
+        position: "fixed",
+        // এটি ব্যাকগ্রাউন্ডকে স্থির রাখবে
+        top: 0,
+        left: 0,
+        width: "100%",
+        // সর্বদা ফুল উইডথ
+        height: "100%",
+        // সর্বদা ফুল হাইট
+        zIndex: -1,
+        // সব কন্টেন্টের নিচে থাকবে
+        backgroundColor: "#0a0a0f",
+        touchAction: "none"
+        // টাচ জুম/স্ক্রল ডিজেবল শুধুমাত্র ক্যানভাসে
+      }
     }
-  ) });
+  );
 };
 const UltimateBackground = () => {
   const canvasRef = reactExports.useRef(null);
@@ -20173,7 +20137,7 @@ const UltimateBackground = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-placeholder", children: "B - BARIA TELICOM" })
   ] });
 };
-const App$2 = () => {
+const InteractiveBackground$1 = () => {
   const canvasRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     const canvas = canvasRef.current;
@@ -20183,13 +20147,10 @@ const App$2 = () => {
     let animationFrameId;
     const config = {
       particleCount: window.innerWidth < 768 ? 60 : 120,
-      // মোবাইলে কম, পিসিতে বেশি
       connectionRadius: 120,
-      baseSpeed: 0.3,
+      baseSpeed: 0.6,
       color: { r: 100, g: 255, b: 218 },
-      // সায়ান টাইপ কালার (Cyberpunk feel)
       secondaryColor: { r: 168, g: 85, b: 247 }
-      // পার্পল অ্যাকসেন্ট
     };
     const input = {
       x: null,
@@ -20202,14 +20163,13 @@ const App$2 = () => {
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
-      initParticles();
     };
     class Particle {
       constructor(x, y, type = "base") {
         this.x = x || Math.random() * width;
         this.y = y || Math.random() * height;
-        this.vx = (Math.random() - 0.5) * config.baseSpeed;
-        this.vy = (Math.random() - 0.5) * config.baseSpeed;
+        this.vx = (Math.random() - 0.5) * config.baseSpeed * 2;
+        this.vy = (Math.random() - 0.5) * config.baseSpeed * 2;
         this.size = type === "base" ? Math.random() * 2 + 1 : Math.random() * 4 + 2;
         this.life = type === "burst" ? 1 : 100;
         this.type = type;
@@ -20220,42 +20180,39 @@ const App$2 = () => {
         }
       }
       update() {
-        if (this.type === "base") {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0) this.x = width;
-          if (this.x > width) this.x = 0;
-          if (this.y < 0) this.y = height;
-          if (this.y > height) this.y = 0;
-        } else {
-          this.x += this.vx;
-          this.y += this.vy;
-          this.life -= 0.02;
-          this.size -= 0.05;
-        }
+        this.x += this.vx;
+        this.y += this.vy;
         if (input.x != null && input.y != null) {
           const dx = input.x - this.x;
           const dy = input.y - this.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           if (distance < 150 && !input.isDown) {
-            const forceDirectionX = dx / distance;
-            const forceDirectionY = dy / distance;
             const force = (150 - distance) / 150;
-            const directionX = forceDirectionX * force * 2;
-            const directionY = forceDirectionY * force * 2;
-            this.x -= directionX;
-            this.y -= directionY;
+            this.x -= dx / distance * force * 5;
+            this.y -= dy / distance * force * 5;
           }
-          if (input.isDown && !input.isDragging && distance < 300) {
+          if (input.isDown && distance < 300) {
             this.x += dx / distance * 3;
             this.y += dy / distance * 3;
           }
-          if (input.isDragging && distance < 200) {
-            this.vx += dx / distance * 0.5;
-            this.vy += dy / distance * 0.5;
-            this.vx *= 0.9;
-            this.vy *= 0.9;
-          }
+        }
+        if (this.x + this.size > width) {
+          this.x = width - this.size;
+          this.vx *= -1;
+        } else if (this.x - this.size < 0) {
+          this.x = this.size;
+          this.vx *= -1;
+        }
+        if (this.y + this.size > height) {
+          this.y = height - this.size;
+          this.vy *= -1;
+        } else if (this.y - this.size < 0) {
+          this.y = this.size;
+          this.vy *= -1;
+        }
+        if (this.type !== "base") {
+          this.life -= 0.02;
+          this.size -= 0.05;
         }
       }
       draw() {
@@ -20290,14 +20247,14 @@ const App$2 = () => {
         particles[i].update();
         particles[i].draw();
         if (particles[i].type === "base") {
-          for (let j = i; j < particles.length; j++) {
+          for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < config.connectionRadius) {
+              const opacity = (1 - distance / config.connectionRadius) * 0.15;
               ctx.beginPath();
-              const opacity = 1 - distance / config.connectionRadius;
-              ctx.strokeStyle = `rgba(100, 255, 218, ${opacity * 0.15})`;
+              ctx.strokeStyle = `rgba(100, 255, 218, ${opacity})`;
               ctx.lineWidth = 1;
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
@@ -20305,7 +20262,7 @@ const App$2 = () => {
             }
           }
         }
-        if (particles[i].life <= 0 || particles[i].size <= 0) {
+        if (particles[i].life <= 0 || particles[i].type !== "base" && particles[i].size <= 0) {
           particles.splice(i, 1);
           i--;
         }
@@ -20321,112 +20278,57 @@ const App$2 = () => {
       input.y = e.clientY;
       if (input.isDown) {
         input.isDragging = true;
-        if (Math.random() > 0.8) {
-          spawnParticles(input.x, input.y, 1, "trail", 0.5);
-        }
+        if (Math.random() > 0.8) spawnParticles(input.x, input.y, 1, "trail", 0.5);
       }
     };
     const onMouseDown = (e) => {
       input.isDown = true;
-      input.isDragging = false;
       input.x = e.clientX;
       input.y = e.clientY;
       spawnParticles(input.x, input.y, 5, "burst", 0.5);
     };
     const onMouseUp = () => {
+      if (!input.isDragging && input.x) spawnParticles(input.x, input.y, 15, "burst", 2);
       input.isDown = false;
-      if (input.isDragging) ;
-      else {
-        spawnParticles(input.x, input.y, 15, "burst", 2);
-      }
       input.isDragging = false;
-      input.x = null;
-      input.y = null;
-    };
-    const onDoubleClick = (e) => {
-      spawnParticles(e.clientX, e.clientY, 40, "burst", 4);
-    };
-    const onTouchStart = (e) => {
-      e.preventDefault();
-      const touch = e.touches[0];
-      input.x = touch.clientX;
-      input.y = touch.clientY;
-      input.isDown = true;
-      input.isDragging = false;
-      spawnParticles(input.x, input.y, 5, "burst", 0.5);
-    };
-    const onTouchMove = (e) => {
-      e.preventDefault();
-      const touch = e.touches[0];
-      input.x = touch.clientX;
-      input.y = touch.clientY;
-      input.isDragging = true;
-      if (Math.random() > 0.7) {
-        spawnParticles(input.x, input.y, 2, "trail", 0.5);
-      }
-    };
-    const onTouchEnd = () => {
-      input.isDown = false;
-      if (!input.isDragging) {
-        spawnParticles(input.x, input.y, 15, "burst", 2);
-      }
-      input.isDragging = false;
-      input.x = null;
-      input.y = null;
-    };
-    const onMouseOut = () => {
-      input.x = null;
-      input.y = null;
-      input.isDown = false;
     };
     window.addEventListener("resize", handleResize);
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", onMouseDown);
-    canvas.addEventListener("mouseup", onMouseUp);
-    canvas.addEventListener("dblclick", onDoubleClick);
-    canvas.addEventListener("mouseout", onMouseOut);
-    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
-    canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-    canvas.addEventListener("touchend", onTouchEnd);
+    window.addEventListener("mouseup", onMouseUp);
     handleResize();
+    initParticles();
     animate();
     return () => {
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("mousemove", onMouseMove);
       canvas.removeEventListener("mousedown", onMouseDown);
-      canvas.removeEventListener("mouseup", onMouseUp);
-      canvas.removeEventListener("dblclick", onDoubleClick);
-      canvas.removeEventListener("mouseout", onMouseOut);
-      canvas.removeEventListener("touchstart", onTouchStart);
-      canvas.removeEventListener("touchmove", onTouchMove);
-      canvas.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("mouseup", onMouseUp);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-screen bg-slate-950 overflow-hidden", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "canvas",
-      {
-        ref: canvasRef,
-        className: "block absolute top-0 left-0 w-full h-full cursor-pointer z-0"
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-slate-800 text-6xl md:text-8xl font-black tracking-tighter opacity-20 select-none mix-blend-overlay", children: "INTERACTIVE" }) })
-  ] });
+  const containerStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "#020617",
+    zIndex: -1,
+    overflow: "hidden"
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle, children: /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: "100%" } }) });
 };
 const InteractiveBackground = () => {
   const canvasRef = reactExports.useRef(null);
-  const [debugInfo, setDebugInfo] = reactExports.useState("");
   reactExports.useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     let config = {
       particleCount: 120,
-      // মোবাইলে কম, ডেস্কটপে বেশি হবে (রিসাইজ ফাংশনে সেট হবে)
       connectionRadius: 150,
       baseSpeed: 0.5,
       color: "255, 255, 255",
-      // সাদা পার্টিকেল
       accentColor: "0, 195, 255"
     };
     let width, height;
@@ -20436,57 +20338,63 @@ const InteractiveBackground = () => {
       x: null,
       y: null,
       isPressed: false,
-      isDragging: false,
-      clickStartTime: 0,
-      interactionType: "idle"
-      // idle, hover, click, hold, drag, doubleClick, release
+      isDragging: false
     };
     class Particle {
       constructor() {
+        this.init();
+      }
+      init() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.vx = (Math.random() - 0.5) * config.baseSpeed;
         this.vy = (Math.random() - 0.5) * config.baseSpeed;
         this.size = Math.random() * 2 + 0.5;
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.density = Math.random() * 30 + 1;
         this.colorAlpha = Math.random() * 0.5 + 0.2;
         this.glow = 0;
       }
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        if (this.x > width || this.x < 0) this.vx = -this.vx;
-        if (this.y > height || this.y < 0) this.vy = -this.vy;
         if (mouse.x != null) {
           let dx = mouse.x - this.x;
           let dy = mouse.y - this.y;
           let distance = Math.sqrt(dx * dx + dy * dy);
-          const forceDirectionX = dx / distance;
-          const forceDirectionY = dy / distance;
           const maxDistance = mouse.isPressed ? 300 : 150;
-          const force = (maxDistance - distance) / maxDistance;
           if (distance < maxDistance) {
+            const force = (maxDistance - distance) / maxDistance;
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
             if (mouse.isPressed && !mouse.isDragging) {
-              const attractionSpeed = 5;
-              this.vx += forceDirectionX * force * attractionSpeed;
-              this.vy += forceDirectionY * force * attractionSpeed;
+              this.vx += forceDirectionX * force * 5;
+              this.vy += forceDirectionY * force * 5;
               this.glow = 1;
             } else if (mouse.isDragging) {
-              const dragForce = 2;
-              this.vx -= forceDirectionX * force * dragForce;
-              this.vy -= forceDirectionY * force * dragForce;
+              this.vx -= forceDirectionX * force * 2;
+              this.vy -= forceDirectionY * force * 2;
               this.colorAlpha = 1;
             } else {
-              const repelForce = 2;
-              this.x -= forceDirectionX * force * repelForce;
-              this.y -= forceDirectionY * force * repelForce;
+              this.x -= forceDirectionX * force * 4;
+              this.y -= forceDirectionY * force * 4;
             }
           }
         }
-        this.vx *= 0.98;
-        this.vy *= 0.98;
+        if (this.x < 0) {
+          this.x = 0;
+          this.vx *= -1;
+        } else if (this.x > width) {
+          this.x = width;
+          this.vx *= -1;
+        }
+        if (this.y < 0) {
+          this.y = 0;
+          this.vy *= -1;
+        } else if (this.y > height) {
+          this.y = height;
+          this.vy *= -1;
+        }
+        this.vx *= 0.95;
+        this.vy *= 0.95;
         if (Math.abs(this.vx) < 0.1) this.vx = (Math.random() - 0.5) * 0.5;
         if (Math.abs(this.vy) < 0.1) this.vy = (Math.random() - 0.5) * 0.5;
         if (this.glow > 0) this.glow -= 0.05;
@@ -20494,11 +20402,7 @@ const InteractiveBackground = () => {
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        if (this.glow > 0) {
-          ctx.fillStyle = `rgba(${config.accentColor}, ${this.colorAlpha + this.glow})`;
-        } else {
-          ctx.fillStyle = `rgba(${config.color}, ${this.colorAlpha})`;
-        }
+        ctx.fillStyle = this.glow > 0 ? `rgba(${config.accentColor}, ${this.colorAlpha + this.glow})` : `rgba(${config.color}, ${this.colorAlpha})`;
         ctx.fill();
       }
     }
@@ -20511,42 +20415,20 @@ const InteractiveBackground = () => {
         particles.push(new Particle());
       }
     };
-    const createShockwave = (x, y) => {
-      particles.forEach((p) => {
-        let dx = p.x - x;
-        let dy = p.y - y;
-        let dist = Math.sqrt(dx * dx + dy * dy);
-        let force = 2e3 / (dist + 1);
-        let angle = Math.atan2(dy, dx);
-        p.vx += Math.cos(angle) * force;
-        p.vy += Math.sin(angle) * force;
-        p.glow = 2;
-      });
-    };
-    const triggerReleaseEffect = () => {
-      particles.forEach((p) => {
-        p.vx = -p.vx * 1.5;
-        p.vy = -p.vy * 1.5;
-      });
-    };
     const animate = () => {
       ctx.fillStyle = `rgba(15, 23, 42, 0.2)`;
       ctx.fillRect(0, 0, width, height);
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
-        for (let j = i; j < particles.length; j++) {
+        for (let j = i + 1; j < particles.length; j++) {
           let dx = particles[i].x - particles[j].x;
           let dy = particles[i].y - particles[j].y;
           let distance = Math.sqrt(dx * dx + dy * dy);
           if (distance < config.connectionRadius) {
             ctx.beginPath();
             let opacity = 1 - distance / config.connectionRadius;
-            if (mouse.isPressed && distance < 100) {
-              ctx.strokeStyle = `rgba(${config.accentColor}, ${opacity})`;
-            } else {
-              ctx.strokeStyle = `rgba(${config.color}, ${opacity * 0.2})`;
-            }
+            ctx.strokeStyle = mouse.isPressed && distance < 100 ? `rgba(${config.accentColor}, ${opacity})` : `rgba(${config.color}, ${opacity * 0.2})`;
             ctx.lineWidth = 1;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -20564,107 +20446,57 @@ const InteractiveBackground = () => {
     const onMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-      if (mouse.isPressed) {
-        mouse.isDragging = true;
-        mouse.interactionType = "drag";
-      } else {
-        mouse.interactionType = "hover";
-      }
+      if (mouse.isPressed) mouse.isDragging = true;
     };
     const onMouseDown = (e) => {
       mouse.isPressed = true;
-      mouse.clickStartTime = Date.now();
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-      mouse.interactionType = "hold";
     };
     const onMouseUp = () => {
       mouse.isPressed = false;
       mouse.isDragging = false;
-      mouse.x = null;
-      mouse.y = null;
-      mouse.interactionType = "release";
-      triggerReleaseEffect();
-    };
-    const onDoubleClick = (e) => {
-      createShockwave(e.clientX, e.clientY);
-      mouse.interactionType = "doubleClick";
-    };
-    const onTouchStart = (e) => {
-      mouse.isPressed = true;
-      mouse.clickStartTime = Date.now();
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.interactionType = "touchHold";
-    };
-    const onTouchMove = (e) => {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.isDragging = true;
-      mouse.interactionType = "touchDrag";
-    };
-    const onTouchEnd = () => {
-      mouse.isPressed = false;
-      mouse.isDragging = false;
-      mouse.x = null;
-      mouse.y = null;
-      mouse.interactionType = "touchRelease";
-      triggerReleaseEffect();
-    };
-    let lastTap = 0;
-    const onTouchEndDoubleTapCheck = (e) => {
-      const currentTime = (/* @__PURE__ */ new Date()).getTime();
-      const tapLength = currentTime - lastTap;
-      if (tapLength < 300 && tapLength > 0) {
-        if (e.changedTouches[0]) {
-          createShockwave(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-        }
-      }
-      lastTap = currentTime;
-      onTouchEnd();
     };
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mouseup", onMouseUp);
-    window.addEventListener("dblclick", onDoubleClick);
-    canvas.addEventListener("touchstart", onTouchStart, { passive: true });
-    canvas.addEventListener("touchmove", onTouchMove, { passive: true });
-    canvas.addEventListener("touchend", onTouchEndDoubleTapCheck);
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("dblclick", onDoubleClick);
-      canvas.removeEventListener("touchstart", onTouchStart);
-      canvas.removeEventListener("touchmove", onTouchMove);
-      canvas.removeEventListener("touchend", onTouchEndDoubleTapCheck);
       cancelAnimationFrame(animationId);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full h-screen overflow-hidden bg-slate-900 relative", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "absolute inset-0 z-0 pointer-events-none",
-        style: {
-          background: "radial-gradient(circle at center, #1e293b 0%, #020617 100%)"
-        }
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "canvas",
-      {
-        ref: canvasRef,
-        className: "absolute top-0 left-0 w-full h-full block z-0 cursor-pointer",
-        style: { touchAction: "none" }
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center opacity-0 hover:opacity-100 transition-opacity duration-1000", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-white text-4xl font-light tracking-widest", children: "INTERACTIVE SPACE" }) }) })
+  const containerStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    zIndex: -1,
+    overflow: "hidden",
+    backgroundColor: "#020617"
+  };
+  const canvasStyle = {
+    display: "block",
+    width: "100%",
+    height: "100%",
+    touchAction: "none"
+  };
+  const overlayStyle = {
+    position: "absolute",
+    inset: 0,
+    background: "radial-gradient(circle at center, #1e293b 0%, #020617 100%)",
+    zIndex: -2
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: containerStyle, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: overlayStyle }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, style: canvasStyle })
   ] });
 };
-const App$1 = () => {
+const Background$1 = () => {
   const canvasRef = reactExports.useRef(null);
   const [debugInfo, setDebugInfo] = reactExports.useState("Idle Mode");
   reactExports.useEffect(() => {
@@ -20679,7 +20511,7 @@ const App$1 = () => {
     window.addEventListener("resize", handleResize);
     handleResize();
     let particlesArray = [];
-    const numberOfParticles = Math.min(window.innerWidth * window.innerHeight / 9e3, 150);
+    const numberOfParticles = Math.min(window.innerWidth * window.innerHeight / 1e4, 120);
     const mouse = {
       x: null,
       y: null,
@@ -20720,8 +20552,6 @@ const App$1 = () => {
         ctx.fill();
       }
       update() {
-        if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-        if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
@@ -20752,6 +20582,20 @@ const App$1 = () => {
         }
         this.x += this.directionX * 0.4;
         this.y += this.directionY * 0.4;
+        if (this.x + this.size > canvas.width) {
+          this.x = canvas.width - this.size;
+          this.directionX = -Math.abs(this.directionX);
+        } else if (this.x - this.size < 0) {
+          this.x = this.size;
+          this.directionX = Math.abs(this.directionX);
+        }
+        if (this.y + this.size > canvas.height) {
+          this.y = canvas.height - this.size;
+          this.directionY = -Math.abs(this.directionY);
+        } else if (this.y - this.size < 0) {
+          this.y = this.size;
+          this.directionY = Math.abs(this.directionY);
+        }
         this.draw();
       }
     }
@@ -20759,8 +20603,8 @@ const App$1 = () => {
       particlesArray = [];
       for (let i = 0; i < numberOfParticles; i++) {
         let size = Math.random() * 2 + 1;
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
+        let x = Math.random() * (canvas.width - size * 4) + size * 2;
+        let y = Math.random() * (canvas.height - size * 4) + size * 2;
         let directionX = Math.random() * 2 - 1;
         let directionY = Math.random() * 2 - 1;
         particlesArray.push(new Particle(x, y, directionX, directionY, size));
@@ -20831,7 +20675,7 @@ const App$1 = () => {
     const mDown = (e) => onStart(e.clientX, e.clientY, "Mouse");
     const mMove = (e) => onMove(e.clientX, e.clientY, "Mouse");
     const mUp = () => onEnd();
-    const dblClick = (e) => {
+    const dblClick = () => {
       mouse.interactionType = "dblclick";
       setDebugInfo("Double Interaction");
       setTimeout(onEnd, 500);
@@ -20860,36 +20704,31 @@ const App$1 = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "#050505",
-    margin: 0,
-    padding: 0,
-    overflow: "hidden",
-    position: "relative"
-  }, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "canvas",
       {
         ref: canvasRef,
         style: {
-          position: "absolute",
+          position: "fixed",
           top: 0,
           left: 0,
-          zIndex: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: -1,
+          backgroundColor: "#050505",
           display: "block",
-          touchAction: "none"
+          pointerEvents: "none"
         }
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-      position: "absolute",
+      position: "fixed",
       top: 0,
       left: 0,
       width: "100%",
       height: "100%",
-      zIndex: 10,
+      zIndex: -1,
       pointerEvents: "none",
       display: "flex",
       flexDirection: "column",
@@ -20904,7 +20743,8 @@ const App$1 = () => {
         fontWeight: "bold",
         letterSpacing: "0.4em",
         textTransform: "uppercase",
-        margin: 0
+        margin: 0,
+        textAlign: "center"
       }, children: "b - baria telicom" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { marginTop: "10px", fontSize: "0.9rem" }, children: debugInfo })
     ] })
@@ -20912,12 +20752,12 @@ const App$1 = () => {
 };
 const Background = () => {
   const backgroundList = [
-    App$3,
-    InteractiveBackground$1,
+    Background$2,
+    InteractiveBackground$2,
     UltimateBackground,
-    App$2,
+    InteractiveBackground$1,
     InteractiveBackground,
-    App$1
+    Background$1
   ];
   const SelectedBackground = reactExports.useMemo(() => {
     const randomIndex = Math.floor(Math.random() * backgroundList.length);
@@ -21722,10 +21562,10 @@ function TobeerGallery() {
 function App() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(HashRouter, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Routes, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(MizentiaMain, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/aura", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$6, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/aura", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$3, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/family", element: /* @__PURE__ */ jsxRuntimeExports.jsx(FamilyStarApp, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$5, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$4, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/language", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$2, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/movie", element: /* @__PURE__ */ jsxRuntimeExports.jsx(App$1, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha", element: /* @__PURE__ */ jsxRuntimeExports.jsx(NokshaLab, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/noksha/b_baria", element: /* @__PURE__ */ jsxRuntimeExports.jsx(B_Baria, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/tobeer", element: /* @__PURE__ */ jsxRuntimeExports.jsx(TobeerGallery, {}) })
