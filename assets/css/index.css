@@ -564,4 +564,76 @@ body {
     right: 16px;
     width: 180px;
   }
+}._statsContainer_nbtfc_1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background: transparent;
+}
+
+._statCard_nbtfc_17 {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  transition: transform 0.2s ease, background 0.2s ease;
+  cursor: grab;
+}
+
+._statCard_nbtfc_17:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
+}
+
+/* ড্র্যাগ করার সময় অরিজিনাল কার্ডটি আবছা হয়ে যাবে */
+._dragging_nbtfc_53 {
+  opacity: 0.1;
+}
+
+/* যেখানে ড্রপ হবে সেখানে এই স্টাইল দেখাবে (Focus) */
+._placeholder_nbtfc_63 {
+  border: 2px dashed rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.02);
+  transform: scale(1.02);
+}
+
+._cardIconBg_nbtfc_75 {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  opacity: 0.12;
+  width: 70px;
+  height: 70px;
+  pointer-events: none;
+}
+
+._cardHeader_nbtfc_95 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+._grip_nbtfc_115 {
+  width: 14px;
+  height: 14px;
+  opacity: 0.4;
+}
+
+._cardValue_nbtfc_127 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+._cardSub_nbtfc_139 {
+  font-size: 0.8rem;
+  color: #94a3b8;
 }

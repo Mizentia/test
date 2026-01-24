@@ -14789,7 +14789,7 @@ var defaultAttributes = {
   strokeLinecap: "round",
   strokeLinejoin: "round"
 };
-const Icon = reactExports.forwardRef(
+const Icon$1 = reactExports.forwardRef(
   ({
     color = "currentColor",
     size = 24,
@@ -14820,7 +14820,7 @@ const Icon = reactExports.forwardRef(
 );
 const createLucideIcon = (iconName, iconNode) => {
   const Component = reactExports.forwardRef(
-    ({ className, ...props }, ref) => reactExports.createElement(Icon, {
+    ({ className, ...props }, ref) => reactExports.createElement(Icon$1, {
       ref,
       iconNode,
       className: mergeClasses(
@@ -17670,7 +17670,7 @@ const App$2 = () => {
     ] }) })
   ] });
 };
-const styles = `
+const styles$1 = `
 :root {
   --primary: #e50914;
   --dark-bg: #0f0f0f;
@@ -18418,7 +18418,7 @@ const App$1 = () => {
     { id: 5, title: "অ্যাকশন", img: "https://images.unsplash.com/photo-1552083855-e518817a69a0?q=80&w=1000&auto=format&fit=crop" }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles$1 }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Hero, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Categories, {}),
@@ -20776,10 +20776,122 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
     ] })
   ] });
 };
+const statsContainer = "_statsContainer_nbtfc_1";
+const statCard = "_statCard_nbtfc_17";
+const dragging = "_dragging_nbtfc_53";
+const placeholder = "_placeholder_nbtfc_63";
+const cardIconBg = "_cardIconBg_nbtfc_75";
+const cardHeader = "_cardHeader_nbtfc_95";
+const grip = "_grip_nbtfc_115";
+const cardValue = "_cardValue_nbtfc_127";
+const cardSub = "_cardSub_nbtfc_139";
+const styles = {
+  statsContainer,
+  statCard,
+  dragging,
+  placeholder,
+  cardIconBg,
+  cardHeader,
+  grip,
+  cardValue,
+  cardSub
+};
+const icons = {
+  capital: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z" }) }),
+  cash: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M21 18v1c0 1.1-.9 2-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v1h-9a2 2 0 00-2 2v8a2 2 0 002 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" }) }),
+  balance: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z" }) }),
+  stock: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z" }) }),
+  profit: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z" }) }),
+  grip: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 320 512", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M96 64c0-17.7-14.3-32-32-32S32 46.3 32 64l0 384c0 17.7 14.3 32 32 32s32-14.3 32-32L96 64zm192 0c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 384c0 17.7 14.3 32 32 32s32-14.3 32-32l0-384z" }) })
+};
+const Icon = ({ name, className }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, children: icons[name] || null });
+};
+const useDragAndDrop = (initialData) => {
+  const [items, setItems] = reactExports.useState(initialData);
+  const [draggedIdx, setDraggedIdx] = reactExports.useState(null);
+  const [overIdx, setOverIdx] = reactExports.useState(null);
+  const handleDragStart = (index) => {
+    setDraggedIdx(index);
+  };
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (index !== draggedIdx) {
+      setOverIdx(index);
+    }
+  };
+  const handleDrop = () => {
+    if (draggedIdx === null || overIdx === null) return;
+    const updatedList = [...items];
+    const draggedItem = updatedList.splice(draggedIdx, 1)[0];
+    updatedList.splice(overIdx, 0, draggedItem);
+    setItems(updatedList);
+    setDraggedIdx(null);
+    setOverIdx(null);
+  };
+  const handleDragEnd = () => {
+    setDraggedIdx(null);
+    setOverIdx(null);
+  };
+  return {
+    items,
+    draggedIdx,
+    overIdx,
+    handleDragStart,
+    handleDragOver,
+    handleDrop,
+    handleDragEnd
+  };
+};
+const initialCards = [
+  { id: "1", key: "capital", title: "মোট মূলধন", value: "৳ ১,৫০,০০০", sub: "ক্যাশ + ব্যালেন্স + স্টক", color: "#14b8a6" },
+  { id: "2", key: "cash", title: "ক্যাশ টাকা", value: "৳ ২৫,০০০", sub: "ক্যাশ ম্যানেজমেন্ট", color: "#22c55e" },
+  { id: "3", key: "balance", title: "অ্যাকাউন্ট ব্যালেন্স", value: "৳ ৮০,০০০", sub: "বিকাশ, রকেট, ইত্যাদি", color: "#3b82f6" },
+  { id: "4", key: "stock", title: "স্টক এমাউন্ট", value: "৳ ৩৫,০০০", sub: "মোট স্টকের কেনা দাম", color: "#f97316" },
+  { id: "5", key: "profit", title: "মোট লাভ", value: "৳ ১০,০০০", sub: "বিস্তারিত দেখুন", color: "#a855f7" }
+];
+function StatsCards() {
+  const {
+    items,
+    draggedIdx,
+    overIdx,
+    handleDragStart,
+    handleDragOver,
+    handleDrop,
+    handleDragEnd
+  } = useDragAndDrop(initialCards);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.statsContainer, children: items.map((card, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      draggable: true,
+      onDragStart: () => handleDragStart(index),
+      onDragOver: (e) => handleDragOver(e, index),
+      onDrop: handleDrop,
+      onDragEnd: handleDragEnd,
+      className: `
+            ${styles.statCard} 
+            ${draggedIdx === index ? styles.dragging : ""} 
+            ${overIdx === index ? styles.placeholder : ""}
+          `,
+      style: { borderBottom: `4px solid ${card.color}` },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: card.key, className: styles.cardIconBg, style: { color: card.color } }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.cardHeader, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles.grip }),
+          card.title
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardValue, style: { color: card.color }, children: card.value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardSub, children: card.sub })
+      ]
+    },
+    card.id
+  )) });
+}
 const Dashboard = ({ onLogout, userName }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout, userName })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout, userName }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(StatsCards, {})
   ] });
 };
 const B_Baria = () => {
