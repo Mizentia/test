@@ -20623,7 +20623,7 @@ const Login = ({ onLoginSuccess }) => {
     e.preventDefault();
     if (formData.password === "M~R.88@Mizhan.25") {
       console.log("Login Successful");
-      onLoginSuccess();
+      onLoginSuccess(formData.name);
     } else {
       alert("ভুল পাসওয়ার্ড! অ্যাক্সেস ডিনাইড।");
     }
@@ -20640,7 +20640,7 @@ const Login = ({ onLoginSuccess }) => {
             {
               type: "text",
               name: "name",
-              placeholder: "Name",
+              placeholder: "Enter Your Name",
               onChange: handleChange,
               required: true
             }
@@ -20661,7 +20661,7 @@ const Login = ({ onLoginSuccess }) => {
     ] }) })
   ] });
 };
-const Navbar = ({ onOpenHistory, onOpenSettings, onLogout }) => {
+const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
   const [time, setTime] = reactExports.useState(/* @__PURE__ */ new Date());
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const menuRef = reactExports.useRef(null);
@@ -20719,7 +20719,10 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout }) => {
             "B - ",
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: "Baria" })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Admin Dashboard" })
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+            "Admin: ",
+            userName || "Guest"
+          ] })
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "nav-clock-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "clock-glass-card", children: [
@@ -20746,7 +20749,10 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout }) => {
       )
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: menuRef, className: `floating-drawer ${isMenuOpen ? "active" : ""}`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "drawer-title", children: "কুইক মেনু" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "drawer-title", children: [
+        "User: ",
+        userName
+      ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "drawer-content", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item", onClick: () => {
           onOpenHistory();
@@ -20770,29 +20776,41 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout }) => {
     ] })
   ] });
 };
-const Dashboard = ({ onLogout }) => {
+const Dashboard = ({ onLogout, userName }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout, userName })
   ] });
 };
 const B_Baria = () => {
   const [isLoggedIn, setIsLoggedIn] = reactExports.useState(false);
+  const [userName, setUserName] = reactExports.useState("");
   reactExports.useEffect(() => {
     const userLoggedIn = localStorage.getItem("adminLoggedIn");
+    const storedName = localStorage.getItem("adminName");
     if (userLoggedIn === "true") {
       setIsLoggedIn(true);
+      if (storedName) {
+        setUserName(storedName);
+      }
     }
   }, []);
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (name) => {
     localStorage.setItem("adminLoggedIn", "true");
+    localStorage.setItem("adminName", name);
+    setUserName(name);
     setIsLoggedIn(true);
   };
   const handleLogout = () => {
     localStorage.removeItem("adminLoggedIn");
+    localStorage.removeItem("adminName");
+    setUserName("");
     setIsLoggedIn(false);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isLoggedIn ? /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: handleLogout }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Login, { onLoginSuccess: handleLoginSuccess }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isLoggedIn ? (
+    // ড্যাশবোর্ডে নাম (userName) পাঠানো হলো
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: handleLogout, userName })
+  ) : /* @__PURE__ */ jsxRuntimeExports.jsx(Login, { onLoginSuccess: handleLoginSuccess }) });
 };
 const products = [
   {
