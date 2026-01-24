@@ -188,4 +188,99 @@
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+}.page-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* এই লেয়ারটি মাউস ইভেন্ট ব্লক করবে না */
+.login-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none; /* এটি জাদুর মতো কাজ করবে, মাউস ব্যাকগ্রাউন্ডে পৌঁছাবে */
+}
+
+/* কার্ডের এরিয়াতে মাউস কাজ করবে শুধুমাত্র ইনপুটের জন্য */
+.login-card {
+  position: relative;
+  width: 380px;
+  padding: 40px;
+  border-radius: 30px;
+  overflow: hidden;
+  /* মাউস ইভেন্ট এখানে সক্রিয় হবে যাতে ফর্ম ফিল আপ করা যায় */
+  pointer-events: auto; 
+  transition: transform 0.3s ease;
+}
+
+/* সুপার ট্রান্সপারেন্ট গ্লাস ইফেক্ট */
+.glass-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05); /* একদম হালকা সাদা */
+  backdrop-filter: blur(5px); /* ব্যাকগ্রাউন্ডের কণাগুলো হালকা ঘোলা দেখাবে */
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: -1;
+}
+
+.form-content h2 {
+  color: #fff;
+  text-align: center;
+  letter-spacing: 5px;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* বাটন এনিমেশন */
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+}
+
+.login-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+  transform: scale(1.02);
 }

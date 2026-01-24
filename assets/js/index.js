@@ -19877,25 +19877,16 @@ const UltimateBackground = () => {
     lastX: 0,
     lastY: 0,
     interactionType: "idle",
-    // idle, hover, click, hold, drag, release, doubleClick
     deviceType: "mouse"
-    // mouse or touch
   });
   const config = {
     particleCount: 100,
-    // খুব বেশি দিলে লোড বাড়বে, ১০০ পারফেক্ট
     connectionRadius: 120,
     baseSpeed: 0.5,
     colors: {
-      // ডিপ ব্ল্যাক
+      background: "#050505",
       primary: "#00f2ff",
-      // সায়ান
-      secondary: "#ff0055",
-      // ম্যাজেন্টা
-      tertiary: "#ccff00",
-      // লাইম গ্রিন (ডাবল ক্লিকে)
-      drag: "#ffffff"
-      // ড্র্যাগ করার সময় সাদা ট্রেইল
+      secondary: "#ff0055"
     }
   };
   reactExports.useEffect(() => {
@@ -19907,18 +19898,16 @@ const UltimateBackground = () => {
     const resize = () => {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      initParticles();
+      if (particles.length === 0) initParticles();
     };
     class Particle {
       constructor() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
+        this.x = Math.random() * window.innerWidth;
+        this.y = Math.random() * window.innerHeight;
         this.vx = (Math.random() - 0.5) * config.baseSpeed;
         this.vy = (Math.random() - 0.5) * config.baseSpeed;
         this.size = Math.random() * 2 + 1;
         this.color = config.colors.primary;
-        this.originalColor = config.colors.primary;
-        this.life = 1;
       }
       update(interaction) {
         this.x += this.vx;
@@ -19928,14 +19917,13 @@ const UltimateBackground = () => {
         const dx = interaction.x - this.x;
         const dy = interaction.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const forceDirectionX = dx / distance;
-        const forceDirectionY = dy / distance;
         if (distance < 200) {
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
           if (interaction.interactionType === "hover") {
             const force = (200 - distance) / 200;
             this.vx -= forceDirectionX * force * 0.5;
             this.vy -= forceDirectionY * force * 0.5;
-            this.color = config.colors.primary;
           }
           if (interaction.interactionType === "hold") {
             const force = (200 - distance) / 200;
@@ -19943,31 +19931,17 @@ const UltimateBackground = () => {
             this.vy += forceDirectionY * force * 1.5;
             this.color = config.colors.secondary;
           }
-          if (interaction.interactionType === "drag") {
-            this.vx += forceDirectionX * 2;
-            this.vy -= forceDirectionY * 2;
-            this.color = config.colors.drag;
-          }
+        } else {
+          this.color = config.colors.primary;
         }
-        if (interaction.interactionType === "release") {
-          this.vx *= 1.05;
-          this.vy *= 1.05;
-        }
-        if (interaction.interactionType === "doubleClick") {
-          this.color = config.colors.tertiary;
-          this.vx *= 1.1;
-          this.vy *= 1.1;
-        }
-        this.vx *= 0.98;
-        this.vy *= 0.98;
-        if (Math.abs(this.vx) < 0.2) this.vx = (Math.random() - 0.5) * 0.5;
-        if (Math.abs(this.vy) < 0.2) this.vy = (Math.random() - 0.5) * 0.5;
+        this.vx *= 0.99;
+        this.vy *= 0.99;
       }
-      draw(ctx2) {
-        ctx2.beginPath();
-        ctx2.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx2.fillStyle = this.color;
-        ctx2.fill();
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
       }
     }
     const initParticles = () => {
@@ -19977,160 +19951,58 @@ const UltimateBackground = () => {
       }
     };
     const animate = () => {
-      ctx.fillStyle = "rgba(5, 5, 5, 0.2)";
+      ctx.fillStyle = config.colors.background;
       ctx.fillRect(0, 0, w, h);
-      particles.forEach((particle, index) => {
-        particle.update(interactionRef.current);
-        particle.draw(ctx);
+      particles.forEach((p, index) => {
+        p.update(interactionRef.current);
+        p.draw();
         for (let j = index + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = particle.x - p2.x;
-          const dy = particle.y - p2.y;
+          const dx = p.x - particles[j].x;
+          const dy = p.y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < config.connectionRadius) {
             ctx.beginPath();
-            ctx.strokeStyle = particle.color === config.colors.tertiary ? `rgba(204, 255, 0, ${1 - dist / config.connectionRadius})` : `rgba(0, 242, 255, ${0.15 - dist / config.connectionRadius * 0.15})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(0, 242, 255, ${0.2 - dist / config.connectionRadius * 0.2})`;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
           }
         }
       });
-      if (interactionRef.current.interactionType === "release" || interactionRef.current.interactionType === "doubleClick") {
-        setTimeout(() => {
-          if (interactionRef.current.interactionType !== "hold") {
-            interactionRef.current.interactionType = "idle";
-          }
-        }, 500);
-      }
       animationFrameId = requestAnimationFrame(animate);
     };
-    const handleMouseMove = (e) => {
+    const handleMove = (e) => {
       interactionRef.current.x = e.clientX;
       interactionRef.current.y = e.clientY;
-      interactionRef.current.deviceType = "mouse";
-      if (interactionRef.current.isDown) {
-        interactionRef.current.interactionType = "drag";
-        interactionRef.current.isDragging = true;
-      } else {
-        interactionRef.current.interactionType = "hover";
-      }
+      if (!interactionRef.current.isDown) interactionRef.current.interactionType = "hover";
     };
-    const handleMouseDown = (e) => {
+    const handleDown = () => {
       interactionRef.current.isDown = true;
-      interactionRef.current.x = e.clientX;
-      interactionRef.current.y = e.clientY;
       interactionRef.current.interactionType = "hold";
     };
-    const handleMouseUp = () => {
+    const handleUp = () => {
       interactionRef.current.isDown = false;
-      interactionRef.current.isDragging = false;
-      interactionRef.current.interactionType = "release";
-    };
-    const handleDoubleClick = () => {
-      interactionRef.current.interactionType = "doubleClick";
-    };
-    const handleTouchStart = (e) => {
-      if (e.cancelable) e.preventDefault();
-      interactionRef.current.isDown = true;
-      interactionRef.current.x = e.touches[0].clientX;
-      interactionRef.current.y = e.touches[0].clientY;
-      interactionRef.current.deviceType = "touch";
-      interactionRef.current.interactionType = "hold";
-    };
-    const handleTouchMove = (e) => {
-      if (e.cancelable) e.preventDefault();
-      interactionRef.current.x = e.touches[0].clientX;
-      interactionRef.current.y = e.touches[0].clientY;
-      interactionRef.current.interactionType = "drag";
-      interactionRef.current.isDragging = true;
-    };
-    const handleTouchEnd = () => {
-      interactionRef.current.isDown = false;
-      interactionRef.current.isDragging = false;
-      interactionRef.current.interactionType = "release";
-    };
-    let lastTap = 0;
-    const handleTap = (e) => {
-      const currentTime = (/* @__PURE__ */ new Date()).getTime();
-      const tapLength = currentTime - lastTap;
-      if (tapLength < 500 && tapLength > 0) {
-        interactionRef.current.interactionType = "doubleClick";
-        if (e.cancelable) e.preventDefault();
-      }
-      lastTap = currentTime;
+      interactionRef.current.interactionType = "idle";
     };
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("dblclick", handleDoubleClick);
-    canvas.addEventListener("touchstart", (e) => {
-      handleTouchStart(e);
-      handleTap(e);
-    }, { passive: false });
-    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
-    canvas.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mousedown", handleDown);
+    window.addEventListener("mouseup", handleUp);
     resize();
     animate();
     return () => {
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("dblclick", handleDoubleClick);
-      canvas.removeEventListener("touchstart", handleTouchStart);
-      canvas.removeEventListener("touchmove", handleTouchMove);
-      canvas.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mousedown", handleDown);
+      window.removeEventListener("mouseup", handleUp);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
-        body, html {
-          margin: 0;
-          padding: 0;
-          overflow: hidden; /* স্ক্রলবার যাতে না আসে */
-          background-color: #050505;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .canvas-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          z-index: -1; /* ব্যাকগ্রাউন্ড হিসেবে রাখার জন্য */
-        }
-
-        /* প্রিমিয়াম ভিনেট ইফেক্ট (কোণাগুলো অন্ধকার দেখাবে) */
-        .vignette {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none; /* যাতে মাউস ক্লিক ক্যানভাসে পৌঁছায় */
-          background: radial-gradient(circle, transparent 40%, #000000 100%);
-          z-index: 0;
-        }
-
-        /* ডেমো টেক্সট - শুধু বোঝানোর জন্য যে ব্যাকগ্রাউন্ড কাজ করছে */
-        .content-placeholder {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          color: rgba(255, 255, 255, 0.1);
-          font-size: 2rem;
-          pointer-events: none;
-          text-transform: uppercase;
-          letter-spacing: 10px;
-          text-align: center;
-          font-weight: 300;
-        }
+        .canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: radial-gradient(circle, transparent 40%, #000000 100%); z-index: 0; }
+        .content-placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255, 255, 255, 0.1); font-size: 2rem; pointer-events: none; text-transform: uppercase; letter-spacing: 10px; font-weight: 300; z-index: 1; }
       ` }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "canvas-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "vignette" }),
@@ -20146,18 +20018,14 @@ const InteractiveBackground$1 = () => {
     let particles = [];
     let animationFrameId;
     const config = {
-      particleCount: window.innerWidth < 768 ? 60 : 120,
-      connectionRadius: 120,
+      particleCount: window.innerWidth < 768 ? 80 : 150,
+      // লাইন বাড়াতে সংখ্যা কিছুটা বাড়ানো হলো
+      connectionRadius: 130,
       baseSpeed: 0.6,
       color: { r: 100, g: 255, b: 218 },
       secondaryColor: { r: 168, g: 85, b: 247 }
     };
-    const input = {
-      x: null,
-      y: null,
-      isDown: false,
-      isDragging: false
-    };
+    const input = { x: null, y: null, isDown: false, isDragging: false };
     const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -20173,11 +20041,8 @@ const InteractiveBackground$1 = () => {
         this.size = type === "base" ? Math.random() * 2 + 1 : Math.random() * 4 + 2;
         this.life = type === "burst" ? 1 : 100;
         this.type = type;
-        if (Math.random() > 0.5) {
-          this.color = `rgba(${config.color.r}, ${config.color.g}, ${config.color.b},`;
-        } else {
-          this.color = `rgba(${config.secondaryColor.r}, ${config.secondaryColor.g}, ${config.secondaryColor.b},`;
-        }
+        const c = Math.random() > 0.5 ? config.color : config.secondaryColor;
+        this.color = `rgba(${c.r}, ${c.g}, ${c.b},`;
       }
       update() {
         this.x += this.vx;
@@ -20196,20 +20061,8 @@ const InteractiveBackground$1 = () => {
             this.y += dy / distance * 3;
           }
         }
-        if (this.x + this.size > width) {
-          this.x = width - this.size;
-          this.vx *= -1;
-        } else if (this.x - this.size < 0) {
-          this.x = this.size;
-          this.vx *= -1;
-        }
-        if (this.y + this.size > height) {
-          this.y = height - this.size;
-          this.vy *= -1;
-        } else if (this.y - this.size < 0) {
-          this.y = this.size;
-          this.vy *= -1;
-        }
+        if (this.x + this.size > width || this.x - this.size < 0) this.vx *= -1;
+        if (this.y + this.size > height || this.y - this.size < 0) this.vy *= -1;
         if (this.type !== "base") {
           this.life -= 0.02;
           this.size -= 0.05;
@@ -20224,12 +20077,6 @@ const InteractiveBackground$1 = () => {
         ctx.fill();
       }
     }
-    const initParticles = () => {
-      particles = [];
-      for (let i = 0; i < config.particleCount; i++) {
-        particles.push(new Particle());
-      }
-    };
     const spawnParticles = (x, y, count, type, speedMultiplier = 1) => {
       for (let i = 0; i < count; i++) {
         const p = new Particle(x, y, type);
@@ -20267,57 +20114,55 @@ const InteractiveBackground$1 = () => {
           i--;
         }
       }
-      const baseParticles = particles.filter((p) => p.type === "base").length;
-      if (baseParticles < config.particleCount) {
+      if (particles.filter((p) => p.type === "base").length < config.particleCount) {
         particles.push(new Particle(null, null, "base"));
       }
       animationFrameId = requestAnimationFrame(animate);
     };
-    const onMouseMove = (e) => {
-      input.x = e.clientX;
-      input.y = e.clientY;
+    const onMove = (e) => {
+      const x = e.clientX || e.touches && e.touches[0].clientX;
+      const y = e.clientY || e.touches && e.touches[0].clientY;
+      input.x = x;
+      input.y = y;
       if (input.isDown) {
         input.isDragging = true;
-        if (Math.random() > 0.8) spawnParticles(input.x, input.y, 1, "trail", 0.5);
+        if (Math.random() > 0.8) spawnParticles(x, y, 1, "trail", 0.5);
       }
     };
-    const onMouseDown = (e) => {
+    const onDown = (e) => {
       input.isDown = true;
-      input.x = e.clientX;
-      input.y = e.clientY;
-      spawnParticles(input.x, input.y, 5, "burst", 0.5);
+      const x = e.clientX || e.touches && e.touches[0].clientX;
+      const y = e.clientY || e.touches && e.touches[0].clientY;
+      input.x = x;
+      input.y = y;
+      spawnParticles(x, y, 8, "burst", 0.6);
     };
-    const onMouseUp = () => {
-      if (!input.isDragging && input.x) spawnParticles(input.x, input.y, 15, "burst", 2);
+    const onUp = () => {
+      if (!input.isDragging && input.x) spawnParticles(input.x, input.y, 20, "burst", 2);
       input.isDown = false;
       input.isDragging = false;
     };
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchstart", onDown, { passive: false });
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchend", onUp);
     handleResize();
-    initParticles();
     animate();
     return () => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchstart", onDown);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  const containerStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "#020617",
-    zIndex: -1,
-    overflow: "hidden"
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle, children: /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: "100%" } }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", backgroundColor: "#020617", zIndex: -1, pointerEvents: "none" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: "100%" } }) });
 };
 const InteractiveBackground = () => {
   const canvasRef = reactExports.useRef(null);
@@ -20765,8 +20610,34 @@ const Background = () => {
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SelectedBackground, {}) });
 };
+const Login = () => {
+  const [formData, setFormData] = reactExports.useState({
+    name: "",
+    phone: "",
+    password: ""
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted:", formData);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "page-wrapper", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "login-overlay", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "login-card", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-effect" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "LOGIN" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "text", placeholder: "Name", required: true }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "tel", placeholder: "Phone Number", required: true }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "password", placeholder: "Password", required: true }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "login-btn", children: "Enter Space" })
+        ] })
+      ] })
+    ] }) })
+  ] });
+};
 const B_Baria = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Login, {}) });
 };
 const products = [
   {
