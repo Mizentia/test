@@ -283,4 +283,285 @@
   background: #fff;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
   transform: scale(1.02);
+}/* স্লাইডবার বা হরাইজন্টাল স্ক্রলবার প্রতিরোধ করার জন্য */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Navigation Main Container --- */
+.glass-nav-system {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  width: 100%;
+  padding: 10px 24px;
+  /* গ্লাস মর্ফিজম ইফেক্ট */
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(2px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* --- Brand/Logo Styling --- */
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+}
+
+.brand-info h1 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  line-height: 1;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #60a5fa, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-info p {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 3px 0 0 0;
+}
+
+/* --- Central Clock Styling --- */
+.nav-clock-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* ক্লকের ওপর ক্লিক যাতে বাটন আটকায় না */
+}
+
+.clock-glass-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(2px);
+}
+
+.clock-date-bn {
+  font-size: 12px;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.clock-v-line {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.clock-time-bn {
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+/* --- Desktop Action Buttons --- */
+.desktop-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.logout-action-btn {
+  height: 40px;
+  padding: 0 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #fca5a5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-action-btn:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* --- Mobile Menu Trigger --- */
+.mobile-menu-trigger {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 2001;
+}
+
+/* --- Floating Compact Drawer Menu --- */
+.floating-drawer {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 24px;
+  width: 200px; /* কম্প্যাক্ট সাইজ */
+  background: rgba(15, 23, 42, 0.663);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  
+  /* Animation States */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3000;
+}
+
+.floating-drawer.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.drawer-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 12px;
+  padding-left: 8px;
+  letter-spacing: 1.5px;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #e2e8f0;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.drawer-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.item-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-red {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* --- Responsive Scaling Logic --- */
+
+/* ১. স্ক্রিন যখন ৮৮০px এর নিচে (ট্যাবলেট বা ছোট ল্যাপটপ): ঘড়ি সরিয়ে ফেলব যাতে বাটন জায়গা পায় */
+@media (max-width: 880px) {
+  .nav-clock-center {
+    display: none;
+  }
+}
+
+/* ২. স্ক্রিন যখন ৫৮০px এর নিচে (মোবাইল): বাটন সরিয়ে টগল মেনু আনব */
+@media (max-width: 580px) {
+  .desktop-actions-row {
+    display: none;
+  }
+  .mobile-menu-trigger {
+    display: block;
+  }
+  .glass-nav-system {
+    padding: 10px 16px;
+  }
+  .floating-drawer {
+    right: 16px;
+    width: 180px;
+  }
 }

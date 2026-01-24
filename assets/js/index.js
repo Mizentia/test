@@ -15260,7 +15260,7 @@ const __iconNode = [
   ]
 ];
 const Zap = createLucideIcon("zap", __iconNode);
-const Navbar$2 = ({ scrolled }) => {
+const Navbar$3 = ({ scrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: `navbar ${scrolled ? "scrolled" : ""}`, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "logo", onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }), children: [
@@ -15325,7 +15325,7 @@ function MizentiaMain() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app-container", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, { scrolled }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$3, { scrolled }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "hero", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { children: [
         "ভবিষ্যৎ গড়ুন ",
@@ -15875,7 +15875,7 @@ const FadeInSection = ({ children, delay = 0 }) => {
     }
   );
 };
-const Navbar$1 = () => {
+const Navbar$2 = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -16084,7 +16084,7 @@ function App$3() {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: cssStyles }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "app", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$2, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Hero$1, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Services, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Stats, {}),
@@ -18226,7 +18226,7 @@ body {
   .video-player { padding-bottom: 56.25%; }
 }
 `;
-const Navbar = () => {
+const Navbar$1 = () => {
   const [scrolled, setScrolled] = reactExports.useState(false);
   const [mobileMenu, setMobileMenu] = reactExports.useState(false);
   reactExports.useEffect(() => {
@@ -18419,7 +18419,7 @@ const App$1 = () => {
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Hero, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Categories, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "20px" }, children: [
@@ -20610,15 +20610,23 @@ const Background = () => {
   }, []);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SelectedBackground, {}) });
 };
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = reactExports.useState({
     name: "",
-    phone: "",
     password: ""
   });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted:", formData);
+    if (formData.password === "M~R.88@Mizhan.25") {
+      console.log("Login Successful");
+      onLoginSuccess();
+    } else {
+      alert("ভুল পাসওয়ার্ড! অ্যাক্সেস ডিনাইড।");
+    }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "page-wrapper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
@@ -20627,17 +20635,164 @@ const Login = () => {
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-content", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "LOGIN" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "text", placeholder: "Name", required: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "tel", placeholder: "Phone Number", required: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "password", placeholder: "Password", required: true }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "text",
+              name: "name",
+              placeholder: "Name",
+              onChange: handleChange,
+              required: true
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "password",
+              name: "password",
+              placeholder: "Password",
+              onChange: handleChange,
+              required: true
+            }
+          ) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "login-btn", children: "Enter Space" })
         ] })
       ] })
     ] }) })
   ] });
 };
+const Navbar = ({ onOpenHistory, onOpenSettings, onLogout }) => {
+  const [time, setTime] = reactExports.useState(/* @__PURE__ */ new Date());
+  const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
+  const menuRef = reactExports.useRef(null);
+  const toggleBtnRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    const timer = setInterval(() => setTime(/* @__PURE__ */ new Date()), 1e3);
+    return () => clearInterval(timer);
+  }, []);
+  reactExports.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target) && toggleBtnRef.current && !toggleBtnRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+  const formatDate = (date) => {
+    return date.toLocaleDateString("bn-BD", { year: "numeric", month: "long", day: "numeric" });
+  };
+  const formatTime = (date) => {
+    return date.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+  };
+  const Icons = {
+    Logo: () => /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" }) }),
+    History: () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "12 6 12 12 16 14" })
+    ] }),
+    Settings: () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" })
+    ] }),
+    Logout: () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "16 17 21 12 16 7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "21", y1: "12", x2: "9", y2: "12" })
+    ] }),
+    Menu: () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "3", y1: "12", x2: "21", y2: "12" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "3", y1: "18", x2: "21", y2: "18" })
+    ] }),
+    Close: () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "28", height: "28", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "6", y1: "6", x2: "18", y2: "18" })
+    ] })
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("nav", { className: "glass-nav-system", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "nav-wrapper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "brand-section", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "logo-box", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Logo, {}) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "brand-info", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { children: [
+            "B - ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: "Baria" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Admin Dashboard" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "nav-clock-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "clock-glass-card", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "clock-date-bn", children: formatDate(time) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "clock-v-line" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "clock-time-bn", children: formatTime(time) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-actions-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenHistory, title: "লেনদেনের ইতিহাস", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.History, {}) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenSettings, title: "সেটিংস", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Settings, {}) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "logout-action-btn", onClick: onLogout, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Logout, {}),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লগআউট" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          ref: toggleBtnRef,
+          className: "mobile-menu-trigger",
+          onClick: () => setIsMenuOpen(!isMenuOpen),
+          children: isMenuOpen ? /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Close, {}) : /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Menu, {})
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: menuRef, className: `floating-drawer ${isMenuOpen ? "active" : ""}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "drawer-title", children: "কুইক মেনু" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "drawer-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item", onClick: () => {
+          onOpenHistory();
+          setIsMenuOpen(false);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.History, {}) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "হিস্টরি" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item", onClick: () => {
+          onOpenSettings();
+          setIsMenuOpen(false);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Settings, {}) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "সেটিংস" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item logout-red", onClick: onLogout, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Logout, {}) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লগআউট" })
+        ] })
+      ] })
+    ] })
+  ] });
+};
+const Dashboard = ({ onLogout }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout })
+  ] });
+};
 const B_Baria = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Login, {}) });
+  const [isLoggedIn, setIsLoggedIn] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    const userLoggedIn = localStorage.getItem("adminLoggedIn");
+    if (userLoggedIn === "true") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  const handleLoginSuccess = () => {
+    localStorage.setItem("adminLoggedIn", "true");
+    setIsLoggedIn(true);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("adminLoggedIn");
+    setIsLoggedIn(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isLoggedIn ? /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: handleLogout }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Login, { onLoginSuccess: handleLoginSuccess }) });
 };
 const products = [
   {
