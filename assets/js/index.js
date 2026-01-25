@@ -20776,15 +20776,15 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
     ] })
   ] });
 };
-const statsContainer = "_statsContainer_nbtfc_1";
-const statCard = "_statCard_nbtfc_17";
-const dragging = "_dragging_nbtfc_53";
-const placeholder = "_placeholder_nbtfc_63";
-const cardIconBg = "_cardIconBg_nbtfc_75";
-const cardHeader = "_cardHeader_nbtfc_95";
-const grip = "_grip_nbtfc_115";
-const cardValue = "_cardValue_nbtfc_127";
-const cardSub = "_cardSub_nbtfc_139";
+const statsContainer = "_statsContainer_ou82b_1";
+const statCard = "_statCard_ou82b_17";
+const dragging = "_dragging_ou82b_53";
+const placeholder = "_placeholder_ou82b_63";
+const cardIconBg = "_cardIconBg_ou82b_75";
+const cardHeader = "_cardHeader_ou82b_95";
+const grip = "_grip_ou82b_115";
+const cardValue = "_cardValue_ou82b_127";
+const cardSub = "_cardSub_ou82b_139";
 const styles = {
   statsContainer,
   statCard,
@@ -20807,8 +20807,8 @@ const icons = {
 const Icon = ({ name, className }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, children: icons[name] || null });
 };
-const useDragAndDrop = (initialData) => {
-  const [items, setItems] = reactExports.useState(initialData);
+const useDragAndDrop = (initialItems) => {
+  const [items, setItems] = reactExports.useState(initialItems);
   const [draggedIdx, setDraggedIdx] = reactExports.useState(null);
   const [overIdx, setOverIdx] = reactExports.useState(null);
   const handleDragStart = (index) => {
@@ -20816,16 +20816,17 @@ const useDragAndDrop = (initialData) => {
   };
   const handleDragOver = (e, index) => {
     e.preventDefault();
-    if (index !== draggedIdx) {
-      setOverIdx(index);
-    }
+    setOverIdx(index);
   };
   const handleDrop = () => {
-    if (draggedIdx === null || overIdx === null) return;
-    const updatedList = [...items];
-    const draggedItem = updatedList.splice(draggedIdx, 1)[0];
-    updatedList.splice(overIdx, 0, draggedItem);
-    setItems(updatedList);
+    if (draggedIdx === null || overIdx === null || draggedIdx === overIdx) {
+      return;
+    }
+    const newItems = [...items];
+    const draggedItem = newItems[draggedIdx];
+    newItems.splice(draggedIdx, 1);
+    newItems.splice(overIdx, 0, draggedItem);
+    setItems(newItems);
     setDraggedIdx(null);
     setOverIdx(null);
   };
