@@ -565,7 +565,7 @@ body {
     width: 180px;
   }
 }/* StatsCards.module.css */
-._statsContainer_1aytd_3 {
+._statsContainer_1p6mk_3 {
   display: flex;
   flex-direction: column; /* উপর থেকে নিচে সাজানো */
   gap: 16px;              /* কার্ডগুলোর মাঝখানের গ্যাপ */
@@ -575,14 +575,18 @@ body {
   width: 320px;           /* কার্ডের জন্য ফিক্সড উইডথ */
   min-width: 300px;       /* খুব বেশি ছোট যাতে না হয়ে যায় */
   height: 100%;           /* পুরো হাইট নেবে */
-  overflow-y: auto;       /* কার্ড বেশি হলে শুধু এই অংশটুকু স্ক্রল হবে */
+  
+  /* --- ফিক্স: স্ক্রলবার সমস্যার সমাধান --- */
+  overflow-y: auto;       /* লম্বালম্বি স্ক্রল থাকবে */
+  overflow-x: hidden;     /* আড়াআড়ি স্ক্রল বা হরাইজন্টাল বার বন্ধ থাকবে */
+  /* ----------------------------------- */
   
   /* ডান পাশে বর্ডার (অপশনাল, সেপারেশনের জন্য) */
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   box-sizing: border-box; /* প্যাডিং সহ উইডথ হিসাব করবে */
 }
 
-._statCard_1aytd_37 {
+._statCard_1p6mk_45 {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(12px);
@@ -599,16 +603,16 @@ body {
   box-sizing: border-box;
 }
 
-._statCard_1aytd_37:hover {
+._statCard_1p6mk_45:hover {
   background: rgba(255, 255, 255, 0.08);
   transform: translateX(5px); /* হোভার করলে একটু ডানে সরবে */
 }
 
-._statCard_1aytd_37:active {
+._statCard_1p6mk_45:active {
   transform: scale(0.98);
 }
 
-._cardIconBg_1aytd_89 {
+._cardIconBg_1p6mk_97 {
   position: absolute;
   right: 10px;
   top: 50%;
@@ -619,7 +623,7 @@ body {
   pointer-events: none;
 }
 
-._cardHeader_1aytd_111 {
+._cardHeader_1p6mk_119 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -629,24 +633,144 @@ body {
   margin-bottom: 8px;
 }
 
-._grip_1aytd_131 {
+._grip_1p6mk_139 {
   width: 14px;
   height: 14px;
   opacity: 0.4;
   cursor: grab;
 }
 
-._grip_1aytd_131:active {
+._grip_1p6mk_139:active {
   cursor: grabbing;
 }
 
-._cardValue_1aytd_153 {
+._cardValue_1p6mk_161 {
   font-size: 1.4rem; /* ফন্ট সাইজ সামান্য এডজাস্ট করা হয়েছে */
   font-weight: 700;
   margin-bottom: 4px;
 }
 
-._cardSub_1aytd_165 {
+._cardSub_1p6mk_173 {
   font-size: 0.75rem;
   color: #94a3b8;
+}/* Dashboard.module.css */
+
+/* মেইন কন্টেইনার */
+._container_1rxqa_7 {
+  display: flex;
+  height: calc(100vh - 80px); /* ন্যাভবার বাদ দিয়ে বাকি হাইট, প্রয়োজনমতো এডজাস্ট করুন */
+  background: transparent;
+  color: #e2e8f0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* সাইডবার এরিয়া */
+._sidebar_1rxqa_29 {
+  flex: 0 0 auto;
+  z-index: 10;
+  background: rgba(15, 23, 42, 0.462); 
+  backdrop-filter: blur(1px);
+  border-right: 1px solid rgba(255, 255, 255, 0.39);
+  /* ডিফল্ট উইডথ */
+  width: 320px; 
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ডান পাশের গ্লাস ইফেক্ট কন্টেইনার */
+._glassContent_1rxqa_55 {
+  flex: 1;
+  margin: 20px;
+  border-radius: 20px;
+  padding: 30px;
+  overflow-y: auto;
+  position: relative;
+  
+  /* --- গ্লাস ইফেক্ট কোর --- */
+  backdrop-filter: blur(5px); /* ব্লার একটু বাড়ানো হয়েছে কন্টেন্ট পড়ার সুবিধার্থে */
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  
+  border: 1px solid color-mix(in srgb, var(--theme-color), transparent 70%);
+  
+  background: linear-gradient(
+    145deg, 
+    rgba(255, 255, 255, 0.03), 
+    color-mix(in srgb, var(--theme-color), transparent 90%) 
+  );
+
+  transition: all 0.4s ease;
+  animation: _fadeIn_1rxqa_1 0.3s ease-out; /* কন্টেন্ট আসার সময় সুন্দর এনিমেশন */
+}
+
+/* হেডার ফ্লেক্স কন্টেইনার (টাইটেল এবং ক্লোজ বাটন পাশাপাশি রাখার জন্য) */
+._contentHeaderRow_1rxqa_107 {
+  display: flex;
+  justify_content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+._glassHeader_1rxqa_125 {
+  color: var(--theme-color);
+  margin: 0;
+  font-size: 1.5rem;
+  /* বর্ডার এখান থেকে সরিয়ে .contentHeaderRow তে নেওয়া হয়েছে */
+}
+
+/* ক্লোজ বাটন স্টাইল */
+._closeBtn_1rxqa_141 {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ef4444; /* লাল রং */
+  width: 36px;
+  height: 36px;
+  border-radius: 8px; /* উইন্ডোজ স্টাইলের জন্য চাইলে 0 বা 4px দিতে পারেন */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+._closeBtn_1rxqa_141:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* কন্টেন্ট এনিমেশন */
+@keyframes _fadeIn_1rxqa_1 {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- রেসপন্সিভ ব্রেকপয়েন্ট (মোবাইল/ট্যাবলেট) --- */
+@media (max-width: 880px) {
+  
+  /* মোবাইলে সাইডবার পুরো উইডথ নেবে */
+  ._sidebar_1rxqa_29 {
+    width: 100%; 
+    border-right: none;
+    background: transparent; /* মোবাইলে ব্যাকগ্রাউন্ড স্বচ্ছ রাখলে সুন্দর লাগবে */
+  }
+
+  /* মোবাইলে কন্টেন্ট বক্সের মার্জিন এবং বর্ডার রেডিয়াস কমানো */
+  ._glassContent_1rxqa_55 {
+    margin: 0;       /* মার্জিন বাদ, ফুল স্ক্রিন */
+    border-radius: 0;/* চারকোনা */
+    padding: 20px;
+    height: 100%;    /* পুরো হাইট */
+    border: none;    /* বর্ডার বাদ দিতে পারেন মোবাইলে ক্লিন লুকের জন্য */
+    border-top: 1px solid rgba(255,255,255,0.1); /* শুধু উপরে বর্ডার */
+  }
+
+  ._contentHeaderRow_1rxqa_107 {
+    padding-top: 10px; /* উপরে একটু জায়গা */
+  }
 }

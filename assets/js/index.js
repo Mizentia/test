@@ -823,11 +823,11 @@ function requireReactDom_production() {
       return "use-credentials" === input ? input : "";
   }
   reactDom_production.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = Internals;
-  reactDom_production.createPortal = function(children, container) {
+  reactDom_production.createPortal = function(children, container2) {
     var key = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : null;
-    if (!container || 1 !== container.nodeType && 9 !== container.nodeType && 11 !== container.nodeType)
+    if (!container2 || 1 !== container2.nodeType && 9 !== container2.nodeType && 11 !== container2.nodeType)
       throw Error(formatProdErrorMessage(299));
-    return createPortal$1(children, container, null, key);
+    return createPortal$1(children, container2, null, key);
   };
   reactDom_production.flushSync = function(fn) {
     var previousTransition = ReactSharedInternals.T, previousUpdatePriority = Internals.p;
@@ -9812,8 +9812,8 @@ function requireReactDomClient_production() {
         if (null === targetInst$jscomp$0) return;
         var nodeTag = targetInst$jscomp$0.tag;
         if (3 === nodeTag || 4 === nodeTag) {
-          var container = targetInst$jscomp$0.stateNode.containerInfo;
-          if (container === targetContainer) break;
+          var container2 = targetInst$jscomp$0.stateNode.containerInfo;
+          if (container2 === targetContainer) break;
           if (4 === nodeTag)
             for (nodeTag = targetInst$jscomp$0.return; null !== nodeTag; ) {
               var grandTag = nodeTag.tag;
@@ -9821,15 +9821,15 @@ function requireReactDomClient_production() {
                 return;
               nodeTag = nodeTag.return;
             }
-          for (; null !== container; ) {
-            nodeTag = getClosestInstanceFromNode(container);
+          for (; null !== container2; ) {
+            nodeTag = getClosestInstanceFromNode(container2);
             if (null === nodeTag) return;
             grandTag = nodeTag.tag;
             if (5 === grandTag || 6 === grandTag || 26 === grandTag || 27 === grandTag) {
               targetInst$jscomp$0 = ancestorInst = nodeTag;
               continue a;
             }
-            container = container.parentNode;
+            container2 = container2.parentNode;
           }
         }
         targetInst$jscomp$0 = targetInst$jscomp$0.return;
@@ -11067,8 +11067,8 @@ function requireReactDomClient_production() {
       node = nextNode;
     } while (node);
   }
-  function clearContainerSparingly(container) {
-    var nextNode = container.firstChild;
+  function clearContainerSparingly(container2) {
+    var nextNode = container2.firstChild;
     nextNode && 10 === nextNode.nodeType && (nextNode = nextNode.nextSibling);
     for (; nextNode; ) {
       var node = nextNode;
@@ -11086,7 +11086,7 @@ function requireReactDomClient_production() {
         case "LINK":
           if ("stylesheet" === node.rel.toLowerCase()) continue;
       }
-      container.removeChild(node);
+      container2.removeChild(node);
     }
   }
   function canHydrateInstance(instance, type, props, inRootOrSingleton) {
@@ -11237,8 +11237,8 @@ function requireReactDomClient_production() {
     detachDeletedInstance(instance);
   }
   var preloadPropsMap = /* @__PURE__ */ new Map(), preconnectsSet = /* @__PURE__ */ new Set();
-  function getHoistableRoot(container) {
-    return "function" === typeof container.getRootNode ? container.getRootNode() : 9 === container.nodeType ? container : container.ownerDocument;
+  function getHoistableRoot(container2) {
+    return "function" === typeof container2.getRootNode ? container2.getRootNode() : 9 === container2.nodeType ? container2 : container2.ownerDocument;
   }
   var previousDispatcher = ReactDOMSharedInternals.d;
   ReactDOMSharedInternals.d = {
@@ -11813,14 +11813,14 @@ function requireReactDomClient_production() {
     parentComponent = emptyContextObject;
     return parentComponent;
   }
-  function updateContainerImpl(rootFiber, lane, element, container, parentComponent, callback) {
+  function updateContainerImpl(rootFiber, lane, element, container2, parentComponent, callback) {
     parentComponent = getContextForSubtree(parentComponent);
-    null === container.context ? container.context = parentComponent : container.pendingContext = parentComponent;
-    container = createUpdate(lane);
-    container.payload = { element };
+    null === container2.context ? container2.context = parentComponent : container2.pendingContext = parentComponent;
+    container2 = createUpdate(lane);
+    container2.payload = { element };
     callback = void 0 === callback ? null : callback;
-    null !== callback && (container.callback = callback);
-    element = enqueueUpdate(rootFiber, container, lane);
+    null !== callback && (container2.callback = callback);
+    element = enqueueUpdate(rootFiber, container2, lane);
     null !== element && (scheduleUpdateOnFiber(element, rootFiber, lane), entangleTransitions(element, rootFiber, lane));
   }
   function markRetryLaneImpl(fiber, retryLane) {
@@ -11851,22 +11851,22 @@ function requireReactDomClient_production() {
     }
   }
   var _enabled = true;
-  function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+  function dispatchDiscreteEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
     var prevTransition = ReactSharedInternals.T;
     ReactSharedInternals.T = null;
     var previousPriority = ReactDOMSharedInternals.p;
     try {
-      ReactDOMSharedInternals.p = 2, dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+      ReactDOMSharedInternals.p = 2, dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
     } finally {
       ReactDOMSharedInternals.p = previousPriority, ReactSharedInternals.T = prevTransition;
     }
   }
-  function dispatchContinuousEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+  function dispatchContinuousEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
     var prevTransition = ReactSharedInternals.T;
     ReactSharedInternals.T = null;
     var previousPriority = ReactDOMSharedInternals.p;
     try {
-      ReactDOMSharedInternals.p = 8, dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+      ReactDOMSharedInternals.p = 8, dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
     } finally {
       ReactDOMSharedInternals.p = previousPriority, ReactSharedInternals.T = prevTransition;
     }
@@ -12342,10 +12342,10 @@ function requireReactDomClient_production() {
     var root2 = this._internalRoot;
     if (null !== root2) {
       this._internalRoot = null;
-      var container = root2.containerInfo;
+      var container2 = root2.containerInfo;
       updateContainerImpl(root2.current, 2, null, root2, null, null);
       flushSyncWork$1();
-      container[internalContainerInstanceKey] = null;
+      container2[internalContainerInstanceKey] = null;
     }
   };
   function ReactDOMHydrationRoot(internalRoot) {
@@ -12399,12 +12399,12 @@ function requireReactDomClient_production() {
       } catch (err) {
       }
   }
-  reactDomClient_production.createRoot = function(container, options2) {
-    if (!isValidContainer(container)) throw Error(formatProdErrorMessage(299));
+  reactDomClient_production.createRoot = function(container2, options2) {
+    if (!isValidContainer(container2)) throw Error(formatProdErrorMessage(299));
     var isStrictMode = false, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError;
     null !== options2 && void 0 !== options2 && (true === options2.unstable_strictMode && (isStrictMode = true), void 0 !== options2.identifierPrefix && (identifierPrefix = options2.identifierPrefix), void 0 !== options2.onUncaughtError && (onUncaughtError = options2.onUncaughtError), void 0 !== options2.onCaughtError && (onCaughtError = options2.onCaughtError), void 0 !== options2.onRecoverableError && (onRecoverableError = options2.onRecoverableError));
     options2 = createFiberRoot(
-      container,
+      container2,
       1,
       false,
       null,
@@ -12417,16 +12417,16 @@ function requireReactDomClient_production() {
       onRecoverableError,
       defaultOnDefaultTransitionIndicator
     );
-    container[internalContainerInstanceKey] = options2.current;
-    listenToAllSupportedEvents(container);
+    container2[internalContainerInstanceKey] = options2.current;
+    listenToAllSupportedEvents(container2);
     return new ReactDOMRoot(options2);
   };
-  reactDomClient_production.hydrateRoot = function(container, initialChildren, options2) {
-    if (!isValidContainer(container)) throw Error(formatProdErrorMessage(299));
+  reactDomClient_production.hydrateRoot = function(container2, initialChildren, options2) {
+    if (!isValidContainer(container2)) throw Error(formatProdErrorMessage(299));
     var isStrictMode = false, identifierPrefix = "", onUncaughtError = defaultOnUncaughtError, onCaughtError = defaultOnCaughtError, onRecoverableError = defaultOnRecoverableError, formState = null;
     null !== options2 && void 0 !== options2 && (true === options2.unstable_strictMode && (isStrictMode = true), void 0 !== options2.identifierPrefix && (identifierPrefix = options2.identifierPrefix), void 0 !== options2.onUncaughtError && (onUncaughtError = options2.onUncaughtError), void 0 !== options2.onCaughtError && (onCaughtError = options2.onCaughtError), void 0 !== options2.onRecoverableError && (onRecoverableError = options2.onRecoverableError), void 0 !== options2.formState && (formState = options2.formState));
     initialChildren = createFiberRoot(
-      container,
+      container2,
       1,
       true,
       initialChildren,
@@ -12450,8 +12450,8 @@ function requireReactDomClient_production() {
     initialChildren.current.lanes = options2;
     markRootUpdated$1(initialChildren, options2);
     ensureRootIsScheduled(initialChildren);
-    container[internalContainerInstanceKey] = initialChildren.current;
-    listenToAllSupportedEvents(container);
+    container2[internalContainerInstanceKey] = initialChildren.current;
+    listenToAllSupportedEvents(container2);
     return new ReactDOMHydrationRoot(initialChildren);
   };
   reactDomClient_production.version = "19.2.3";
@@ -17670,7 +17670,7 @@ const App$2 = () => {
     ] }) })
   ] });
 };
-const styles$1 = `
+const styles$2 = `
 :root {
   --primary: #e50914;
   --dark-bg: #0f0f0f;
@@ -18418,7 +18418,7 @@ const App$1 = () => {
     { id: 5, title: "অ্যাকশন", img: "https://images.unsplash.com/photo-1552083855-e518817a69a0?q=80&w=1000&auto=format&fit=crop" }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles$1 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styles$2 }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar$1, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Hero, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Categories, {}),
@@ -28452,14 +28452,14 @@ function ReorderItemComponent({ children, style = {}, value, as = "li", onDrag, 
   }, ref: externalRef, ignoreStrict: true, children });
 }
 const ReorderItem = /* @__PURE__ */ reactExports.forwardRef(ReorderItemComponent);
-const statsContainer = "_statsContainer_1aytd_3";
-const statCard = "_statCard_1aytd_37";
-const cardIconBg = "_cardIconBg_1aytd_89";
-const cardHeader = "_cardHeader_1aytd_111";
-const grip = "_grip_1aytd_131";
-const cardValue = "_cardValue_1aytd_153";
-const cardSub = "_cardSub_1aytd_165";
-const styles = {
+const statsContainer = "_statsContainer_1p6mk_3";
+const statCard = "_statCard_1p6mk_45";
+const cardIconBg = "_cardIconBg_1p6mk_97";
+const cardHeader = "_cardHeader_1p6mk_119";
+const grip = "_grip_1p6mk_139";
+const cardValue = "_cardValue_1p6mk_161";
+const cardSub = "_cardSub_1p6mk_173";
+const styles$1 = {
   statsContainer,
   statCard,
   cardIconBg,
@@ -28479,13 +28479,6 @@ const icons = {
 const Icon = ({ name, className, ...props }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, ...props, children: icons[name] || null });
 };
-const initialCards = [
-  { id: "1", key: "capital", title: "মোট মূলধন", value: "৳ ১,৫০,০০০", sub: "ক্যাশ + ব্যালেন্স", color: "#14b8a6" },
-  { id: "2", key: "cash", title: "ক্যাশ টাকা", value: "৳ ২৫,০০০", sub: "হাতে আছে", color: "#22c55e" },
-  { id: "3", key: "balance", title: "ব্যালেন্স", value: "৳ ৮০,০০০", sub: "ব্যাংক ও মোবাইল", color: "#3b82f6" },
-  { id: "4", key: "stock", title: "স্টক এমাউন্ট", value: "৳ ৩৫,০০০", sub: "কেনা দাম", color: "#f97316" },
-  { id: "5", key: "profit", title: "মোট লাভ", value: "৳ ১০,০০০", sub: "এই মাস", color: "#a855f7" }
-];
 const CardItem = ({ card, onClick }) => {
   const controls = useDragControls();
   const [isMobile, setIsMobile] = reactExports.useState(false);
@@ -28515,11 +28508,10 @@ const CardItem = ({ card, onClick }) => {
       dragListener: !isMobile,
       dragControls: controls,
       onTouchStart: isMobile ? handleMobileTouch : void 0,
-      className: styles.statCard,
+      className: styles$1.statCard,
       onClick,
       style: {
         borderLeft: `5px solid ${card.color}`,
-        // বাম পাশে কালার বর্ডার
         touchAction: isMobile ? "pan-y" : "none"
       },
       whileDrag: {
@@ -28534,27 +28526,34 @@ const CardItem = ({ card, onClick }) => {
           Icon,
           {
             name: card.key,
-            className: styles.cardIconBg,
+            className: styles$1.cardIconBg,
             style: { color: card.color }
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.cardHeader, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.cardHeader, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
             {
               onPointerDown: (e) => !isMobile && controls.start(e),
               style: { display: "flex", alignItems: "center" },
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles.grip })
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles$1.grip })
             }
           ),
           card.title
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardValue, style: { color: card.color }, children: card.value }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardSub, children: card.sub })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.cardValue, style: { color: card.color }, children: card.value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.cardSub, children: card.sub })
       ]
     }
   );
 };
+const initialCards = [
+  { id: "1", key: "capital", title: "Capital", value: "৳ ১,৫০,০০০", sub: "Cash + Account + Product", color: "#14b8a6" },
+  { id: "2", key: "cash", title: "Cash", value: "৳ ২৫,০০০", sub: "হাতে আছে", color: "#22c55e" },
+  { id: "3", key: "balance", title: "Account", value: "৳ ৮০,০০০", sub: "ব্যাংক ও মোবাইল", color: "#3b82f6" },
+  { id: "4", key: "stock", title: "Product", value: "৳ ৩৫,০০০", sub: "কেনা দাম", color: "#f97316" },
+  { id: "5", key: "profit", title: "Profit", value: "৳ ১০,০০০", sub: "এই মাস", color: "#a855f7" }
+];
 function StatsCards({ onCardSelect }) {
   const [items, setItems] = reactExports.useState(initialCards);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -28562,7 +28561,7 @@ function StatsCards({ onCardSelect }) {
     {
       values: items,
       onReorder: setItems,
-      className: styles.statsContainer,
+      className: styles$1.statsContainer,
       as: "div",
       children: items.map((card) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         CardItem,
@@ -28575,11 +28574,143 @@ function StatsCards({ onCardSelect }) {
     }
   );
 }
+const container = "_container_1rxqa_7";
+const sidebar = "_sidebar_1rxqa_29";
+const glassContent = "_glassContent_1rxqa_55";
+const contentHeaderRow = "_contentHeaderRow_1rxqa_107";
+const glassHeader = "_glassHeader_1rxqa_125";
+const closeBtn = "_closeBtn_1rxqa_141";
+const styles = {
+  container,
+  sidebar,
+  glassContent,
+  contentHeaderRow,
+  glassHeader,
+  closeBtn
+};
+const Cash = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "20px", color: "white" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Capital Details & Logic" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "এখানে ক্যাপিটালের জটিল সব হিসাব নিকাশ থাকবে..." })
+  ] });
+};
+const History = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "#fff" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "লেনদেনের ইতিহাস (Transaction History)" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "এখানে আপনার বিগত দিনের সমস্ত লেনদেনের তালিকা থাকবে।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { style: { listStyle: "none", padding: 0, marginTop: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { style: { background: "rgba(255,255,255,0.05)", padding: "10px", marginBottom: "10px", borderRadius: "8px", borderLeft: "3px solid #3b82f6" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Cash In - 5,000 Tk" }),
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#94a3b8" }, children: "25 Jan, 2026 - 10:30 AM" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { style: { background: "rgba(255,255,255,0.05)", padding: "10px", marginBottom: "10px", borderRadius: "8px", borderLeft: "3px solid #ef4444" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Payment Out - 1,200 Tk" }),
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#94a3b8" }, children: "24 Jan, 2026 - 04:15 PM" })
+      ] })
+    ] })
+  ] });
+};
+const Settings = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "#fff" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "সেটিংস (System Settings)" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "সিস্টেম কনফিগারেশন এবং প্রোফাইল আপডেট করুন।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginTop: "20px", display: "flex", flexDirection: "column", gap: "15px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "15px", background: "rgba(255,255,255,0.05)", borderRadius: "10px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "General Settings" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "12px", color: "#ccc" }, children: "Theme, Language, Notification" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "15px", background: "rgba(255,255,255,0.05)", borderRadius: "10px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Security" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontSize: "12px", color: "#ccc" }, children: "Password change, Two-factor authentication" })
+      ] })
+    ] })
+  ] });
+};
+const VIEW_MAPPING = {
+  cash: Cash,
+  history: History,
+  settings: Settings
+};
+const EXTRA_VIEWS = {
+  history: { title: "History", color: "#3b82f6" },
+  // নীল
+  settings: { title: "Settings", color: "#64748b" }
+  // স্লেট গ্রে
+};
 const Dashboard = ({ onLogout, userName }) => {
+  const [selectedKey, setSelectedKey] = reactExports.useState("capital");
+  const [isMobile, setIsMobile] = reactExports.useState(window.innerWidth < 880);
+  const [showContent, setShowContent] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 880);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const handleCardClick = (card) => {
+    setSelectedKey(card.key);
+    if (isMobile) setShowContent(true);
+  };
+  const handleOpenHistory = () => {
+    setSelectedKey("history");
+    if (isMobile) setShowContent(true);
+  };
+  const handleOpenSettings = () => {
+    setSelectedKey("settings");
+    if (isMobile) setShowContent(true);
+  };
+  const handleCloseContent = () => {
+    setShowContent(false);
+  };
+  const activeData = reactExports.useMemo(() => {
+    const cardData = initialCards.find((card) => card.key === selectedKey);
+    return cardData || EXTRA_VIEWS[selectedKey] || { title: "Details", color: "#fff" };
+  }, [selectedKey]);
+  const ActiveComponent = VIEW_MAPPING[selectedKey] || (() => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: "rgba(255,255,255,0.7)" }, children: "Development in progress..." }));
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, { onLogout, userName }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(StatsCards, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Navbar,
+      {
+        onLogout,
+        userName,
+        onOpenHistory: handleOpenHistory,
+        onOpenSettings: handleOpenSettings
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.container, children: [
+      (!isMobile || !showContent) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.sidebar, children: /* @__PURE__ */ jsxRuntimeExports.jsx(StatsCards, { onCardSelect: handleCardClick }) }),
+      (!isMobile || showContent) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: styles.glassContent,
+          style: { "--theme-color": activeData.color },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.contentHeaderRow, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles.glassHeader, children: activeData.title }),
+              isMobile && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  className: styles.closeBtn,
+                  onClick: handleCloseContent,
+                  title: "Close",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 24 24", width: "24", height: "24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "6", y1: "6", x2: "18", y2: "18" })
+                  ] })
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ActiveComponent, {})
+          ]
+        }
+      )
+    ] })
   ] });
 };
 const B_Baria = () => {
