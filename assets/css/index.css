@@ -564,7 +564,7 @@ body {
     right: 16px;
     width: 180px;
   }
-}._statsContainer_ou82b_1 {
+}._statsContainer_qdish_1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
@@ -572,7 +572,7 @@ body {
   background: transparent;
 }
 
-._statCard_ou82b_17 {
+._statCard_qdish_17 {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(12px);
@@ -580,28 +580,30 @@ body {
   border-radius: 16px;
   padding: 24px;
   position: relative;
-  transition: transform 0.2s ease, background 0.2s ease;
   cursor: grab;
+  touch-action: none; 
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-._statCard_ou82b_17:hover {
+._statCard_qdish_17:hover {
   background: rgba(255, 255, 255, 0.08);
   transform: translateY(-5px);
 }
 
 /* ড্র্যাগ করার সময় অরিজিনাল কার্ডটি আবছা হয়ে যাবে */
-._dragging_ou82b_53 {
+._dragging_qdish_57 {
   opacity: 0.1;
 }
 
 /* যেখানে ড্রপ হবে সেখানে এই স্টাইল দেখাবে (Focus) */
-._placeholder_ou82b_63 {
+._placeholder_qdish_67 {
   border: 2px dashed rgba(255, 255, 255, 0.3) !important;
   background: rgba(255, 255, 255, 0.02);
   transform: scale(1.02);
 }
 
-._cardIconBg_ou82b_75 {
+._cardIconBg_qdish_79 {
   position: absolute;
   right: -5px;
   top: -5px;
@@ -611,7 +613,7 @@ body {
   pointer-events: none;
 }
 
-._cardHeader_ou82b_95 {
+._cardHeader_qdish_99 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -621,19 +623,19 @@ body {
   margin-bottom: 12px;
 }
 
-._grip_ou82b_115 {
+._grip_qdish_119 {
   width: 14px;
   height: 14px;
   opacity: 0.4;
 }
 
-._cardValue_ou82b_127 {
+._cardValue_qdish_131 {
   font-size: 1.7rem;
   font-weight: 700;
   margin-bottom: 4px;
 }
 
-._cardSub_ou82b_139 {
+._cardSub_qdish_143 {
   font-size: 0.8rem;
   color: #94a3b8;
 }
