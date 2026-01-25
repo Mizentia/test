@@ -564,78 +564,89 @@ body {
     right: 16px;
     width: 180px;
   }
-}._statsContainer_qdish_1 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+}/* StatsCards.module.css */
+._statsContainer_1aytd_3 {
+  display: flex;
+  flex-direction: column; /* উপর থেকে নিচে সাজানো */
+  gap: 16px;              /* কার্ডগুলোর মাঝখানের গ্যাপ */
   padding: 20px;
-  background: transparent;
+  
+  /* সাইডবার সেটিংস */
+  width: 320px;           /* কার্ডের জন্য ফিক্সড উইডথ */
+  min-width: 300px;       /* খুব বেশি ছোট যাতে না হয়ে যায় */
+  height: 100%;           /* পুরো হাইট নেবে */
+  overflow-y: auto;       /* কার্ড বেশি হলে শুধু এই অংশটুকু স্ক্রল হবে */
+  
+  /* ডান পাশে বর্ডার (অপশনাল, সেপারেশনের জন্য) */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box; /* প্যাডিং সহ উইডথ হিসাব করবে */
 }
 
-._statCard_qdish_17 {
+._statCard_1aytd_37 {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0);
-  border-radius: 16px;
-  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
   position: relative;
-  cursor: grab;
-  touch-action: none; 
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-drag: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%; /* কন্টেইনারের পুরোটা জুড়ে থাকবে */
+  box-sizing: border-box;
 }
 
-._statCard_qdish_17:hover {
+._statCard_1aytd_37:hover {
   background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-5px);
+  transform: translateX(5px); /* হোভার করলে একটু ডানে সরবে */
 }
 
-/* ড্র্যাগ করার সময় অরিজিনাল কার্ডটি আবছা হয়ে যাবে */
-._dragging_qdish_57 {
-  opacity: 0.1;
+._statCard_1aytd_37:active {
+  transform: scale(0.98);
 }
 
-/* যেখানে ড্রপ হবে সেখানে এই স্টাইল দেখাবে (Focus) */
-._placeholder_qdish_67 {
-  border: 2px dashed rgba(255, 255, 255, 0.3) !important;
-  background: rgba(255, 255, 255, 0.02);
-  transform: scale(1.02);
-}
-
-._cardIconBg_qdish_79 {
+._cardIconBg_1aytd_89 {
   position: absolute;
-  right: -5px;
-  top: -5px;
-  opacity: 0.12;
-  width: 70px;
-  height: 70px;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.15;
+  width: 50px; /* আইকন সাইজ একটু ছোট করা হয়েছে সাইডবারের জন্য */
+  height: 50px;
   pointer-events: none;
 }
 
-._cardHeader_qdish_99 {
+._cardHeader_1aytd_111 {
   display: flex;
   align-items: center;
   gap: 8px;
   color: #cbd5e1;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-._grip_qdish_119 {
+._grip_1aytd_131 {
   width: 14px;
   height: 14px;
   opacity: 0.4;
+  cursor: grab;
 }
 
-._cardValue_qdish_131 {
-  font-size: 1.7rem;
+._grip_1aytd_131:active {
+  cursor: grabbing;
+}
+
+._cardValue_1aytd_153 {
+  font-size: 1.4rem; /* ফন্ট সাইজ সামান্য এডজাস্ট করা হয়েছে */
   font-weight: 700;
   margin-bottom: 4px;
 }
 
-._cardSub_qdish_143 {
-  font-size: 0.8rem;
+._cardSub_1aytd_165 {
+  font-size: 0.75rem;
   color: #94a3b8;
 }

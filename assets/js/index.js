@@ -28204,6 +28204,72 @@ function useListTransform(values, transformer) {
     return transformer(latest);
   });
 }
+class DragControls {
+  constructor() {
+    this.componentControls = /* @__PURE__ */ new Set();
+  }
+  /**
+   * Subscribe a component's internal `VisualElementDragControls` to the user-facing API.
+   *
+   * @internal
+   */
+  subscribe(controls) {
+    this.componentControls.add(controls);
+    return () => this.componentControls.delete(controls);
+  }
+  /**
+   * Start a drag gesture on every `motion` component that has this set of drag controls
+   * passed into it via the `dragControls` prop.
+   *
+   * ```jsx
+   * dragControls.start(e, {
+   *   snapToCursor: true
+   * })
+   * ```
+   *
+   * @param event - PointerEvent
+   * @param options - Options
+   *
+   * @public
+   */
+  start(event, options) {
+    this.componentControls.forEach((controls) => {
+      controls.start(event.nativeEvent || event, options);
+    });
+  }
+  /**
+   * Cancels a drag gesture.
+   *
+   * ```jsx
+   * dragControls.cancel()
+   * ```
+   *
+   * @public
+   */
+  cancel() {
+    this.componentControls.forEach((controls) => {
+      controls.cancel();
+    });
+  }
+  /**
+   * Stops a drag gesture.
+   *
+   * ```jsx
+   * dragControls.stop()
+   * ```
+   *
+   * @public
+   */
+  stop() {
+    this.componentControls.forEach((controls) => {
+      controls.stop();
+    });
+  }
+}
+const createDragControls = () => new DragControls();
+function useDragControls() {
+  return useConstant(createDragControls);
+}
 const ReorderContext = reactExports.createContext(null);
 function checkReorder(order, value, offset, velocity) {
   if (!velocity)
@@ -28386,13 +28452,13 @@ function ReorderItemComponent({ children, style = {}, value, as = "li", onDrag, 
   }, ref: externalRef, ignoreStrict: true, children });
 }
 const ReorderItem = /* @__PURE__ */ reactExports.forwardRef(ReorderItemComponent);
-const statsContainer = "_statsContainer_qdish_1";
-const statCard = "_statCard_qdish_17";
-const cardIconBg = "_cardIconBg_qdish_79";
-const cardHeader = "_cardHeader_qdish_99";
-const grip = "_grip_qdish_119";
-const cardValue = "_cardValue_qdish_131";
-const cardSub = "_cardSub_qdish_143";
+const statsContainer = "_statsContainer_1aytd_3";
+const statCard = "_statCard_1aytd_37";
+const cardIconBg = "_cardIconBg_1aytd_89";
+const cardHeader = "_cardHeader_1aytd_111";
+const grip = "_grip_1aytd_131";
+const cardValue = "_cardValue_1aytd_153";
+const cardSub = "_cardSub_1aytd_165";
 const styles = {
   statsContainer,
   statCard,
@@ -28410,17 +28476,86 @@ const icons = {
   profit: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z" }) }),
   grip: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 320 512", fill: "currentColor", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M96 64c0-17.7-14.3-32-32-32S32 46.3 32 64l0 384c0 17.7 14.3 32 32 32s32-14.3 32-32L96 64zm192 0c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 384c0 17.7 14.3 32 32 32s32-14.3 32-32l0-384z" }) })
 };
-const Icon = ({ name, className }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, children: icons[name] || null });
+const Icon = ({ name, className, ...props }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, ...props, children: icons[name] || null });
 };
 const initialCards = [
-  { id: "1", key: "capital", title: "মোট মূলধন", value: "৳ ১,৫০,০০০", sub: "ক্যাশ + ব্যালেন্স + স্টক", color: "#14b8a6" },
-  { id: "2", key: "cash", title: "ক্যাশ টাকা", value: "৳ ২৫,০০০", sub: "ক্যাশ ম্যানেজমেন্ট", color: "#22c55e" },
-  { id: "3", key: "balance", title: "অ্যাকাউন্ট ব্যালেন্স", value: "৳ ৮০,০০০", sub: "বিকাশ, রকেট, ইত্যাদি", color: "#3b82f6" },
-  { id: "4", key: "stock", title: "স্টক এমাউন্ট", value: "৳ ৩৫,০০০", sub: "মোট স্টকের কেনা দাম", color: "#f97316" },
-  { id: "5", key: "profit", title: "মোট লাভ", value: "৳ ১০,০০০", sub: "বিস্তারিত দেখুন", color: "#a855f7" }
+  { id: "1", key: "capital", title: "মোট মূলধন", value: "৳ ১,৫০,০০০", sub: "ক্যাশ + ব্যালেন্স", color: "#14b8a6" },
+  { id: "2", key: "cash", title: "ক্যাশ টাকা", value: "৳ ২৫,০০০", sub: "হাতে আছে", color: "#22c55e" },
+  { id: "3", key: "balance", title: "ব্যালেন্স", value: "৳ ৮০,০০০", sub: "ব্যাংক ও মোবাইল", color: "#3b82f6" },
+  { id: "4", key: "stock", title: "স্টক এমাউন্ট", value: "৳ ৩৫,০০০", sub: "কেনা দাম", color: "#f97316" },
+  { id: "5", key: "profit", title: "মোট লাভ", value: "৳ ১০,০০০", sub: "এই মাস", color: "#a855f7" }
 ];
-function StatsCards() {
+const CardItem = ({ card, onClick }) => {
+  const controls = useDragControls();
+  const [isMobile, setIsMobile] = reactExports.useState(false);
+  const [lastTap, setLastTap] = reactExports.useState(0);
+  reactExports.useEffect(() => {
+    const checkIsMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+  const handleMobileTouch = (e) => {
+    if (!isMobile) return;
+    const now2 = Date.now();
+    if (now2 - lastTap < 300) {
+      if (e.cancelable) e.preventDefault();
+      controls.start(e);
+    } else {
+      setLastTap(now2);
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    ReorderItem,
+    {
+      value: card,
+      id: card.id,
+      layout: true,
+      dragListener: !isMobile,
+      dragControls: controls,
+      onTouchStart: isMobile ? handleMobileTouch : void 0,
+      className: styles.statCard,
+      onClick,
+      style: {
+        borderLeft: `5px solid ${card.color}`,
+        // বাম পাশে কালার বর্ডার
+        touchAction: isMobile ? "pan-y" : "none"
+      },
+      whileDrag: {
+        scale: 1.05,
+        zIndex: 50,
+        boxShadow: "0px 10px 30px rgba(0,0,0,0.4)",
+        cursor: "grabbing"
+      },
+      transition: { type: "spring", stiffness: 500, damping: 30 },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Icon,
+          {
+            name: card.key,
+            className: styles.cardIconBg,
+            style: { color: card.color }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.cardHeader, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              onPointerDown: (e) => !isMobile && controls.start(e),
+              style: { display: "flex", alignItems: "center" },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles.grip })
+            }
+          ),
+          card.title
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardValue, style: { color: card.color }, children: card.value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardSub, children: card.sub })
+      ]
+    }
+  );
+};
+function StatsCards({ onCardSelect }) {
   const [items, setItems] = reactExports.useState(initialCards);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     ReorderGroup,
@@ -28429,31 +28564,11 @@ function StatsCards() {
       onReorder: setItems,
       className: styles.statsContainer,
       as: "div",
-      children: items.map((card) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        ReorderItem,
+      children: items.map((card) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        CardItem,
         {
-          value: card,
-          layout: true,
-          drag: true,
-          className: styles.statCard,
-          style: { borderBottom: `4px solid ${card.color}` },
-          whileDrag: {
-            scale: 1.05,
-            zIndex: 50,
-            // ড্র্যাগ করার সময় কার্ডটি সবার উপরে থাকবে
-            boxShadow: "0px 10px 30px rgba(0,0,0,0.4)",
-            cursor: "grabbing"
-          },
-          transition: { type: "spring", stiffness: 500, damping: 30 },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: card.key, className: styles.cardIconBg, style: { color: card.color } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.cardHeader, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { touchAction: "none", display: "flex", alignItems: "center" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles.grip }) }),
-              card.title
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardValue, style: { color: card.color }, children: card.value }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardSub, children: card.sub })
-          ]
+          card,
+          onClick: () => onCardSelect && onCardSelect(card)
         },
         card.id
       ))
