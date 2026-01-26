@@ -40283,49 +40283,155 @@ function registerFirestore(instance) {
   instance.registerVersion(name, version);
 }
 registerFirestore(firebase);
-const AppContext = reactExports.createContext();
 const translations = {
   bn: {
+    // Navbar
+    nav_history: "লেনদেনের ইতিহাস",
+    nav_settings: "সেটিংস",
+    nav_logout: "লগআউট",
+    // Dashboard Cards
     capital: "মোট মূলধন",
     cash: "ক্যাশ টাকা",
     balance: "অ্যাকাউন্ট",
     stock: "প্রোডাক্ট স্টক",
     profit: "মোট লাভ",
-    details: "বিস্তারিত",
-    added: "জমা",
-    withdrawn: "উত্তোলন",
     sub_cash: "হাতে আছে",
     sub_acc: "ব্যাংক ও মোবাইল",
     sub_stock: "কেনা দাম",
     sub_profit: "এই মাস",
-    settings: "সেটিংস",
-    history: "হিস্টোরি",
-    theme: "থিম",
-    database: "ডাটাবেজ",
-    font: "ভাষা (Language)",
-    reset: "রিসেট"
+    details: "বিস্তারিত",
+    // Settings Navigation
+    set_db: "ডাটাবেজ",
+    set_theme: "থিম",
+    set_font: "ভাষা",
+    set_reset: "রিসেট",
+    // Settings Content
+    db_title: "টিম ডাটাবেজ",
+    db_active: "বর্তমানে অ্যাক্টিভ",
+    db_total: "মোট ডাটাবেজ",
+    db_share_title: "নতুন ডাটাবেজ শেয়ার করুন",
+    db_user_name: "ইউজার নাম",
+    db_email: "ইমেইল",
+    db_config: "ফায়ারবেস কনফিগারেশন (JSON)",
+    db_btn_share: "শেয়ার করুন",
+    db_btn_update: "আপডেট করুন",
+    db_btn_connect: "কানেক্ট",
+    theme_title: "থিম নির্বাচন করুন",
+    theme_no: "কোনো থিম নেই",
+    theme_static: "স্ট্যাটিক ডার্ক মোড",
+    lang_title: "ভাষা নির্বাচন করুন",
+    reset_title: "সিস্টেম রিসেট",
+    reset_desc: "এই অপশনটি আপনার লোকাল ক্যাশ ক্লিয়ার করবে।",
+    reset_btn: "হার্ড রিসেট",
+    // History
+    hist_cat: "ক্যাটাগরি",
+    hist_reset: "সব মুছুন",
+    hist_empty: "কোনো লেনদেন পাওয়া যায়নি।",
+    // Cash View
+    cash_current: "বর্তমান ক্যাশ ব্যালেন্স",
+    cash_amount: "টাকার পরিমাণ",
+    cash_note: "বিবরণ (ঐচ্ছিক)",
+    cash_note_placeholder: "যেমন: ব্যক্তিগত ব্যবহার, ভুল সংশোধন",
+    cash_btn_add: "জমা করুন",
+    cash_btn_withdraw: "উত্তোলন করুন",
+    cash_btn_update: "ব্যালেন্স সেট করুন",
+    cash_footer: "* এই পরিবর্তনটি মূলধন (Capital) এবং হিস্টোরিতে স্বয়ংক্রিয়ভাবে আপডেট হবে।",
+    // Shortcuts
+    sc_add: "জমা",
+    sc_withdraw: "উত্তোলন",
+    sc_mod: "সংশোধন",
+    sc_daily: "দৈনিক",
+    sc_weekly: "সাপ্তাহিক",
+    sc_monthly: "মাসিক",
+    sc_yearly: "বাৎসরিক",
+    sc_all: "সব",
+    // Capital View
+    cap_title: "মূলধন বিশ্লেষণ",
+    cap_desc: "আপনার ব্যবসার মোট মূলধন নিচের তিনটি খাতের সমষ্টি",
+    cap_total: "মোট মূলধন",
+    // Product & Account
+    prod_title: "প্রোডাক্ট স্টক ও ইনভেন্টরি",
+    prod_desc: "দোকানের সমস্ত প্রোডাক্ট এবং সিম কার্ডের স্টক লিস্ট এখানে দেখানো হবে।",
+    acc_title: "অ্যাকাউন্ট বিস্তারিত ও ব্যালেন্স",
+    acc_desc: "এখানে আপনার সমস্ত অ্যাকাউন্ট (বিকাশ, নগদ, রকেট, ব্যাংক ইত্যাদি) এর বিস্তারিত হিসাব থাকবে।",
+    profit_title: "লাভ বিশ্লেষণ",
+    profit_desc: "আপনার দৈনিক, সাপ্তাহিক, মাসিক এবং বাৎসরিক লাভের হিসাব এখানে বিশ্লেষণ করা হবে।"
   },
   en: {
+    // Navbar
+    nav_history: "Transaction History",
+    nav_settings: "Settings",
+    nav_logout: "Logout",
+    // Dashboard Cards
     capital: "Total Capital",
     cash: "Cash in Hand",
     balance: "Account Balance",
     stock: "Stock Value",
     profit: "Total Profit",
-    details: "Details",
-    added: "Added",
-    withdrawn: "Withdrawn",
     sub_cash: "In Hand",
     sub_acc: "Bank & Mobile",
     sub_stock: "Cost Price",
     sub_profit: "This Month",
-    settings: "Settings",
-    history: "History",
-    theme: "Theme",
-    database: "Database",
-    font: "Language",
-    reset: "Reset"
+    details: "Details",
+    // Settings Navigation
+    set_db: "Database",
+    set_theme: "Theme",
+    set_font: "Language",
+    set_reset: "Reset",
+    // Settings Content
+    db_title: "Team Databases",
+    db_active: "Currently Active",
+    db_total: "Total DBs",
+    db_share_title: "Share New Database",
+    db_user_name: "User Name",
+    db_email: "Email",
+    db_config: "Firebase Config (JSON)",
+    db_btn_share: "Share Data",
+    db_btn_update: "Update Data",
+    db_btn_connect: "Connect",
+    theme_title: "Select Interface Theme",
+    theme_no: "No Theme",
+    theme_static: "Static Dark Mode",
+    lang_title: "Select Language",
+    reset_title: "System Reset",
+    reset_desc: "This option will clear your local cache.",
+    reset_btn: "Hard Reset",
+    // History
+    hist_cat: "Category",
+    hist_reset: "Reset All",
+    hist_empty: "No transactions found.",
+    // Cash View
+    cash_current: "Current Cash Balance",
+    cash_amount: "Amount",
+    cash_note: "Note (Optional)",
+    cash_note_placeholder: "e.g. Personal use, Correction",
+    cash_btn_add: "Deposit Now",
+    cash_btn_withdraw: "Withdraw Now",
+    cash_btn_update: "Set Balance",
+    cash_footer: "* This change will automatically update Capital and History.",
+    // Shortcuts
+    sc_add: "Deposit",
+    sc_withdraw: "Withdraw",
+    sc_mod: "Modify",
+    sc_daily: "Daily",
+    sc_weekly: "Weekly",
+    sc_monthly: "Monthly",
+    sc_yearly: "Yearly",
+    sc_all: "All",
+    // Capital View
+    cap_title: "Capital Logic Breakdown",
+    cap_desc: "Your total business capital is the sum of the following three sectors",
+    cap_total: "Total Capital",
+    // Product & Account
+    prod_title: "Product Stock & Inventory",
+    prod_desc: "Stock list of all products and SIM cards will be shown here.",
+    acc_title: "Account Details & Balance",
+    acc_desc: "Details of all your accounts (Bkash, Nagad, Rocket, Bank etc.) will be here.",
+    profit_title: "Profit Analysis",
+    profit_desc: "Your daily, weekly, monthly, and yearly profit analysis."
   }
 };
+const AppContext = reactExports.createContext();
 const AppProvider = ({ children }) => {
   const [activeDB, setActiveDB] = reactExports.useState(null);
   const [dbName, setDbName] = reactExports.useState("Local Demo");
@@ -40364,9 +40470,7 @@ const AppProvider = ({ children }) => {
         }
         return;
       }
-      if (existingApp) {
-        await existingApp.delete();
-      }
+      if (existingApp) await existingApp.delete();
       const app = firebase.initializeApp(config, "activeApp");
       const db = app.firestore();
       setActiveDB(db);
@@ -41621,6 +41725,19 @@ const Background$1 = () => {
 };
 const Background = () => {
   const { themeIndex } = useApp();
+  if (themeIndex === -1) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "#0f172a",
+      // সলিড ডার্ক কালার (Tailwind slate-900)
+      zIndex: -1,
+      pointerEvents: "none"
+    } });
+  }
   const backgroundList = [
     Background$2,
     InteractiveBackground$2,
@@ -41684,6 +41801,7 @@ const Login = ({ onLoginSuccess }) => {
   ] });
 };
 const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
+  const { t, language } = useApp();
   const [time2, setTime] = reactExports.useState(/* @__PURE__ */ new Date());
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const menuRef = reactExports.useRef(null);
@@ -41701,11 +41819,12 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
+  const locale = language === "bn" ? "bn-BD" : "en-US";
   const formatDate = (date) => {
-    return date.toLocaleDateString("bn-BD", { year: "numeric", month: "long", day: "numeric" });
+    return date.toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
   };
   const formatTime = (date) => {
-    return date.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+    return date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
   };
   const Icons = {
     Logo: () => /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" }) }),
@@ -41753,11 +41872,11 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "clock-time-bn", children: formatTime(time2) })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-actions-row", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenHistory, title: "লেনদেনের ইতিহাস", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.History, {}) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenSettings, title: "সেটিংস", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Settings, {}) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenHistory, title: t.nav_history, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.History, {}) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenSettings, title: t.nav_settings, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Settings, {}) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "logout-action-btn", onClick: onLogout, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Logout, {}),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লগআউট" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_logout })
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -41781,18 +41900,18 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
           setIsMenuOpen(false);
         }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.History, {}) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "হিস্টরি" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_history })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item", onClick: () => {
           onOpenSettings();
           setIsMenuOpen(false);
         }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Settings, {}) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "সেটিংস" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_settings })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "drawer-item logout-red", onClick: onLogout, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "item-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons.Logout, {}) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লগআউট" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_logout })
         ] })
       ] })
     ] })
@@ -49826,6 +49945,7 @@ const Capital = ({ cards }) => {
   ] });
 };
 const History = ({ transactions, onDelete, onClearAll, filterType }) => {
+  const { t } = useApp();
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "#fff", width: "100%" }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
         .history-grid {
@@ -49858,7 +49978,8 @@ const History = ({ transactions, onDelete, onClearAll, filterType }) => {
       gap: "10px"
     }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { opacity: 0.7, margin: 0 }, children: [
-        "Category: ",
+        t.hist_cat,
+        ": ",
         /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: filterType })
       ] }),
       transactions && transactions.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49879,7 +50000,7 @@ const History = ({ transactions, onDelete, onClearAll, filterType }) => {
           },
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }) }),
-            "Reset All"
+            t.hist_reset
           ]
         }
       )
@@ -49891,7 +50012,7 @@ const History = ({ transactions, onDelete, onClearAll, filterType }) => {
       border: "2px dashed rgba(255,255,255,0.1)",
       borderRadius: "15px",
       background: "rgba(0,0,0,0.2)"
-    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "কোনো লেনদেন পাওয়া যায়নি।" }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "history-grid", children: transactions.map((tx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.hist_empty }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "history-grid", children: transactions.map((tx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
         style: {
@@ -50241,10 +50362,172 @@ const actionBtn = {
   justifyContent: "center",
   alignItems: "center"
 };
+const ThemeSelector = () => {
+  const { changeTheme, themeIndex } = useApp();
+  const themes = [
+    { id: 0, name: "Neon Particles", gradient: "linear-gradient(135deg, #000428, #004e92)", icon: "✨" },
+    { id: 1, name: "Bounce Balls", gradient: "linear-gradient(135deg, #14141e, #2a2a40)", icon: "⚽" },
+    { id: 2, name: "Cyber Net", gradient: "linear-gradient(135deg, #0f0c29, #302b63, #24243e)", icon: "🕸️" },
+    { id: 3, name: "Shooting Stars", gradient: "linear-gradient(135deg, #020617, #1e293b)", icon: "🌠" },
+    { id: 4, name: "Flow Waves", gradient: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)", icon: "🌊" },
+    { id: 5, name: "Galaxy", gradient: "linear-gradient(135deg, #000000, #434343)", icon: "🌌" }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "10px" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { color: "#cbd5e1", marginBottom: "20px", fontSize: "16px" }, children: "Select Interface Theme / থিম নির্বাচন করুন" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+      gap: "20px"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          onClick: () => changeTheme(-1),
+          style: {
+            ...cardStyle,
+            background: "#0f172a",
+            border: themeIndex === -1 ? "2px solid #22c55e" : "1px solid rgba(255,255,255,0.1)",
+            boxShadow: themeIndex === -1 ? "0 0 15px rgba(34, 197, 94, 0.4)" : "none"
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "24px", marginBottom: "8px", opacity: 0.8 }, children: "🌑" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "13px", fontWeight: "bold", color: "#fff" }, children: "No Theme" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", color: "#94a3b8" }, children: "Static Dark Mode" }),
+            themeIndex === -1 && /* @__PURE__ */ jsxRuntimeExports.jsx(ActiveBadge, {})
+          ]
+        }
+      ),
+      themes.map((theme) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          onClick: () => changeTheme(theme.id),
+          style: {
+            ...cardStyle,
+            background: theme.gradient,
+            border: themeIndex === theme.id ? "2px solid #3b82f6" : "1px solid rgba(255,255,255,0.1)",
+            boxShadow: themeIndex === theme.id ? "0 0 15px rgba(59, 130, 246, 0.4)" : "none"
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "24px", marginBottom: "8px" }, children: theme.icon }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontSize: "13px", fontWeight: "bold", color: "#fff" }, children: [
+              "Theme ",
+              theme.id + 1
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", color: "rgba(255,255,255,0.6)" }, children: theme.name }),
+            themeIndex === theme.id && /* @__PURE__ */ jsxRuntimeExports.jsx(ActiveBadge, {})
+          ]
+        },
+        theme.id
+      ))
+    ] })
+  ] });
+};
+const cardStyle = {
+  height: "110px",
+  borderRadius: "16px",
+  cursor: "pointer",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+  transition: "transform 0.2s, box-shadow 0.2s",
+  overflow: "hidden"
+};
+const ActiveBadge = () => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "absolute", top: "8px", right: "8px", width: "10px", height: "10px", background: "#22c55e", borderRadius: "50%", boxShadow: "0 0 5px #22c55e" } });
+const HardResetZone = ({ currentPassword, onResetComplete }) => {
+  const [step, setStep] = reactExports.useState("idle");
+  const [inputPassword, setInputPassword] = reactExports.useState("");
+  const [error, setError] = reactExports.useState("");
+  const [resetOptions, setResetOptions] = reactExports.useState({
+    localStorage: true,
+    teamData: true
+  });
+  const handlePasswordSubmit = () => {
+    const actualPassword = currentPassword || "123456";
+    if (inputPassword === actualPassword) {
+      setStep("options");
+      setError("");
+    } else {
+      setError("পাসওয়ার্ড ভুল হয়েছে! আবার চেষ্টা করুন।");
+    }
+  };
+  const executeHardReset = () => {
+    setStep("processing");
+    setTimeout(() => {
+      if (resetOptions.localStorage) {
+        localStorage.clear();
+        console.log("Local Storage Cleared");
+      }
+      if (onResetComplete) {
+        onResetComplete();
+      } else {
+        window.location.reload();
+      }
+    }, 1500);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hard-reset-container", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hr-header", children: "⚠️ ডেঞ্জার জোন (Hard Reset)" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "hr-warning-text", children: "সতর্কতা: এই অপশনটি আপনার লোকাল স্টোরেজ, কার্ড হিস্টোরি এবং লাভ-ক্ষতির সকল হিসাব স্থায়ীভাবে মুছে ফেলবে। এটি পুনরুদ্ধার করা সম্ভব নয়।" }),
+    step === "idle" && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setStep("password"), className: "hr-btn-primary", children: "রিসেট শুরু করুন" }),
+    step === "password" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-input-group", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "hr-label", children: "সিকিউরিটি পাসওয়ার্ড দিন:" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "password",
+          value: inputPassword,
+          onChange: (e) => setInputPassword(e.target.value),
+          className: "hr-input",
+          placeholder: "পাসওয়ার্ড লিখুন..."
+        }
+      ),
+      error && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "hr-error", children: error }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-actions", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handlePasswordSubmit, className: "hr-btn-primary", children: "যাচাই করুন" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
+          setStep("idle");
+          setError("");
+        }, className: "hr-btn-secondary", children: "বাতিল" })
+      ] })
+    ] }),
+    step === "options" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-options-box", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "white", marginBottom: "15px" }, children: "আপনি কি নিশ্চিত?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "hr-checkbox-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "checkbox",
+            className: "hr-checkbox",
+            checked: resetOptions.localStorage,
+            onChange: (e) => setResetOptions({ ...resetOptions, localStorage: e.target.checked })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লোকাল স্টোরেজ (হিস্টোরি, কার্ড ভ্যালু)" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "hr-checkbox-row", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "checkbox",
+            className: "hr-checkbox",
+            checked: resetOptions.teamData,
+            onChange: (e) => setResetOptions({ ...resetOptions, teamData: e.target.checked })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "টিম ডাটাবেজ কানেকশন" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-actions", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: executeHardReset, className: "hr-btn-primary", children: "হ্যাঁ, সব ডিলিট করুন" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setStep("idle"), className: "hr-btn-secondary", children: "ফিরে যান" })
+      ] })
+    ] }),
+    step === "processing" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hr-processing", children: "সিস্টেম রিসেট হচ্ছে... দয়া করে অপেক্ষা করুন..." })
+  ] });
+};
 const Settings = ({ activeTab }) => {
+  const myWebsitePassword = "M~R.88@Mizhan.25";
   const {
-    changeTheme,
-    themeIndex,
     toggleLanguage,
     language
   } = useApp();
@@ -50268,35 +50551,6 @@ const Settings = ({ activeTab }) => {
       }
     }
   }, [activeTab, masterDB]);
-  const renderTheme = () => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "15px" }, children: [0, 1, 2, 3, 4, 5].map((idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
-    {
-      onClick: () => changeTheme(idx),
-      style: {
-        height: "80px",
-        background: idx === themeIndex ? "#3b82f6" : "rgba(255,255,255,0.1)",
-        border: idx === themeIndex ? "2px solid white" : "1px solid rgba(255,255,255,0.2)",
-        borderRadius: "10px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        transition: "transform 0.2s",
-        position: "relative",
-        overflow: "hidden"
-      },
-      onMouseEnter: (e) => e.currentTarget.style.transform = "scale(1.05)",
-      onMouseLeave: (e) => e.currentTarget.style.transform = "scale(1)",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "absolute", bottom: 5, fontSize: "10px", opacity: 0.7 }, children: [
-          "Theme ",
-          idx + 1
-        ] }),
-        idx === themeIndex && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: 8, height: 8, background: "#22c55e", borderRadius: "50%", boxShadow: "0 0 10px #22c55e" } })
-      ]
-    },
-    idx
-  )) });
   const renderFont = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", padding: "40px", background: "rgba(255,255,255,0.02)", borderRadius: "20px" }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { marginBottom: "30px", color: "#cbd5e1" }, children: "Select Language / ভাষা নির্বাচন করুন" }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "20px", justifyContent: "center" }, children: [
@@ -50338,29 +50592,21 @@ const Settings = ({ activeTab }) => {
   ] });
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white", width: "100%", animation: "fadeIn 0.3s" }, children: [
     activeTab === "Database" && /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseSettings, { masterDB }),
-    activeTab === "Theme" && renderTheme(),
+    activeTab === "Theme" && /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeSelector, {}),
     activeTab === "Font" && renderFont(),
-    activeTab === "Reset" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", padding: "60px", border: "1px dashed rgba(239, 68, 68, 0.3)", borderRadius: "20px", background: "rgba(239, 68, 68, 0.05)" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { color: "#ef4444" }, children: "System Reset" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { opacity: 0.6 }, children: "এই অপশনটি আপনার লোকাল ক্যাশ ক্লিয়ার করবে।" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: () => {
-            localStorage.clear();
-            window.location.reload();
-          },
-          style: { marginTop: "20px", padding: "10px 30px", background: "#ef4444", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" },
-          children: "Hard Reset"
-        }
-      )
-    ] }),
+    activeTab === "Reset" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      HardResetZone,
+      {
+        currentPassword: myWebsitePassword,
+        onResetComplete: () => window.location.reload()
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        ` })
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            ` })
   ] });
 };
 const ShortcutBtn = ({ title, isActive, onClick }) => {
@@ -50391,11 +50637,12 @@ const HistoryShortcuts = ({ onFilterChange }) => {
   )) });
 };
 const SettingsNavigation = ({ active: active2, onSelect }) => {
+  const { t } = useApp();
   const tabs = [
-    { id: "Database", label: "Database", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIcon, {}) },
-    { id: "Theme", label: "Theme", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeIcon, {}) },
-    { id: "Font", label: "Font", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(FontIcon, {}) },
-    { id: "Reset", label: "Reset", icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ResetIcon, {}) }
+    { id: "Database", label: t.set_db, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIcon, {}) },
+    { id: "Theme", label: t.set_theme, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeIcon, {}) },
+    { id: "Font", label: t.set_font, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(FontIcon, {}) },
+    { id: "Reset", label: t.set_reset, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ResetIcon, {}) }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle, children: tabs.map((tab) => {
     const isActive = active2 === tab.id;
@@ -50623,7 +50870,16 @@ const Dashboard = ({ onLogout, userName }) => {
   const totalProfit = parseFloat(appData.profit) || 0;
   const totalCapital = totalCash + totalAccount + totalProduct;
   const cards = [
-    { id: "1", key: "capital", title: t.capital, value: formatNum(totalCapital), sub: `${t.cash} + ${t.balance} + ${t.stock}`, color: "#14b8a6" },
+    {
+      id: "1",
+      key: "capital",
+      title: t.capital,
+      // আগে ছিল 'Capital'
+      value: formatNum(totalCapital),
+      sub: `${t.cash} + ${t.balance} + ${t.stock}`,
+      // সাবটাইটেলও বাংলায় হবে
+      color: "#14b8a6"
+    },
     { id: "2", key: "cash", title: t.cash, value: formatNum(totalCash), sub: t.sub_cash, color: "#22c55e" },
     { id: "3", key: "balance", title: t.balance, value: formatNum(totalAccount), sub: t.sub_acc, color: "#3b82f6" },
     { id: "4", key: "stock", title: t.stock, value: formatNum(totalProduct), sub: t.sub_stock, color: "#f97316" },
