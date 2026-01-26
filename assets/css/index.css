@@ -656,7 +656,7 @@ body {
 }/* Dashboard.module.css */
 
 /* মেইন কন্টেইনার */
-._container_1rxqa_7 {
+._container_69urd_7 {
   display: flex;
   height: calc(100vh - 80px); /* ন্যাভবার বাদ দিয়ে বাকি হাইট, প্রয়োজনমতো এডজাস্ট করুন */
   background: transparent;
@@ -667,7 +667,7 @@ body {
 }
 
 /* সাইডবার এরিয়া */
-._sidebar_1rxqa_29 {
+._sidebar_69urd_29 {
   flex: 0 0 auto;
   z-index: 10;
   background: rgba(15, 23, 42, 0.462); 
@@ -680,7 +680,7 @@ body {
 }
 
 /* ডান পাশের গ্লাস ইফেক্ট কন্টেইনার */
-._glassContent_1rxqa_55 {
+._glassContent_69urd_55 {
   flex: 1;
   margin: 20px;
   border-radius: 20px;
@@ -702,42 +702,83 @@ body {
   );
 
   transition: all 0.4s ease;
-  animation: _fadeIn_1rxqa_1 0.3s ease-out; /* কন্টেন্ট আসার সময় সুন্দর এনিমেশন */
+  animation: _fadeIn_69urd_1 0.3s ease-out; /* কন্টেন্ট আসার সময় সুন্দর এনিমেশন */
 }
 
-/* হেডার ফ্লেক্স কন্টেইনার (টাইটেল এবং ক্লোজ বাটন পাশাপাশি রাখার জন্য) */
-._contentHeaderRow_1rxqa_107 {
+/* হেডার ফ্লেক্স কন্টেইনার আপডেট */
+._contentHeaderRow_69urd_107 {
   display: flex;
-  justify_content: space-between;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start; /* items-center এর বদলে flex-start যাতে র‍্যাপ হলে সমস্যা না হয় */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+  gap: 15px;
+  flex-wrap: wrap; /* জায়গা না থাকলে নিচে নামবে */
 }
 
-._glassHeader_1rxqa_125 {
+/* টাইটেল এবং শর্টকাট গ্রুপ */
+._headerLeft_69urd_131 {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1; /* যতটুকু জায়গা পাবে নিবে */
+  flex-wrap: wrap; /* স্ক্রিন ছোট হলে শর্টকাট নিচে নামবে */
+}
+
+._glassHeader_69urd_147 {
   color: var(--theme-color);
   margin: 0;
-  font-size: 1.5rem;
-  /* বর্ডার এখান থেকে সরিয়ে .contentHeaderRow তে নেওয়া হয়েছে */
+  font-size: 1.8rem;
+  white-space: nowrap; /* টাইটেল ভাঙবে না */
 }
 
-/* ক্লোজ বাটন স্টাইল */
-._closeBtn_1rxqa_141 {
+/* শর্টকাট কন্টেইনার */
+._shortcutContainer_69urd_163 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* শর্টকাট বাটন ডিজাইন */
+._shortcutBtn_69urd_177 {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+._shortcutBtn_69urd_177:hover, ._shortcutBtn_69urd_177._active_69urd_203 {
+  background: var(--theme-color);
+  color: #fff; /* থিমের উপর সাদা টেক্সট */
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ক্লোজ বাটন (ফিক্সড পজিশন মোবাইলের জন্য সেফটি) */
+._closeBtn_69urd_221 {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ef4444; /* লাল রং */
-  width: 36px;
+  color: #ef4444;
+  min-width: 36px; /* ফিক্সড সাইজ */
   height: 36px;
-  border-radius: 8px; /* উইন্ডোজ স্টাইলের জন্য চাইলে 0 বা 4px দিতে পারেন */
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
+  margin-left: auto; /* সব সময় ডানে ধাক্কা দিবে */
 }
 
-._closeBtn_1rxqa_141:hover {
+._closeBtn_69urd_221:hover {
   background: #ef4444;
   color: white;
   transform: scale(1.1);
@@ -745,7 +786,7 @@ body {
 }
 
 /* কন্টেন্ট এনিমেশন */
-@keyframes _fadeIn_1rxqa_1 {
+@keyframes _fadeIn_69urd_1 {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
@@ -753,15 +794,26 @@ body {
 /* --- রেসপন্সিভ ব্রেকপয়েন্ট (মোবাইল/ট্যাবলেট) --- */
 @media (max-width: 880px) {
   
+  ._headerLeft_69urd_131 {
+    flex-direction: column; /* মোবাইলে টাইটেল উপরে, বাটন নিচে */
+    align-items: flex-start;
+    gap: 10px;
+    width: calc(100% - 50px); /* ক্লোজ বাটনের জন্য জায়গা রাখা */
+  }
+
+  ._glassHeader_69urd_147 {
+    font-size: 1.5rem;
+  }
+
   /* মোবাইলে সাইডবার পুরো উইডথ নেবে */
-  ._sidebar_1rxqa_29 {
+  ._sidebar_69urd_29 {
     width: 100%; 
     border-right: none;
     background: transparent; /* মোবাইলে ব্যাকগ্রাউন্ড স্বচ্ছ রাখলে সুন্দর লাগবে */
   }
 
   /* মোবাইলে কন্টেন্ট বক্সের মার্জিন এবং বর্ডার রেডিয়াস কমানো */
-  ._glassContent_1rxqa_55 {
+  ._glassContent_69urd_55 {
     margin: 0;       /* মার্জিন বাদ, ফুল স্ক্রিন */
     border-radius: 0;/* চারকোনা */
     padding: 20px;
@@ -770,7 +822,7 @@ body {
     border-top: 1px solid rgba(255,255,255,0.1); /* শুধু উপরে বর্ডার */
   }
 
-  ._contentHeaderRow_1rxqa_107 {
+  ._contentHeaderRow_69urd_107 {
     padding-top: 10px; /* উপরে একটু জায়গা */
   }
 }

@@ -18330,11 +18330,11 @@ const Section = ({ title, icon: Icon2, children }) => {
 };
 const Categories = () => {
   const cats = ["সব", "অ্যাকশন", "রোমান্টিক", "হরর", "ড্রামা", "কমেডি", "সায়েন্স ফিকশন", "থ্রিলার"];
-  const [active, setActive] = reactExports.useState("সব");
+  const [active2, setActive] = reactExports.useState("সব");
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "categories", children: cats.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: `category-pill ${active === cat ? "active" : ""}`,
+      className: `category-pill ${active2 === cat ? "active" : ""}`,
       onClick: () => setActive(cat),
       children: cat
     },
@@ -28574,24 +28574,84 @@ function StatsCards({ onCardSelect }) {
     }
   );
 }
-const container = "_container_1rxqa_7";
-const sidebar = "_sidebar_1rxqa_29";
-const glassContent = "_glassContent_1rxqa_55";
-const contentHeaderRow = "_contentHeaderRow_1rxqa_107";
-const glassHeader = "_glassHeader_1rxqa_125";
-const closeBtn = "_closeBtn_1rxqa_141";
+const container = "_container_69urd_7";
+const sidebar = "_sidebar_69urd_29";
+const glassContent = "_glassContent_69urd_55";
+const contentHeaderRow = "_contentHeaderRow_69urd_107";
+const headerLeft = "_headerLeft_69urd_131";
+const glassHeader = "_glassHeader_69urd_147";
+const shortcutContainer = "_shortcutContainer_69urd_163";
+const shortcutBtn = "_shortcutBtn_69urd_177";
+const active = "_active_69urd_203";
+const closeBtn = "_closeBtn_69urd_221";
 const styles = {
   container,
   sidebar,
   glassContent,
   contentHeaderRow,
+  headerLeft,
   glassHeader,
+  shortcutContainer,
+  shortcutBtn,
+  active,
   closeBtn
 };
 const Cash = () => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "20px", color: "white" }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Capital Details & Logic" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "এখানে ক্যাপিটালের জটিল সব হিসাব নিকাশ থাকবে..." })
+  ] });
+};
+const Account = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Account Details & Balance" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "এখানে আপনার সমস্ত অ্যাকাউন্ট (বিকাশ, নগদ, রকেট, ব্যাংক ইত্যাদি) এর বিস্তারিত হিসাব থাকবে।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "15px", background: "rgba(59, 130, 246, 0.1)", borderRadius: "10px", borderLeft: "4px solid #3b82f6" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Current Balance Summary" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { opacity: 0.7 }, children: "উপরের শর্টকাট থেকে নির্দিষ্ট অ্যাকাউন্ট সিলেক্ট করুন বিস্তারিত দেখার জন্য।" })
+    ] }) })
+  ] });
+};
+const Product = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Product Stock & Inventory" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "দোকানের সমস্ত প্রোডাক্ট এবং সিম কার্ডের স্টক লিস্ট এখানে দেখানো হবে।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "15px", marginTop: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "20px", background: "rgba(255,255,255,0.05)", borderRadius: "12px", textAlign: "center" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: "0 0 10px 0", color: "#f97316" }, children: "Sim Cards" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { fontSize: "24px", fontWeight: "bold", margin: 0 }, children: [
+          "150 ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "14px", fontWeight: "normal" }, children: "pcs" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "20px", background: "rgba(255,255,255,0.05)", borderRadius: "12px", textAlign: "center" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: "0 0 10px 0", color: "#f97316" }, children: "Accessories" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { fontSize: "24px", fontWeight: "bold", margin: 0 }, children: [
+          "320 ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "14px", fontWeight: "normal" }, children: "items" })
+        ] })
+      ] })
+    ] })
+  ] });
+};
+const Profit = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Profit Analysis" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "আপনার দৈনিক, সাপ্তাহিক, মাসিক এবং বাৎসরিক লাভের হিসাব এখানে বিশ্লেষণ করা হবে।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      marginTop: "25px",
+      height: "250px",
+      background: "rgba(0,0,0,0.2)",
+      borderRadius: "15px",
+      border: "1px dashed rgba(168, 85, 247, 0.3)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "#a855f7" }, children: "Profit Graph Placeholder" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#94a3b8", fontSize: "14px" }, children: "Select a timeframe from above to view data" })
+    ] })
   ] });
 };
 const History = () => {
@@ -28630,25 +28690,163 @@ const Settings = () => {
     ] })
   ] });
 };
+const ShortcutBtn = ({ title, isActive, onClick }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "button",
+    {
+      className: `${styles.shortcutBtn} ${isActive ? styles.active : ""}`,
+      onClick,
+      children: title
+    }
+  );
+};
+const HistoryShortcuts = ({ onFilterChange }) => {
+  const [active2, setActive] = reactExports.useState("All");
+  const items = ["All", "Capital", "Cash", "Account", "Product", "Profit"];
+  const handleClick = (item) => {
+    setActive(item);
+    if (onFilterChange) onFilterChange(item);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: item,
+      isActive: active2 === item,
+      onClick: () => handleClick(item)
+    },
+    item
+  )) });
+};
+const SettingsShortcuts = ({ onSelect }) => {
+  const [active2, setActive] = reactExports.useState("Theme");
+  const items = ["Database", "Theme", "Font", "Reset"];
+  const handleClick = (item) => {
+    setActive(item);
+    if (onSelect) onSelect(item);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: item,
+      isActive: active2 === item,
+      onClick: () => handleClick(item)
+    },
+    item
+  )) });
+};
+const CashShortcuts = ({ onAction }) => {
+  const [active2, setActive] = reactExports.useState("Add");
+  const items = [
+    { label: "Add (Deposit)", key: "add" },
+    { label: "Withdraw", key: "withdraw" },
+    { label: "Modified", key: "modified" }
+  ];
+  const handleClick = (key) => {
+    setActive(key);
+    if (onAction) onAction(key);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: item.label,
+      isActive: active2 === item.key,
+      onClick: () => handleClick(item.key)
+    },
+    item.key
+  )) });
+};
+const AccountShortcuts = ({ onSelect }) => {
+  const [active2, setActive] = reactExports.useState("");
+  const accounts = [
+    "Desco",
+    "Bkash",
+    "Nagad",
+    "Rocket",
+    "Upay",
+    "GP",
+    "BL",
+    "Airtel",
+    "Robi",
+    "Teletalk"
+  ];
+  const handleClick = (acc) => {
+    setActive(acc);
+    if (onSelect) onSelect(acc);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: accounts.map((acc) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: acc,
+      isActive: active2 === acc,
+      onClick: () => handleClick(acc)
+    },
+    acc
+  )) });
+};
+const ProductShortcuts = ({ onFilter }) => {
+  const [active2, setActive] = reactExports.useState("All");
+  const items = ["All", "Sim", "Others"];
+  const handleClick = (item) => {
+    setActive(item);
+    if (onFilter) onFilter(item);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: item,
+      isActive: active2 === item,
+      onClick: () => handleClick(item)
+    },
+    item
+  )) });
+};
+const ProfitShortcuts = ({ onTimeFrameChange }) => {
+  const [active2, setActive] = reactExports.useState("Daily");
+  const items = ["Daily", "Weekly", "Monthly", "Yearly", "All"];
+  const handleClick = (item) => {
+    setActive(item);
+    if (onTimeFrameChange) onTimeFrameChange(item);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ShortcutBtn,
+    {
+      title: item,
+      isActive: active2 === item,
+      onClick: () => handleClick(item)
+    },
+    item
+  )) });
+};
 const VIEW_MAPPING = {
   cash: Cash,
   history: History,
-  settings: Settings
+  settings: Settings,
+  account: Account,
+  product: Product,
+  profit: Profit
+};
+const SHORTCUT_MAPPING = {
+  history: HistoryShortcuts,
+  settings: SettingsShortcuts,
+  cash: CashShortcuts,
+  balance: AccountShortcuts,
+  // 'balance' হলো Account এর key (statsData.js অনুযায়ী)
+  stock: ProductShortcuts,
+  // 'stock' হলো Product এর key
+  profit: ProfitShortcuts,
+  capital: null
+  // ক্যাপিটালের জন্য কোনো শর্টকাট নেই
 };
 const EXTRA_VIEWS = {
   history: { title: "History", color: "#3b82f6" },
-  // নীল
   settings: { title: "Settings", color: "#64748b" }
-  // স্লেট গ্রে
 };
 const Dashboard = ({ onLogout, userName }) => {
   const [selectedKey, setSelectedKey] = reactExports.useState("capital");
   const [isMobile, setIsMobile] = reactExports.useState(window.innerWidth < 880);
   const [showContent, setShowContent] = reactExports.useState(false);
   reactExports.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 880);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth < 880);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -28671,7 +28869,12 @@ const Dashboard = ({ onLogout, userName }) => {
     const cardData = initialCards.find((card) => card.key === selectedKey);
     return cardData || EXTRA_VIEWS[selectedKey] || { title: "Details", color: "#fff" };
   }, [selectedKey]);
-  const ActiveComponent = VIEW_MAPPING[selectedKey] || (() => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: "rgba(255,255,255,0.7)" }, children: "Development in progress..." }));
+  const ActiveShortcuts = SHORTCUT_MAPPING[selectedKey];
+  const ActiveComponent = VIEW_MAPPING[selectedKey] || (() => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "rgba(255,255,255,0.7)", marginTop: "20px" }, children: [
+    "এই সেকশনের কাজ চলছে... (",
+    selectedKey,
+    ")"
+  ] }));
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -28692,7 +28895,15 @@ const Dashboard = ({ onLogout, userName }) => {
           style: { "--theme-color": activeData.color },
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.contentHeaderRow, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles.glassHeader, children: activeData.title }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.headerLeft, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles.glassHeader, children: activeData.title }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.shortcutContainer, children: ActiveShortcuts && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  ActiveShortcuts,
+                  {
+                    onAction: (action) => console.log("Action:", action)
+                  }
+                ) })
+              ] }),
               isMobile && /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
