@@ -195,7 +195,7 @@
   overflow: hidden;
 }
 
-/* এই লেয়ারটি মাউস ইভেন্ট ব্লক করবে না */
+/* এই লেয়ারটি মাউস ইভেন্ট ব্লক করবে না */
 .login-overlay {
   position: absolute;
   top: 0;
@@ -206,18 +206,15 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
-  pointer-events: none; /* এটি জাদুর মতো কাজ করবে, মাউস ব্যাকগ্রাউন্ডে পৌঁছাবে */
-}
-
-/* কার্ডের এরিয়াতে মাউস কাজ করবে শুধুমাত্র ইনপুটের জন্য */
+  pointer-events: none; /* মাউস ব্যাকগ্রাউন্ডে পৌঁছাবে */
+}/* কার্ডের এরিয়া */
 .login-card {
   position: relative;
   width: 380px;
   padding: 40px;
   border-radius: 30px;
   overflow: hidden;
-  /* মাউস ইভেন্ট এখানে সক্রিয় হবে যাতে ফর্ম ফিল আপ করা যায় */
-  pointer-events: auto; 
+  pointer-events: auto;
   transition: transform 0.3s ease;
 }
 
@@ -228,41 +225,20 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.05); /* একদম হালকা সাদা */
-  backdrop-filter: blur(5px); /* ব্যাকগ্রাউন্ডের কণাগুলো হালকা ঘোলা দেখাবে */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   z-index: -1;
 }
 
+/* টাইটেল ডিজাইন */
 .form-content h2 {
   color: #fff;
   text-align: center;
   letter-spacing: 5px;
   margin-bottom: 30px;
   text-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  color: #fff;
-  outline: none;
-  font-size: 14px;
-  box-sizing: border-box;
-  transition: 0.3s;
-}
-
-.input-group input:focus {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* বাটন এনিমেশন */
@@ -283,6 +259,26 @@
   background: #fff;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
   transform: scale(1.02);
+}.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
 }/* স্লাইডবার বা হরাইজন্টাল স্ক্রলবার প্রতিরোধ করার জন্য */
 * {
   box-sizing: border-box;
@@ -564,95 +560,6 @@ body {
     right: 16px;
     width: 180px;
   }
-}/* StatsCards.module.css */
-._statsContainer_1p6mk_3 {
-  display: flex;
-  flex-direction: column; /* উপর থেকে নিচে সাজানো */
-  gap: 16px;              /* কার্ডগুলোর মাঝখানের গ্যাপ */
-  padding: 20px;
-  
-  /* সাইডবার সেটিংস */
-  width: 320px;           /* কার্ডের জন্য ফিক্সড উইডথ */
-  min-width: 300px;       /* খুব বেশি ছোট যাতে না হয়ে যায় */
-  height: 100%;           /* পুরো হাইট নেবে */
-  
-  /* --- ফিক্স: স্ক্রলবার সমস্যার সমাধান --- */
-  overflow-y: auto;       /* লম্বালম্বি স্ক্রল থাকবে */
-  overflow-x: hidden;     /* আড়াআড়ি স্ক্রল বা হরাইজন্টাল বার বন্ধ থাকবে */
-  /* ----------------------------------- */
-  
-  /* ডান পাশে বর্ডার (অপশনাল, সেপারেশনের জন্য) */
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  box-sizing: border-box; /* প্যাডিং সহ উইডথ হিসাব করবে */
-}
-
-._statCard_1p6mk_45 {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  touch-action: pan-y;
-  user-select: none;
-  -webkit-user-drag: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%; /* কন্টেইনারের পুরোটা জুড়ে থাকবে */
-  box-sizing: border-box;
-}
-
-._statCard_1p6mk_45:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(5px); /* হোভার করলে একটু ডানে সরবে */
-}
-
-._statCard_1p6mk_45:active {
-  transform: scale(0.98);
-}
-
-._cardIconBg_1p6mk_97 {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.15;
-  width: 50px; /* আইকন সাইজ একটু ছোট করা হয়েছে সাইডবারের জন্য */
-  height: 50px;
-  pointer-events: none;
-}
-
-._cardHeader_1p6mk_119 {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #cbd5e1;
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-._grip_1p6mk_139 {
-  width: 14px;
-  height: 14px;
-  opacity: 0.4;
-  cursor: grab;
-}
-
-._grip_1p6mk_139:active {
-  cursor: grabbing;
-}
-
-._cardValue_1p6mk_161 {
-  font-size: 1.4rem; /* ফন্ট সাইজ সামান্য এডজাস্ট করা হয়েছে */
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-._cardSub_1p6mk_173 {
-  font-size: 0.75rem;
-  color: #94a3b8;
 }/* Dashboard.module.css */
 
 /* মেইন কন্টেইনার */
@@ -825,7 +732,227 @@ body {
   ._contentHeaderRow_69urd_107 {
     padding-top: 10px; /* উপরে একটু জায়গা */
   }
-}/* পুরো কন্টেইনার */
+}/* StatsCards.module.css */
+._statsContainer_1p6mk_3 {
+  display: flex;
+  flex-direction: column; /* উপর থেকে নিচে সাজানো */
+  gap: 16px;              /* কার্ডগুলোর মাঝখানের গ্যাপ */
+  padding: 20px;
+  
+  /* সাইডবার সেটিংস */
+  width: 320px;           /* কার্ডের জন্য ফিক্সড উইডথ */
+  min-width: 300px;       /* খুব বেশি ছোট যাতে না হয়ে যায় */
+  height: 100%;           /* পুরো হাইট নেবে */
+  
+  /* --- ফিক্স: স্ক্রলবার সমস্যার সমাধান --- */
+  overflow-y: auto;       /* লম্বালম্বি স্ক্রল থাকবে */
+  overflow-x: hidden;     /* আড়াআড়ি স্ক্রল বা হরাইজন্টাল বার বন্ধ থাকবে */
+  /* ----------------------------------- */
+  
+  /* ডান পাশে বর্ডার (অপশনাল, সেপারেশনের জন্য) */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box; /* প্যাডিং সহ উইডথ হিসাব করবে */
+}
+
+._statCard_1p6mk_45 {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%; /* কন্টেইনারের পুরোটা জুড়ে থাকবে */
+  box-sizing: border-box;
+}
+
+._statCard_1p6mk_45:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px); /* হোভার করলে একটু ডানে সরবে */
+}
+
+._statCard_1p6mk_45:active {
+  transform: scale(0.98);
+}
+
+._cardIconBg_1p6mk_97 {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.15;
+  width: 50px; /* আইকন সাইজ একটু ছোট করা হয়েছে সাইডবারের জন্য */
+  height: 50px;
+  pointer-events: none;
+}
+
+._cardHeader_1p6mk_119 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+._grip_1p6mk_139 {
+  width: 14px;
+  height: 14px;
+  opacity: 0.4;
+  cursor: grab;
+}
+
+._grip_1p6mk_139:active {
+  cursor: grabbing;
+}
+
+._cardValue_1p6mk_161 {
+  font-size: 1.4rem; /* ফন্ট সাইজ সামান্য এডজাস্ট করা হয়েছে */
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+._cardSub_1p6mk_173 {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}/* B_Baria/Card/Cards/Cash/CashShortcuts.css */
+
+.cash-shortcut-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.cash-nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* আইকনের স্টাইল */
+.btn-icon {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* --- আলাদা রঙের ভেরিয়েন্ট --- */
+
+/* ১. জমা (Deposit) - সবুজ */
+.cash-nav-btn.btn-add:hover,
+.cash-nav-btn.btn-add.active {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border-color: #22c55e;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ২. উত্তোলন (Withdraw) - লাল */
+.cash-nav-btn.btn-withdraw:hover,
+.cash-nav-btn.btn-withdraw.active {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ৩. সংশোধন (Modified) - কমলা */
+.cash-nav-btn.btn-modified:hover,
+.cash-nav-btn.btn-modified.active {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+}
+
+/* হোভার ইফেক্ট সাধারণ */
+.cash-nav-btn:hover .btn-icon,
+.cash-nav-btn.active .btn-icon {
+  opacity: 1;
+}
+
+/* মোবাইলের জন্য এডজাস্টমেন্ট */
+@media (max-width: 600px) {
+  .cash-nav-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    flex: 1;
+    justify-content: center;
+  }
+}/* File: B_Baria/Card/Cards/Account/AccountNavigation.css */
+
+.acc-nav-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 5px 0;
+}
+
+.acc-nav-btn {
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+}
+
+.acc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.6;
+  box-shadow: 0 0 5px currentColor;
+}
+
+.acc-nav-btn:hover {
+  transform: translateY(-2px);
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ব্র্যান্ড কালারস (Active State) */
+.acc-nav-btn.active.nav-all { background: linear-gradient(135deg, #64748b, #475569); border-color: #94a3b8; color: #fff; }
+.acc-nav-btn.active.nav-bkash { background: linear-gradient(135deg, #e2136e, #c90e60); border-color: #e2136e; color: #fff; }
+.acc-nav-btn.active.nav-nagad { background: linear-gradient(135deg, #f16124, #d94e12); border-color: #f16124; color: #fff; }
+.acc-nav-btn.active.nav-rocket { background: linear-gradient(135deg, #8c3494, #702678); border-color: #8c3494; color: #fff; }
+.acc-nav-btn.active.nav-upay { background: linear-gradient(135deg, #0081c7, #006aa6); border-color: #0081c7; color: #fff; }
+.acc-nav-btn.active.nav-desco { background: linear-gradient(135deg, #009c48, #007a38); border-color: #009c48; color: #fff; }
+.acc-nav-btn.active.nav-gp { background: linear-gradient(135deg, #00699e, #00507a); border-color: #00699e; color: #fff; }
+.acc-nav-btn.active.nav-bl { background: linear-gradient(135deg, #ff6b00, #cc5500); border-color: #ff6b00; color: #fff; }
+.acc-nav-btn.active.nav-robi { background: linear-gradient(135deg, #ed1c24, #c4131a); border-color: #ed1c24; color: #fff; }
+.acc-nav-btn.active.nav-airtel { background: linear-gradient(135deg, #d60d16, #b00910); border-color: #d60d16; color: #fff; }
+.acc-nav-btn.active.nav-teletalk { background: linear-gradient(135deg, #87c540, #6da330); border-color: #87c540; color: #fff; }/* পুরো কন্টেইনার */
 .hard-reset-container {
   margin-top: 40px;
   padding: 30px;

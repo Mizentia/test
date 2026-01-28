@@ -27,6 +27,9 @@
     fetch(link.href, fetchOpts);
   }
 })();
+function getDefaultExportFromCjs(x2) {
+  return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
+}
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production = {};
 var hasRequiredReactJsxRuntime_production;
@@ -503,6 +506,7 @@ function requireReact() {
   return react.exports;
 }
 var reactExports = requireReact();
+const React = /* @__PURE__ */ getDefaultExportFromCjs(reactExports);
 var client = { exports: {} };
 var reactDomClient_production = {};
 var scheduler = { exports: {} };
@@ -777,7 +781,7 @@ var hasRequiredReactDom_production;
 function requireReactDom_production() {
   if (hasRequiredReactDom_production) return reactDom_production;
   hasRequiredReactDom_production = 1;
-  var React = requireReact();
+  var React2 = requireReact();
   function formatProdErrorMessage(code) {
     var url = "https://react.dev/errors/" + code;
     if (1 < arguments.length) {
@@ -816,7 +820,7 @@ function requireReactDom_production() {
       implementation
     };
   }
-  var ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+  var ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
   function getCrossOriginStringAs(as, input) {
     if ("font" === as) return "";
     if ("string" === typeof input)
@@ -944,7 +948,7 @@ var hasRequiredReactDomClient_production;
 function requireReactDomClient_production() {
   if (hasRequiredReactDomClient_production) return reactDomClient_production;
   hasRequiredReactDomClient_production = 1;
-  var Scheduler = requireScheduler(), React = requireReact(), ReactDOM = requireReactDom();
+  var Scheduler = requireScheduler(), React2 = requireReact(), ReactDOM = requireReactDom();
   function formatProdErrorMessage(code) {
     var url = "https://react.dev/errors/" + code;
     if (1 < arguments.length) {
@@ -1120,7 +1124,7 @@ function requireReactDomClient_production() {
       }
     return null;
   }
-  var isArrayImpl = Array.isArray, ReactSharedInternals = React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, sharedNotPendingObject = {
+  var isArrayImpl = Array.isArray, ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, sharedNotPendingObject = {
     pending: false,
     data: null,
     method: null,
@@ -12360,7 +12364,7 @@ function requireReactDomClient_production() {
       0 === i && attemptExplicitHydrationTarget(target);
     }
   };
-  var isomorphicReactPackageVersion$jscomp$inline_1840 = React.version;
+  var isomorphicReactPackageVersion$jscomp$inline_1840 = React2.version;
   if ("19.2.3" !== isomorphicReactPackageVersion$jscomp$inline_1840)
     throw Error(
       formatProdErrorMessage(
@@ -18330,11 +18334,11 @@ const Section = ({ title, icon: Icon2, children }) => {
 };
 const Categories = () => {
   const cats = ["সব", "অ্যাকশন", "রোমান্টিক", "হরর", "ড্রামা", "কমেডি", "সায়েন্স ফিকশন", "থ্রিলার"];
-  const [active2, setActive] = reactExports.useState("সব");
+  const [active, setActive] = reactExports.useState("সব");
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "categories", children: cats.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: `category-pill ${active2 === cat ? "active" : ""}`,
+      className: `category-pill ${active === cat ? "active" : ""}`,
       onClick: () => setActive(cat),
       children: cat
     },
@@ -19411,6 +19415,194 @@ const NokshaLab = () => {
       }
     )
   ] });
+};
+const useLocalStorage = (key, initialValue) => {
+  const [value, setValue] = reactExports.useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error("Local Storage Read Error:", error);
+      return initialValue;
+    }
+  });
+  reactExports.useEffect(() => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error("Local Storage Write Error:", error);
+    }
+  }, [key, value]);
+  return [value, setValue];
+};
+const useTheme = () => {
+  const [themeIndex, setThemeIndex] = useLocalStorage("themeIndex", 0);
+  const changeTheme = (index) => {
+    setThemeIndex(index);
+  };
+  return { themeIndex, changeTheme };
+};
+const translations = {
+  bn: {
+    // Navbar
+    nav_history: "লেনদেনের ইতিহাস",
+    nav_settings: "সেটিংস",
+    nav_logout: "লগআউট",
+    // Dashboard Cards
+    capital: "মোট মূলধন",
+    cash: "ক্যাশ টাকা",
+    balance: "অ্যাকাউন্ট",
+    stock: "প্রোডাক্ট স্টক",
+    profit: "মোট লাভ",
+    sub_cash: "হাতে আছে",
+    sub_acc: "ব্যাংক ও মোবাইল",
+    sub_stock: "কেনা দাম",
+    sub_profit: "এই মাস",
+    details: "বিস্তারিত",
+    // Settings Navigation
+    set_db: "ডাটাবেজ",
+    set_theme: "থিম",
+    set_font: "ভাষা",
+    set_reset: "রিসেট",
+    // Settings Content
+    db_title: "টিম ডাটাবেজ",
+    db_active: "বর্তমানে অ্যাক্টিভ",
+    db_total: "মোট ডাটাবেজ",
+    db_share_title: "নতুন ডাটাবেজ শেয়ার করুন",
+    db_user_name: "ইউজার নাম",
+    db_email: "ইমেইল",
+    db_config: "ফায়ারবেস কনফিগারেশন (JSON)",
+    db_btn_share: "শেয়ার করুন",
+    db_btn_update: "আপডেট করুন",
+    db_btn_connect: "কানেক্ট",
+    theme_title: "থিম নির্বাচন করুন",
+    theme_no: "কোনো থিম নেই",
+    theme_static: "স্ট্যাটিক ডার্ক মোড",
+    lang_title: "ভাষা নির্বাচন করুন",
+    reset_title: "সিস্টেম রিসেট",
+    reset_desc: "এই অপশনটি আপনার লোকাল ক্যাশ ক্লিয়ার করবে।",
+    reset_btn: "হার্ড রিসেট",
+    // History
+    hist_cat: "ক্যাটাগরি",
+    hist_reset: "সব মুছুন",
+    hist_empty: "কোনো লেনদেন পাওয়া যায়নি।",
+    // Cash View
+    cash_current: "বর্তমান ক্যাশ ব্যালেন্স",
+    cash_amount: "টাকার পরিমাণ",
+    cash_note: "বিবরণ (ঐচ্ছিক)",
+    cash_note_placeholder: "যেমন: ব্যক্তিগত ব্যবহার, ভুল সংশোধন",
+    cash_btn_add: "জমা করুন",
+    cash_btn_withdraw: "উত্তোলন করুন",
+    cash_btn_update: "ব্যালেন্স সেট করুন",
+    cash_footer: "* এই পরিবর্তনটি মূলধন (Capital) এবং হিস্টোরিতে স্বয়ংক্রিয়ভাবে আপডেট হবে।",
+    // Shortcuts
+    sc_add: "জমা",
+    sc_withdraw: "উত্তোলন",
+    sc_mod: "সংশোধন",
+    sc_daily: "দৈনিক",
+    sc_weekly: "সাপ্তাহিক",
+    sc_monthly: "মাসিক",
+    sc_yearly: "বাৎসরিক",
+    sc_all: "সব",
+    // Capital View
+    cap_title: "মূলধন বিশ্লেষণ",
+    cap_desc: "আপনার ব্যবসার মোট মূলধন নিচের তিনটি খাতের সমষ্টি",
+    cap_total: "মোট মূলধন",
+    // Product & Account
+    prod_title: "প্রোডাক্ট স্টক ও ইনভেন্টরি",
+    prod_desc: "দোকানের সমস্ত প্রোডাক্ট এবং সিম কার্ডের স্টক লিস্ট এখানে দেখানো হবে।",
+    acc_title: "অ্যাকাউন্ট বিস্তারিত ও ব্যালেন্স",
+    acc_desc: "এখানে আপনার সমস্ত অ্যাকাউন্ট (বিকাশ, নগদ, রকেট, ব্যাংক ইত্যাদি) এর বিস্তারিত হিসাব থাকবে।",
+    profit_title: "লাভ বিশ্লেষণ",
+    profit_desc: "আপনার দৈনিক, সাপ্তাহিক, মাসিক এবং বাৎসরিক লাভের হিসাব এখানে বিশ্লেষণ করা হবে।"
+  },
+  en: {
+    // Navbar
+    nav_history: "Transaction History",
+    nav_settings: "Settings",
+    nav_logout: "Logout",
+    // Dashboard Cards
+    capital: "Total Capital",
+    cash: "Cash in Hand",
+    balance: "Account Balance",
+    stock: "Stock Value",
+    profit: "Total Profit",
+    sub_cash: "In Hand",
+    sub_acc: "Bank & Mobile",
+    sub_stock: "Cost Price",
+    sub_profit: "This Month",
+    details: "Details",
+    // Settings Navigation
+    set_db: "Database",
+    set_theme: "Theme",
+    set_font: "Language",
+    set_reset: "Reset",
+    // Settings Content
+    db_title: "Team Databases",
+    db_active: "Currently Active",
+    db_total: "Total DBs",
+    db_share_title: "Share New Database",
+    db_user_name: "User Name",
+    db_email: "Email",
+    db_config: "Firebase Config (JSON)",
+    db_btn_share: "Share Data",
+    db_btn_update: "Update Data",
+    db_btn_connect: "Connect",
+    theme_title: "Select Interface Theme",
+    theme_no: "No Theme",
+    theme_static: "Static Dark Mode",
+    lang_title: "Select Language",
+    reset_title: "System Reset",
+    reset_desc: "This option will clear your local cache.",
+    reset_btn: "Hard Reset",
+    // History
+    hist_cat: "Category",
+    hist_reset: "Reset All",
+    hist_empty: "No transactions found.",
+    // Cash View
+    cash_current: "Current Cash Balance",
+    cash_amount: "Amount",
+    cash_note: "Note (Optional)",
+    cash_note_placeholder: "e.g. Personal use, Correction",
+    cash_btn_add: "Deposit Now",
+    cash_btn_withdraw: "Withdraw Now",
+    cash_btn_update: "Set Balance",
+    cash_footer: "* This change will automatically update Capital and History.",
+    // Shortcuts
+    sc_add: "Deposit",
+    sc_withdraw: "Withdraw",
+    sc_mod: "Modify",
+    sc_daily: "Daily",
+    sc_weekly: "Weekly",
+    sc_monthly: "Monthly",
+    sc_yearly: "Yearly",
+    sc_all: "All",
+    // Capital View
+    cap_title: "Capital Logic Breakdown",
+    cap_desc: "Your total business capital is the sum of the following three sectors",
+    cap_total: "Total Capital",
+    // Product & Account
+    prod_title: "Product Stock & Inventory",
+    prod_desc: "Stock list of all products and SIM cards will be shown here.",
+    acc_title: "Account Details & Balance",
+    acc_desc: "Details of all your accounts (Bkash, Nagad, Rocket, Bank etc.) will be here.",
+    profit_title: "Profit Analysis",
+    profit_desc: "Your daily, weekly, monthly, and yearly profit analysis."
+  }
+};
+const useLanguage = () => {
+  const [language, setLanguage] = useLocalStorage("appLanguage", "bn");
+  const toggleLanguage = (lang) => {
+    setLanguage(lang);
+  };
+  const formatNum = (num) => {
+    if (!num) num = 0;
+    const n = num.toLocaleString("en-IN");
+    if (language === "en") return "৳ " + n;
+    return "৳ " + n.replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
+  };
+  const t = translations[language];
+  return { language, toggleLanguage, formatNum, t };
 };
 const getDefaultsFromPostinstall = () => void 0;
 var define_process_env_default = {};
@@ -40283,177 +40475,15 @@ function registerFirestore(instance) {
   instance.registerVersion(name, version);
 }
 registerFirestore(firebase);
-const translations = {
-  bn: {
-    // Navbar
-    nav_history: "লেনদেনের ইতিহাস",
-    nav_settings: "সেটিংস",
-    nav_logout: "লগআউট",
-    // Dashboard Cards
-    capital: "মোট মূলধন",
-    cash: "ক্যাশ টাকা",
-    balance: "অ্যাকাউন্ট",
-    stock: "প্রোডাক্ট স্টক",
-    profit: "মোট লাভ",
-    sub_cash: "হাতে আছে",
-    sub_acc: "ব্যাংক ও মোবাইল",
-    sub_stock: "কেনা দাম",
-    sub_profit: "এই মাস",
-    details: "বিস্তারিত",
-    // Settings Navigation
-    set_db: "ডাটাবেজ",
-    set_theme: "থিম",
-    set_font: "ভাষা",
-    set_reset: "রিসেট",
-    // Settings Content
-    db_title: "টিম ডাটাবেজ",
-    db_active: "বর্তমানে অ্যাক্টিভ",
-    db_total: "মোট ডাটাবেজ",
-    db_share_title: "নতুন ডাটাবেজ শেয়ার করুন",
-    db_user_name: "ইউজার নাম",
-    db_email: "ইমেইল",
-    db_config: "ফায়ারবেস কনফিগারেশন (JSON)",
-    db_btn_share: "শেয়ার করুন",
-    db_btn_update: "আপডেট করুন",
-    db_btn_connect: "কানেক্ট",
-    theme_title: "থিম নির্বাচন করুন",
-    theme_no: "কোনো থিম নেই",
-    theme_static: "স্ট্যাটিক ডার্ক মোড",
-    lang_title: "ভাষা নির্বাচন করুন",
-    reset_title: "সিস্টেম রিসেট",
-    reset_desc: "এই অপশনটি আপনার লোকাল ক্যাশ ক্লিয়ার করবে।",
-    reset_btn: "হার্ড রিসেট",
-    // History
-    hist_cat: "ক্যাটাগরি",
-    hist_reset: "সব মুছুন",
-    hist_empty: "কোনো লেনদেন পাওয়া যায়নি।",
-    // Cash View
-    cash_current: "বর্তমান ক্যাশ ব্যালেন্স",
-    cash_amount: "টাকার পরিমাণ",
-    cash_note: "বিবরণ (ঐচ্ছিক)",
-    cash_note_placeholder: "যেমন: ব্যক্তিগত ব্যবহার, ভুল সংশোধন",
-    cash_btn_add: "জমা করুন",
-    cash_btn_withdraw: "উত্তোলন করুন",
-    cash_btn_update: "ব্যালেন্স সেট করুন",
-    cash_footer: "* এই পরিবর্তনটি মূলধন (Capital) এবং হিস্টোরিতে স্বয়ংক্রিয়ভাবে আপডেট হবে।",
-    // Shortcuts
-    sc_add: "জমা",
-    sc_withdraw: "উত্তোলন",
-    sc_mod: "সংশোধন",
-    sc_daily: "দৈনিক",
-    sc_weekly: "সাপ্তাহিক",
-    sc_monthly: "মাসিক",
-    sc_yearly: "বাৎসরিক",
-    sc_all: "সব",
-    // Capital View
-    cap_title: "মূলধন বিশ্লেষণ",
-    cap_desc: "আপনার ব্যবসার মোট মূলধন নিচের তিনটি খাতের সমষ্টি",
-    cap_total: "মোট মূলধন",
-    // Product & Account
-    prod_title: "প্রোডাক্ট স্টক ও ইনভেন্টরি",
-    prod_desc: "দোকানের সমস্ত প্রোডাক্ট এবং সিম কার্ডের স্টক লিস্ট এখানে দেখানো হবে।",
-    acc_title: "অ্যাকাউন্ট বিস্তারিত ও ব্যালেন্স",
-    acc_desc: "এখানে আপনার সমস্ত অ্যাকাউন্ট (বিকাশ, নগদ, রকেট, ব্যাংক ইত্যাদি) এর বিস্তারিত হিসাব থাকবে।",
-    profit_title: "লাভ বিশ্লেষণ",
-    profit_desc: "আপনার দৈনিক, সাপ্তাহিক, মাসিক এবং বাৎসরিক লাভের হিসাব এখানে বিশ্লেষণ করা হবে।"
-  },
-  en: {
-    // Navbar
-    nav_history: "Transaction History",
-    nav_settings: "Settings",
-    nav_logout: "Logout",
-    // Dashboard Cards
-    capital: "Total Capital",
-    cash: "Cash in Hand",
-    balance: "Account Balance",
-    stock: "Stock Value",
-    profit: "Total Profit",
-    sub_cash: "In Hand",
-    sub_acc: "Bank & Mobile",
-    sub_stock: "Cost Price",
-    sub_profit: "This Month",
-    details: "Details",
-    // Settings Navigation
-    set_db: "Database",
-    set_theme: "Theme",
-    set_font: "Language",
-    set_reset: "Reset",
-    // Settings Content
-    db_title: "Team Databases",
-    db_active: "Currently Active",
-    db_total: "Total DBs",
-    db_share_title: "Share New Database",
-    db_user_name: "User Name",
-    db_email: "Email",
-    db_config: "Firebase Config (JSON)",
-    db_btn_share: "Share Data",
-    db_btn_update: "Update Data",
-    db_btn_connect: "Connect",
-    theme_title: "Select Interface Theme",
-    theme_no: "No Theme",
-    theme_static: "Static Dark Mode",
-    lang_title: "Select Language",
-    reset_title: "System Reset",
-    reset_desc: "This option will clear your local cache.",
-    reset_btn: "Hard Reset",
-    // History
-    hist_cat: "Category",
-    hist_reset: "Reset All",
-    hist_empty: "No transactions found.",
-    // Cash View
-    cash_current: "Current Cash Balance",
-    cash_amount: "Amount",
-    cash_note: "Note (Optional)",
-    cash_note_placeholder: "e.g. Personal use, Correction",
-    cash_btn_add: "Deposit Now",
-    cash_btn_withdraw: "Withdraw Now",
-    cash_btn_update: "Set Balance",
-    cash_footer: "* This change will automatically update Capital and History.",
-    // Shortcuts
-    sc_add: "Deposit",
-    sc_withdraw: "Withdraw",
-    sc_mod: "Modify",
-    sc_daily: "Daily",
-    sc_weekly: "Weekly",
-    sc_monthly: "Monthly",
-    sc_yearly: "Yearly",
-    sc_all: "All",
-    // Capital View
-    cap_title: "Capital Logic Breakdown",
-    cap_desc: "Your total business capital is the sum of the following three sectors",
-    cap_total: "Total Capital",
-    // Product & Account
-    prod_title: "Product Stock & Inventory",
-    prod_desc: "Stock list of all products and SIM cards will be shown here.",
-    acc_title: "Account Details & Balance",
-    acc_desc: "Details of all your accounts (Bkash, Nagad, Rocket, Bank etc.) will be here.",
-    profit_title: "Profit Analysis",
-    profit_desc: "Your daily, weekly, monthly, and yearly profit analysis."
-  }
-};
-const AppContext = reactExports.createContext();
-const AppProvider = ({ children }) => {
+const useFirebaseDB = (setAppData) => {
   const [activeDB, setActiveDB] = reactExports.useState(null);
-  const [dbName, setDbName] = reactExports.useState("Local Demo");
-  const [appData, setAppData] = reactExports.useState({
-    cash: 25e3,
-    accounts: [],
-    items: [],
-    history: [],
-    profit: 1e4
-  });
-  const [themeIndex, setThemeIndex] = reactExports.useState(0);
-  const [language, setLanguage] = reactExports.useState("bn");
+  const [dbName, setDbName] = reactExports.useState("Local Mode");
   const [isLoading, setIsLoading] = reactExports.useState(false);
   reactExports.useEffect(() => {
-    const savedTheme = localStorage.getItem("themeIndex");
-    if (savedTheme) setThemeIndex(parseInt(savedTheme));
-    const savedLang = localStorage.getItem("appLanguage");
-    if (savedLang) setLanguage(savedLang);
     const savedConfig = localStorage.getItem("activeConfig");
     const savedName = localStorage.getItem("activeDBName");
     if (savedConfig) {
-      connectToDB(JSON.parse(savedConfig), savedName || "Unknown Team");
+      connectToDB(JSON.parse(savedConfig), savedName || "Team DB");
     }
   }, []);
   const connectToDB = async (config, name2) => {
@@ -40498,45 +40528,66 @@ const AppProvider = ({ children }) => {
       setIsLoading(false);
     });
   };
-  const updateGlobalState = async (newData) => {
+  const updateOnlineData = async (newData) => {
     if (activeDB) {
       try {
         await activeDB.collection("noksha_store").doc("main_data").update(newData);
       } catch (err) {
         console.error("Update Failed:", err);
       }
+    }
+  };
+  return { activeDB, dbName, isLoading, connectToDB, updateOnlineData };
+};
+const AppContext = reactExports.createContext();
+const AppProvider = ({ children }) => {
+  const { themeIndex, changeTheme } = useTheme();
+  const { language, toggleLanguage, formatNum, t } = useLanguage();
+  const [appData, setAppData] = reactExports.useState(() => {
+    const savedLocal = localStorage.getItem("noksha_local_data");
+    return savedLocal ? JSON.parse(savedLocal) : {
+      cash: 0,
+      accounts: [],
+      items: [],
+      history: [],
+      profit: 0
+    };
+  });
+  const { activeDB, dbName, isLoading, connectToDB, updateOnlineData } = useFirebaseDB(setAppData);
+  reactExports.useEffect(() => {
+    if (!activeDB) {
+      localStorage.setItem("noksha_local_data", JSON.stringify(appData));
+    }
+  }, [appData, activeDB]);
+  const updateGlobalState = (newData) => {
+    if (activeDB) {
+      updateOnlineData(newData);
     } else {
       setAppData((prev) => ({ ...prev, ...newData }));
     }
   };
-  const changeTheme = (index) => {
-    setThemeIndex(index);
-    localStorage.setItem("themeIndex", index);
+  const resetLocalState = () => {
+    const emptyData = { cash: 0, accounts: [], items: [], history: [], profit: 0 };
+    setAppData(emptyData);
+    localStorage.setItem("noksha_local_data", JSON.stringify(emptyData));
   };
-  const toggleLanguage = (lang) => {
-    setLanguage(lang);
-    localStorage.setItem("appLanguage", lang);
-  };
-  const formatNum = (num) => {
-    if (!num) num = 0;
-    const n = num.toLocaleString("en-IN");
-    if (language === "en") return "৳ " + n;
-    return "৳ " + n.replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
-  };
-  const t = translations[language];
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AppContext.Provider, { value: {
+    // Database Props
     activeDB,
     dbName,
     connectToDB,
+    isLoading,
+    // Data Props
     appData,
     updateGlobalState,
+    resetLocalState,
+    // Theme & Language Props
     themeIndex,
     changeTheme,
     language,
     toggleLanguage,
     formatNum,
-    t,
-    isLoading
+    t
   }, children });
 };
 const useApp = () => reactExports.useContext(AppContext);
@@ -41749,6 +41800,47 @@ const Background = () => {
   const SelectedBackground = backgroundList[themeIndex] || Background$2;
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SelectedBackground, {}) });
 };
+const FormInput = ({ type, name: name2, placeholder, onChange }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "input",
+    {
+      type,
+      name: name2,
+      placeholder,
+      onChange,
+      required: true
+    }
+  ) });
+};
+const LoginForm = ({ handleSubmit, handleChange }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "login-card", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-effect" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-content", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "LOGIN" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          FormInput,
+          {
+            type: "text",
+            name: "name",
+            placeholder: "Enter Your Name",
+            onChange: handleChange
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          FormInput,
+          {
+            type: "password",
+            name: "password",
+            placeholder: "Password",
+            onChange: handleChange
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "login-btn", children: "Enter Space" })
+      ] })
+    ] })
+  ] });
+};
 const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = reactExports.useState({
     name: "",
@@ -41769,35 +41861,13 @@ const Login = ({ onLoginSuccess }) => {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "page-wrapper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "login-overlay", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "login-card", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-effect" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "form-content", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "LOGIN" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "text",
-              name: "name",
-              placeholder: "Enter Your Name",
-              onChange: handleChange,
-              required: true
-            }
-          ) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "input-group", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "password",
-              name: "password",
-              placeholder: "Password",
-              onChange: handleChange,
-              required: true
-            }
-          ) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "login-btn", children: "Enter Space" })
-        ] })
-      ] })
-    ] }) })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "login-overlay", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      LoginForm,
+      {
+        handleSubmit,
+        handleChange
+      }
+    ) })
   ] });
 };
 const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
@@ -41916,6 +41986,46 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
       ] })
     ] })
   ] });
+};
+const container = "_container_69urd_7";
+const sidebar = "_sidebar_69urd_29";
+const glassContent = "_glassContent_69urd_55";
+const contentHeaderRow = "_contentHeaderRow_69urd_107";
+const headerLeft = "_headerLeft_69urd_131";
+const glassHeader = "_glassHeader_69urd_147";
+const closeBtn = "_closeBtn_69urd_221";
+const styles$1 = {
+  container,
+  sidebar,
+  glassContent,
+  contentHeaderRow,
+  headerLeft,
+  glassHeader,
+  closeBtn
+};
+const useDashboardStats = (appData, t, formatNum) => {
+  const stats = reactExports.useMemo(() => {
+    const totalCash = parseFloat(appData.cash) || 0;
+    const totalAccount = (appData.accounts || []).reduce(
+      (sum, acc) => sum + (parseFloat(acc.balance) || 0),
+      0
+    );
+    const totalProduct = (appData.items || []).reduce(
+      (sum, item) => sum + (parseFloat(item.cost) || 0) * (parseFloat(item.stock) || 0),
+      0
+    );
+    const totalProfit = parseFloat(appData.profit) || 0;
+    const totalCapital = totalCash + totalAccount + totalProduct;
+    const cards = [
+      { id: "1", key: "capital", title: t.capital, value: formatNum(totalCapital), sub: `${t.cash} + ${t.balance} + ${t.stock}`, color: "#14b8a6" },
+      { id: "2", key: "cash", title: t.cash, value: formatNum(totalCash), sub: t.sub_cash, color: "#22c55e" },
+      { id: "3", key: "balance", title: t.balance, value: formatNum(totalAccount), sub: t.sub_acc, color: "#3b82f6" },
+      { id: "4", key: "stock", title: t.stock, value: formatNum(totalProduct), sub: t.sub_stock, color: "#f97316" },
+      { id: "5", key: "profit", title: t.profit, value: formatNum(totalProfit), sub: t.sub_profit, color: "#a855f7" }
+    ];
+    return { totalCash, cards };
+  }, [appData, t, formatNum]);
+  return stats;
 };
 const LayoutGroupContext = reactExports.createContext({});
 function useConstant(init) {
@@ -49600,7 +49710,7 @@ const cardHeader = "_cardHeader_1p6mk_119";
 const grip = "_grip_1p6mk_139";
 const cardValue = "_cardValue_1p6mk_161";
 const cardSub = "_cardSub_1p6mk_173";
-const styles$1 = {
+const styles = {
   statsContainer,
   statCard,
   cardIconBg,
@@ -49649,7 +49759,7 @@ const CardItem = ({ card, onClick }) => {
       dragListener: !isMobile,
       dragControls: controls,
       onTouchStart: isMobile ? handleMobileTouch : void 0,
-      className: styles$1.statCard,
+      className: styles.statCard,
       onClick,
       style: {
         borderLeft: `5px solid ${card.color}`,
@@ -49667,23 +49777,23 @@ const CardItem = ({ card, onClick }) => {
           Icon,
           {
             name: card.key,
-            className: styles$1.cardIconBg,
+            className: styles.cardIconBg,
             style: { color: card.color }
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.cardHeader, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.cardHeader, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
             {
               onPointerDown: (e) => !isMobile && controls.start(e),
               style: { display: "flex", alignItems: "center" },
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles$1.grip })
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { name: "grip", className: styles.grip })
             }
           ),
           card.title
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.cardValue, style: { color: card.color }, children: card.value }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.cardSub, children: card.sub })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardValue, style: { color: card.color }, children: card.value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.cardSub, children: card.sub })
       ]
     }
   );
@@ -49694,7 +49804,7 @@ function StatsCards({ cards, setCards, onCardSelect }) {
     {
       values: cards,
       onReorder: setCards,
-      className: styles$1.statsContainer,
+      className: styles.statsContainer,
       as: "div",
       children: cards.map((card) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         CardItem,
@@ -49707,25 +49817,309 @@ function StatsCards({ cards, setCards, onCardSelect }) {
     }
   );
 }
-const container = "_container_69urd_7";
-const sidebar = "_sidebar_69urd_29";
-const glassContent = "_glassContent_69urd_55";
-const contentHeaderRow = "_contentHeaderRow_69urd_107";
-const headerLeft = "_headerLeft_69urd_131";
-const glassHeader = "_glassHeader_69urd_147";
-const shortcutBtn = "_shortcutBtn_69urd_177";
-const active = "_active_69urd_203";
-const closeBtn = "_closeBtn_69urd_221";
-const styles = {
-  container,
-  sidebar,
-  glassContent,
-  contentHeaderRow,
-  headerLeft,
-  glassHeader,
-  shortcutBtn,
-  active,
-  closeBtn
+const DashboardSidebar = ({ cards, onCardSelect }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.sidebar, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    StatsCards,
+    {
+      cards,
+      setCards: () => {
+      },
+      onCardSelect
+    }
+  ) });
+};
+const HistoryNavigation = ({ onFilterChange }) => {
+  const [active, setActive] = reactExports.useState("All");
+  const items = [
+    { label: "All", color: "#6366f1" },
+    // Indigo
+    { label: "Cash", color: "#22c55e" },
+    // Green
+    { label: "Account", color: "#3b82f6" },
+    // Blue
+    { label: "Product", color: "#f97316" },
+    // Orange
+    { label: "Profit", color: "#a855f7" },
+    // Purple
+    { label: "Capital", color: "#14b8a6" }
+    // Teal
+  ];
+  const handleClick = (itemLabel) => {
+    setActive(itemLabel);
+    if (onFilterChange) onFilterChange(itemLabel);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle$1, children: items.map((item) => {
+    const isActive = active === item.label;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        onClick: () => handleClick(item.label),
+        style: {
+          ...buttonStyle$1,
+          // এক্টিভ হলে গ্রেডিয়েন্ট কালার, না হলে ডিফল্ট ডার্ক গ্লাস
+          background: isActive ? `linear-gradient(135deg, ${item.color}, ${adjustColor(item.color)})` : "rgba(255, 255, 255, 0.05)",
+          border: isActive ? `1px solid ${item.color}` : "1px solid rgba(255, 255, 255, 0.1)",
+          color: isActive ? "#fff" : "#94a3b8",
+          boxShadow: isActive ? `0 4px 12px ${item.color}40` : "none",
+          transform: isActive ? "translateY(-2px)" : "none"
+        },
+        onMouseEnter: (e) => {
+          if (!isActive) {
+            e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
+            e.currentTarget.style.color = "#fff";
+          }
+        },
+        onMouseLeave: (e) => {
+          if (!isActive) {
+            e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+            e.currentTarget.style.color = "#94a3b8";
+          }
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
+            height: "6px",
+            width: "6px",
+            borderRadius: "50%",
+            backgroundColor: isActive ? "#fff" : item.color,
+            opacity: isActive ? 1 : 0.7
+          } }),
+          item.label
+        ]
+      },
+      item.label
+    );
+  }) });
+};
+const containerStyle$1 = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "10px",
+  marginBottom: "10px",
+  padding: "5px 0"
+};
+const buttonStyle$1 = {
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  padding: "8px 16px",
+  borderRadius: "50px",
+  fontSize: "13px",
+  fontWeight: "600",
+  cursor: "pointer",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  outline: "none",
+  textTransform: "uppercase",
+  letterSpacing: "0.5px"
+};
+function adjustColor(color2, amount) {
+  return color2;
+}
+const SettingsNavigation = ({ active, onSelect }) => {
+  const { t } = useApp();
+  const tabs = [
+    { id: "Database", label: t.set_db, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIcon, {}) },
+    { id: "Theme", label: t.set_theme, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeIcon, {}) },
+    { id: "Font", label: t.set_font, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(FontIcon, {}) },
+    { id: "Reset", label: t.set_reset, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ResetIcon, {}) }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle, children: tabs.map((tab) => {
+    const isActive = active === tab.id;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        onClick: () => onSelect(tab.id),
+        style: buttonStyle,
+        onMouseEnter: (e) => {
+          if (!isActive) e.currentTarget.style.color = "#fff";
+          e.currentTarget.style.background = isActive ? "transparent" : "rgba(255,255,255,0.05)";
+        },
+        onMouseLeave: (e) => {
+          if (!isActive) e.currentTarget.style.color = "#94a3b8";
+          e.currentTarget.style.background = "transparent";
+        },
+        children: [
+          isActive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            motion.div,
+            {
+              layoutId: "activeTabIndicator",
+              style: activeBgStyle,
+              transition: { type: "spring", stiffness: 500, damping: 30 }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: {
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            // এক্টিভ হলে সাদা, না হলে হালকা গ্রে কালার
+            color: isActive ? "#fff" : "#94a3b8",
+            fontWeight: isActive ? "600" : "500",
+            transition: "color 0.2s",
+            fontSize: "14px"
+          }, children: [
+            tab.icon,
+            tab.label
+          ] })
+        ]
+      },
+      tab.id
+    );
+  }) });
+};
+const containerStyle = {
+  display: "flex",
+  background: "rgba(15, 23, 42, 0.6)",
+  // হালকা ডার্ক ব্যাকগ্রাউন্ড
+  padding: "6px",
+  borderRadius: "16px",
+  // রাউন্ডেড শেপ
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  gap: "5px",
+  flexWrap: "wrap",
+  // মোবাইল রেসপন্সিভ এর জন্য
+  marginBottom: "10px"
+  // টাইটেল থেকে একটু গ্যাপ
+};
+const buttonStyle = {
+  position: "relative",
+  background: "transparent",
+  border: "none",
+  padding: "10px 20px",
+  borderRadius: "12px",
+  cursor: "pointer",
+  outline: "none",
+  flex: "1",
+  // সমান জায়গা নিবে
+  minWidth: "100px",
+  // মোবাইলে খুব ছোট হবে না
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  transition: "background 0.2s"
+};
+const activeBgStyle = {
+  position: "absolute",
+  inset: 0,
+  borderRadius: "12px",
+  // সুন্দর ব্লু গ্রেডিয়েন্ট
+  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+  boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)",
+  // গ্লো ইফেক্ট
+  zIndex: 0
+};
+const DatabaseIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("ellipse", { cx: "12", cy: "5", rx: "9", ry: "3" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" })
+] });
+const ThemeIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94" })
+] });
+const FontIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "4 7 4 4 20 4 20 7" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "9", y1: "20", x2: "15", y2: "20" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "12", y1: "4", x2: "12", y2: "20" })
+] });
+const ResetIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 3v5h5" })
+] });
+const CashShortcuts = ({ onAction }) => {
+  const [active, setActive] = reactExports.useState("add");
+  const buttons = [
+    {
+      label: "Deposit / জমা",
+      key: "add",
+      icon: "fa-plus",
+      className: "btn-add"
+    },
+    {
+      label: "Withdraw / খরচ",
+      key: "withdraw",
+      icon: "fa-minus",
+      className: "btn-withdraw"
+    },
+    {
+      label: "Set Balance",
+      key: "modified",
+      icon: "fa-pen",
+      className: "btn-modified"
+    }
+  ];
+  const handleClick = (key) => {
+    setActive(key);
+    if (onAction) onAction(key);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "cash-shortcut-container", children: buttons.map((btn) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "button",
+    {
+      className: `cash-nav-btn ${btn.className} ${active === btn.key ? "active" : ""}`,
+      onClick: () => handleClick(btn.key),
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${btn.icon} btn-icon` }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: btn.label })
+      ]
+    },
+    btn.key
+  )) });
+};
+const AccountNavigation = ({ active, onSelect }) => {
+  const items = [
+    { id: "All", label: "All", class: "nav-all" },
+    { id: "Desco", label: "Desco", class: "nav-desco" },
+    { id: "Bkash", label: "Bkash", class: "nav-bkash" },
+    { id: "Nagad", label: "Nagad", class: "nav-nagad" },
+    { id: "Rocket", label: "Rocket", class: "nav-rocket" },
+    { id: "Upay", label: "Upay", class: "nav-upay" },
+    { id: "GP", label: "GP", class: "nav-gp" },
+    { id: "BL", label: "Banglalink", class: "nav-bl" },
+    { id: "Airtel", label: "Airtel", class: "nav-airtel" },
+    { id: "Robi", label: "Robi", class: "nav-robi" },
+    { id: "Teletalk", label: "Teletalk", class: "nav-teletalk" }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "acc-nav-container", children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "button",
+    {
+      className: `acc-nav-btn ${item.class} ${active === item.id ? "active" : ""}`,
+      onClick: () => onSelect(item.id),
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "acc-dot",
+            style: { backgroundColor: active === item.id ? "#fff" : "" }
+          }
+        ),
+        item.label
+      ]
+    },
+    item.id
+  )) });
+};
+const DashboardHeader = ({
+  selectedKey,
+  isMobile,
+  onCloseContent,
+  // নিচের প্রপসগুলো (props) প্যারেন্ট থেকে আসছে অবস্থা পরিবর্তনের জন্য
+  settingsView,
+  setSettingsView,
+  setHistoryFilter,
+  setCashMode,
+  accountTab,
+  setAccountTab
+}) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.contentHeaderRow, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.headerLeft, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles$1.glassHeader, children: selectedKey.toUpperCase() }),
+      selectedKey === "settings" && /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsNavigation, { active: settingsView, onSelect: setSettingsView }),
+      selectedKey === "history" && /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryNavigation, { onFilterChange: setHistoryFilter }),
+      selectedKey === "cash" && /* @__PURE__ */ jsxRuntimeExports.jsx(CashShortcuts, { onAction: setCashMode }),
+      selectedKey === "balance" && /* @__PURE__ */ jsxRuntimeExports.jsx(AccountNavigation, { active: accountTab, onSelect: setAccountTab })
+    ] }),
+    isMobile && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: styles$1.closeBtn, onClick: onCloseContent, children: "✕" })
+  ] });
 };
 const Cash = ({ mode, currentBalance, onUpdate }) => {
   const [amount, setAmount] = reactExports.useState("");
@@ -49834,13 +50228,1107 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { textAlign: "center", marginTop: "20px", opacity: 0.5, fontSize: "12px" }, children: "* এই পরিবর্তনটি মূলধন (Capital) এবং হিস্টোরিতে স্বয়ংক্রিয়ভাবে আপডেট হবে।" })
   ] });
 };
-const Account = () => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white" }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Account Details & Balance" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "এখানে আপনার সমস্ত অ্যাকাউন্ট (বিকাশ, নগদ, রকেট, ব্যাংক ইত্যাদি) এর বিস্তারিত হিসাব থাকবে।" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "15px", background: "rgba(59, 130, 246, 0.1)", borderRadius: "10px", borderLeft: "4px solid #3b82f6" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Current Balance Summary" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { opacity: 0.7 }, children: "উপরের শর্টকাট থেকে নির্দিষ্ট অ্যাকাউন্ট সিলেক্ট করুন বিস্তারিত দেখার জন্য।" })
+const DescoTransaction = ({ account, onBack, inline = false }) => {
+  const { appData, updateGlobalState, formatNum } = useApp();
+  const [mode, setMode] = reactExports.useState("Sale");
+  const [amount, setAmount] = reactExports.useState("");
+  const settings = JSON.parse(localStorage.getItem("desco_settings") || '{"customerFee":10, "companyCost":2.5, "minRecharge":100}');
+  const inputAmount = parseFloat(amount) || 0;
+  let customerTakes = 0;
+  let balanceCuts = 0;
+  let netProfit = 0;
+  if (mode === "Sale") {
+    const slabs = Math.ceil(inputAmount / 1e3);
+    const fee = slabs * settings.customerFee;
+    customerTakes = inputAmount + fee;
+    const companyDeduction = inputAmount / 1e3 * settings.companyCost;
+    balanceCuts = inputAmount + companyDeduction;
+    netProfit = customerTakes - balanceCuts;
+  }
+  const handleTransaction = () => {
+    if (inputAmount < settings.minRecharge && mode === "Sale") {
+      return alert(`সর্বনিম্ন রিচার্জ ${formatNum(settings.minRecharge)}।`);
+    }
+    if (mode === "Sale") {
+      if (parseFloat(account.balance) < balanceCuts) {
+        return alert(`অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই! প্রয়োজন: ${formatNum(balanceCuts)}`);
+      }
+      const msg = `
+        লেনদেন কনফার্ম করুন:
+        -------------------
+        কাস্টমার পাবে: ${formatNum(inputAmount)}
+        কাস্টমার দিবে: ${formatNum(customerTakes)} (ফি সহ)
+        ব্যালেন্স কাটবে: ${formatNum(balanceCuts)}
+        লাভ হবে: ${formatNum(netProfit)}
+        `;
+      if (window.confirm(msg)) {
+        const updatedAccounts = appData.accounts.map((acc) => {
+          if (acc.id === account.id) {
+            return { ...acc, balance: parseFloat(acc.balance) - balanceCuts };
+          }
+          return acc;
+        });
+        const newCash = (appData.cash || 0) + customerTakes;
+        const newProfit = (appData.profit || 0) + netProfit;
+        const newHistory = {
+          id: Date.now(),
+          name: `Desco Sale: ${inputAmount}`,
+          type: "Desco Sale",
+          category: "account",
+          amount: inputAmount,
+          totalPrice: netProfit,
+          totalCost: 0,
+          date: (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB"),
+          time: (/* @__PURE__ */ new Date()).toLocaleTimeString(),
+          desc: `Recharge: ${inputAmount}, Taken: ${customerTakes}, Cost: ${balanceCuts}`,
+          user: localStorage.getItem("currentUser") || "Admin",
+          accountType: account.type,
+          color: "#3b82f6"
+        };
+        updateGlobalState({
+          accounts: updatedAccounts,
+          cash: newCash,
+          profit: newProfit,
+          history: [newHistory, ...appData.history]
+        });
+        alert("রিচার্জ সফল হয়েছে!");
+        onBack();
+      }
+    } else {
+      if ((appData.cash || 0) < inputAmount) {
+        return alert("আপনার ক্যাশে পর্যাপ্ত টাকা নেই!");
+      }
+      if (window.confirm(`আপনি কি ক্যাশ থেকে ${formatNum(inputAmount)} টাকা এই অ্যাকাউন্টে লোড করতে চান?`)) {
+        const newCash = (appData.cash || 0) - inputAmount;
+        const updatedAccounts = appData.accounts.map((acc) => {
+          if (acc.id === account.id) {
+            return { ...acc, balance: parseFloat(acc.balance) + inputAmount };
+          }
+          return acc;
+        });
+        const newHistory = {
+          id: Date.now(),
+          name: `Load Desco Balance`,
+          type: "Desco Load",
+          category: "account",
+          amount: inputAmount,
+          totalPrice: 0,
+          totalCost: inputAmount,
+          date: (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB"),
+          time: (/* @__PURE__ */ new Date()).toLocaleTimeString(),
+          desc: `Balance Load: ${inputAmount}`,
+          user: localStorage.getItem("currentUser") || "Admin",
+          accountType: account.type,
+          color: "#10b981"
+        };
+        updateGlobalState({
+          cash: newCash,
+          accounts: updatedAccounts,
+          history: [newHistory, ...appData.history]
+        });
+        alert("ব্যালেন্স লোড সফল হয়েছে!");
+        onBack();
+      }
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { animation: "fadeIn 0.3s" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "25px" }, children: [
+      !inline && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onBack, style: { background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: "18px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-arrow-left" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: 0, color: "white" }, children: account.name }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: 0, color: "#94a3b8", fontSize: "12px" }, children: [
+          "বর্তমান ব্যালেন্স: ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#4ade80" }, children: formatNum(account.balance) })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      maxWidth: inline ? "100%" : "1000px",
+      margin: "0 auto",
+      display: "grid",
+      gridTemplateColumns: inline ? "repeat(auto-fit, minmax(300px, 1fr))" : "repeat(2, 1fr)",
+      gap: "20px"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        background: "linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8))",
+        padding: "25px",
+        borderRadius: "14px",
+        border: "1px solid rgba(59, 130, 246, 0.2)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "#93c5fd", marginTop: 0, marginBottom: "15px", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: "600" }, children: "লেনদেন প্রকার" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", background: "rgba(0,0,0,0.3)", padding: "6px", borderRadius: "8px", marginBottom: "25px", gap: "5px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => setMode("Sale"),
+                style: {
+                  flex: 1,
+                  padding: "12px",
+                  border: "none",
+                  background: mode === "Sale" ? "#3b82f6" : "transparent",
+                  color: mode === "Sale" ? "white" : "#94a3b8",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  fontSize: "13px",
+                  transition: "all 0.2s"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-credit-card" }),
+                  " বিক্রয়"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => setMode("Load"),
+                style: {
+                  flex: 1,
+                  padding: "12px",
+                  border: "none",
+                  background: mode === "Load" ? "#10b981" : "transparent",
+                  color: mode === "Load" ? "white" : "#94a3b8",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  fontSize: "13px",
+                  transition: "all 0.2s"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-wallet" }),
+                  " লোড করুন"
+                ]
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "20px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", display: "block", marginBottom: "10px", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.3px" }, children: mode === "Sale" ? "রিচার্জের পরিমাণ" : "লোডের পরিমাণ" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "number",
+                value: amount,
+                onChange: (e) => setAmount(e.target.value),
+                placeholder: "0",
+                style: {
+                  width: "100%",
+                  padding: "14px",
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  background: "rgba(0,0,0,0.4)",
+                  border: "2px solid rgba(59, 130, 246, 0.3)",
+                  borderRadius: "8px",
+                  color: "white",
+                  outline: "none",
+                  transition: "all 0.2s",
+                  boxSizing: "border-box"
+                },
+                onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
+                onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "8px", fontSize: "11px", color: "#94a3b8" }, children: mode === "Sale" && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: 0 }, children: [
+              "নূন্যতম: ",
+              formatNum(settings.minRecharge)
+            ] }) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleTransaction,
+            style: {
+              width: "100%",
+              padding: "14px",
+              background: mode === "Sale" ? "linear-gradient(135deg, #3b82f6, #2563eb)" : "linear-gradient(135deg, #10b981, #059669)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "14px",
+              fontWeight: "700",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              textTransform: "uppercase",
+              letterSpacing: "0.3px"
+            },
+            onMouseEnter: (e) => e.target.style.transform = "translateY(-2px)",
+            onMouseLeave: (e) => e.target.style.transform = "translateY(0)",
+            children: mode === "Sale" ? "বিক্রয় নিশ্চিত করুন" : "ব্যালেন্স লোড করুন"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+        background: "linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(16, 185, 129, 0.1))",
+        padding: "25px",
+        borderRadius: "14px",
+        border: "1px solid rgba(16, 185, 129, 0.2)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)"
+      }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "#86efac", marginTop: 0, marginBottom: "20px", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: "600" }, children: "লেনদেন বিবরণ" }),
+        amount > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          mode === "Sale" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { background: "rgba(59, 130, 246, 0.1)", borderRadius: "8px", padding: "15px", marginBottom: "12px", borderLeft: "4px solid #3b82f6" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "রিচার্জ পরিমাণ:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "white" }, children: formatNum(inputAmount) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "প্রয়োজনীয় ফি:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#fbbf24" }, children: [
+                  "+",
+                  formatNum(customerTakes - inputAmount)
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#86efac", fontSize: "13px", fontWeight: "700" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "কাস্টমার দিবেন:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatNum(customerTakes) })
+              ] })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { background: "rgba(239, 68, 68, 0.1)", borderRadius: "8px", padding: "15px", marginBottom: "12px", borderLeft: "4px solid #ef4444" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "আপনার ব্যালেন্স থেকে:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+                  "-",
+                  formatNum(balanceCuts)
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#cbd5e1", fontSize: "12px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "বাকি ব্যালেন্স:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "#4ade80" }, children: formatNum(Math.max(0, parseFloat(account.balance) - balanceCuts)) })
+              ] })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(74, 222, 128, 0.15)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #4ade80" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#cbd5e1", fontSize: "12px", fontWeight: "600" }, children: "আপনার মুনাফা:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "#4ade80", fontWeight: "700", fontSize: "16px" }, children: [
+                  "+",
+                  formatNum(netProfit)
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "10px", color: "#86efac", opacity: 0.7, fontStyle: "italic" }, children: [
+                "প্রতি ১০০০টাকা ফি ",
+                settings.customerFee,
+                "টাকা, খরচ ",
+                settings.companyCost,
+                "টাকা"
+              ] })
+            ] })
+          ] }),
+          mode === "Load" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { background: "rgba(16, 185, 129, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #10b981" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লোডের পরিমাণ:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "#10b981" }, children: formatNum(inputAmount) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#cbd5e1", fontSize: "12px" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "নতুন ব্যালেন্স:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "#10b981" }, children: formatNum(parseFloat(account.balance) + inputAmount) })
+            ] })
+          ] }) })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", padding: "50px 0", color: "#64748b" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-calculator", style: { fontSize: "40px", marginBottom: "12px", opacity: 0.5 } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { margin: 0, fontSize: "12px", fontWeight: "500" }, children: "পরিমাণ লিখুন বিবরণ দেখতে" })
+        ] })
+      ] }) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+        @media (max-width: 900px) {
+          [style*="gridTemplateColumns"] {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      ` })
+  ] });
+};
+const DescoSettings = ({ onClose }) => {
+  const [settings, setSettings] = reactExports.useState(() => {
+    const saved = localStorage.getItem("desco_settings");
+    return saved ? JSON.parse(saved) : {
+      customerFee: 10,
+      companyCost: 2.5,
+      minRecharge: 100
+    };
+  });
+  const handleSave = () => {
+    localStorage.setItem("desco_settings", JSON.stringify(settings));
+    alert("সেটিংস সেভ করা হয়েছে!");
+    onClose();
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0,0,0,0.8)",
+    zIndex: 1e3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+    background: "#1e293b",
+    padding: "25px",
+    borderRadius: "12px",
+    width: "90%",
+    maxWidth: "400px",
+    border: "1px solid rgba(255,255,255,0.1)"
+  }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { color: "#fff", marginTop: 0, borderBottom: "1px solid #334155", paddingBottom: "10px" }, children: "Desco রেট কনফিগারেশন" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "15px", marginTop: "15px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", fontSize: "13px", display: "block", marginBottom: "5px" }, children: "কাস্টমার ফি (প্রতি ১০০০ স্ল্যাবে)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "number",
+          value: settings.customerFee,
+          onChange: (e) => setSettings({ ...settings, customerFee: parseFloat(e.target.value) }),
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#64748b", fontSize: "10px" }, children: "যেমন: ১০০০ টাকায় ১০ টাকা, ২০০০ টাকায় ২০ টাকা।" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "15px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", fontSize: "13px", display: "block", marginBottom: "5px" }, children: "কোম্পানি খরচ (প্রতি ১০০০ টাকায়)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "number",
+          value: settings.companyCost,
+          onChange: (e) => setSettings({ ...settings, companyCost: parseFloat(e.target.value) }),
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#64748b", fontSize: "10px" }, children: "কোম্পানি আপনার ব্যালেন্স থেকে যত টাকা কাটবে।" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", fontSize: "13px", display: "block", marginBottom: "5px" }, children: "সর্বনিম্ন রিচার্জ অ্যামাউন্ট" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "number",
+          value: settings.minRecharge,
+          onChange: (e) => setSettings({ ...settings, minRecharge: parseFloat(e.target.value) }),
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onClose, style: { flex: 1, padding: "10px", background: "#475569", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }, children: "বাতিল" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handleSave, style: { flex: 1, padding: "10px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" }, children: "সেভ করুন" })
+    ] })
+  ] }) });
+};
+const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, formatNum }) => {
+  const [formData, setFormData] = reactExports.useState({
+    name: "",
+    type: currentAccountType === "All" ? "Desco" : currentAccountType,
+    balance: ""
+  });
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Upay", "GP", "BL", "Airtel", "Robi", "Teletalk"];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const balance = parseFloat(formData.balance) || 0;
+    if (balance <= 0) {
+      alert("❌ ব্যালেন্স শূন্যের চেয়ে বেশি হতে হবে!");
+      return;
+    }
+    if (cash < balance) {
+      alert(`❌ ক্যাশে পর্যাপ্ত টাকা নেই!
+
+প্রয়োজন: ${formatNum(balance)}
+বর্তমান ক্যাশ: ${formatNum(cash)}`);
+      return;
+    }
+    if (!formData.name.trim()) {
+      alert("❌ অ্যাকাউন্টের নাম লিখুন!");
+      return;
+    }
+    onSubmit({
+      name: formData.name.trim(),
+      type: formData.type,
+      balance,
+      deductedCash: balance
+    });
+    setFormData({
+      name: "",
+      type: currentAccountType === "All" ? "Desco" : currentAccountType,
+      balance: ""
+    });
+  };
+  if (!isOpen) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0, 0, 0, 0.6)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1e3,
+    backdropFilter: "blur(5px)"
+  }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
+    borderRadius: "16px",
+    border: "1px solid rgba(59, 130, 246, 0.3)",
+    padding: "40px",
+    maxWidth: "500px",
+    width: "90%",
+    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+    color: "white",
+    animation: "slideUp 0.3s ease-out"
+  }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus-circle" }),
+        " নতুন অ্যাকাউন্ট"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onClose,
+          style: {
+            background: "none",
+            border: "none",
+            color: "#94a3b8",
+            fontSize: "24px",
+            cursor: "pointer"
+          },
+          children: "✕"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: formData.name,
+            onChange: (e) => setFormData({ ...formData, name: e.target.value }),
+            placeholder: "যেমন: 'Desco Main', 'Bkash Personal'",
+            style: {
+              width: "100%",
+              padding: "12px 15px",
+              borderRadius: "8px",
+              background: "rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(59, 130, 246, 0.3)",
+              color: "white",
+              fontSize: "14px",
+              boxSizing: "border-box",
+              transition: "all 0.3s"
+            },
+            onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
+            onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "select",
+          {
+            value: formData.type,
+            onChange: (e) => setFormData({ ...formData, type: e.target.value }),
+            style: {
+              width: "100%",
+              padding: "12px 15px",
+              borderRadius: "8px",
+              background: "rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(59, 130, 246, 0.3)",
+              color: "white",
+              fontSize: "14px",
+              boxSizing: "border-box",
+              cursor: "pointer"
+            },
+            children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "প্রাথমিক ব্যালেন্স (টাকা) *" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "number",
+              value: formData.balance,
+              onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
+              placeholder: "0",
+              min: "0",
+              step: "0.01",
+              style: {
+                width: "100%",
+                padding: "12px 15px 12px 35px",
+                borderRadius: "8px",
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(59, 130, 246, 0.3)",
+                color: "white",
+                fontSize: "14px",
+                boxSizing: "border-box",
+                transition: "all 0.3s"
+              },
+              onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
+              onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "10px 0 0 0", fontSize: "12px", color: "#64748b" }, children: [
+          "💰 উপলব্ধ ক্যাশ: ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#4ade80", fontWeight: "bold" }, children: formatNum(cash) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            type: "submit",
+            style: {
+              flex: 1,
+              padding: "12px",
+              background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "all 0.3s"
+            },
+            onMouseOver: (e) => e.target.style.transform = "translateY(-2px)",
+            onMouseOut: (e) => e.target.style.transform = "translateY(0)",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-check" }),
+              " তৈরি করুন"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            type: "button",
+            onClick: onClose,
+            style: {
+              flex: 1,
+              padding: "12px",
+              background: "rgba(255, 255, 255, 0.1)",
+              color: "#94a3b8",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "all 0.3s"
+            },
+            onMouseOver: (e) => e.target.style.background = "rgba(255, 255, 255, 0.15)",
+            onMouseOut: (e) => e.target.style.background = "rgba(255, 255, 255, 0.1)",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
+              " বাতিল"
+            ]
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        ` })
+  ] }) });
+};
+const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => {
+  const [formData, setFormData] = reactExports.useState({
+    name: account?.name || "",
+    type: account?.type || "Desco",
+    balance: account?.balance || ""
+  });
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Upay", "GP", "BL", "Airtel", "Robi", "Teletalk"];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name.trim()) {
+      alert("❌ অ্যাকাউন্টের নাম লিখুন!");
+      return;
+    }
+    onSubmit({
+      ...account,
+      name: formData.name.trim(),
+      type: formData.type,
+      balance: parseFloat(formData.balance) || 0
+    });
+  };
+  if (!isOpen || !account) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0, 0, 0, 0.6)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1e3,
+    backdropFilter: "blur(5px)"
+  }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
+    borderRadius: "16px",
+    border: "1px solid rgba(59, 130, 246, 0.3)",
+    padding: "40px",
+    maxWidth: "500px",
+    width: "90%",
+    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+    color: "white",
+    animation: "slideUp 0.3s ease-out"
+  }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-edit" }),
+        " অ্যাকাউন্ট সম্পাদন"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onClose,
+          style: {
+            background: "none",
+            border: "none",
+            color: "#94a3b8",
+            fontSize: "24px",
+            cursor: "pointer"
+          },
+          children: "✕"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            value: formData.name,
+            onChange: (e) => setFormData({ ...formData, name: e.target.value }),
+            style: {
+              width: "100%",
+              padding: "12px 15px",
+              borderRadius: "8px",
+              background: "rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(59, 130, 246, 0.3)",
+              color: "white",
+              fontSize: "14px",
+              boxSizing: "border-box"
+            }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "select",
+          {
+            value: formData.type,
+            onChange: (e) => setFormData({ ...formData, type: e.target.value }),
+            style: {
+              width: "100%",
+              padding: "12px 15px",
+              borderRadius: "8px",
+              background: "rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(59, 130, 246, 0.3)",
+              color: "white",
+              fontSize: "14px",
+              boxSizing: "border-box",
+              cursor: "pointer"
+            },
+            children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "বর্তমান ব্যালেন্স (টাকা)" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "number",
+              value: formData.balance,
+              onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
+              step: "0.01",
+              style: {
+                width: "100%",
+                padding: "12px 15px 12px 35px",
+                borderRadius: "8px",
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(59, 130, 246, 0.3)",
+                color: "white",
+                fontSize: "14px",
+                boxSizing: "border-box"
+              }
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            type: "submit",
+            style: {
+              flex: 1,
+              padding: "12px",
+              background: "linear-gradient(135deg, #10b981, #059669)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              cursor: "pointer"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-save" }),
+              " সংরক্ষণ"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            type: "button",
+            onClick: onClose,
+            style: {
+              flex: 1,
+              padding: "12px",
+              background: "rgba(255, 255, 255, 0.1)",
+              color: "#94a3b8",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              cursor: "pointer"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
+              " বাতিল"
+            ]
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        ` })
+  ] }) });
+};
+const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propUpdateGlobalState }) => {
+  const contextData = useApp();
+  const appData = propAppData || contextData.appData;
+  const updateGlobalState = propUpdateGlobalState || contextData.updateGlobalState;
+  const formatNum = contextData.formatNum;
+  const [activeTab, setActiveTab] = reactExports.useState(accountFilter || "All");
+  const [searchTerm, setSearchTerm] = reactExports.useState("");
+  const [expandedAccountId, setExpandedAccountId] = reactExports.useState(null);
+  const [showSettings, setShowSettings] = reactExports.useState(false);
+  const [showAddModal, setShowAddModal] = reactExports.useState(false);
+  const [showEditModal, setShowEditModal] = reactExports.useState(false);
+  const [editingAccount, setEditingAccount] = reactExports.useState(null);
+  reactExports.useEffect(() => {
+    if (accountFilter) {
+      setActiveTab(accountFilter);
+    }
+  }, [accountFilter]);
+  const filteredAccounts = reactExports.useMemo(() => {
+    let accounts = appData?.accounts || [];
+    if (activeTab !== "All") {
+      accounts = accounts.filter((acc) => {
+        const accType = (acc.type || "").trim().toLowerCase();
+        const selectedType = activeTab.toLowerCase();
+        return accType === selectedType;
+      });
+    }
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      accounts = accounts.filter(
+        (acc) => (acc.name || "").toLowerCase().includes(lowerSearch) || (acc.type || "").toLowerCase().includes(lowerSearch)
+      );
+    }
+    return accounts;
+  }, [appData, activeTab, searchTerm]);
+  const handleAddAccountSubmit = (formData) => {
+    const newAcc = {
+      id: Date.now(),
+      name: formData.name,
+      type: formData.type,
+      balance: formData.balance
+    };
+    const currentCash = appData?.cash || 0;
+    const newCash = currentCash - formData.deductedCash;
+    updateGlobalState({
+      accounts: [...appData?.accounts || [], newAcc],
+      cash: newCash
+    });
+    alert(`✅ অ্যাকাউন্ট "${formData.name}" সফলভাবে তৈরি হয়েছে!
+
+📉 ক্যাশ থেকে ${formatNum(formData.deductedCash)} কেটে নেওয়া হয়েছে।`);
+    setShowAddModal(false);
+  };
+  const handleDelete = (id2, name2) => {
+    if (window.confirm(`⚠️ আপনি কি "${name2}" অ্যাকাউন্ট সম্পূর্ণভাবে মুছে ফেলতে চান?
+
+এই অ্যাকশন পরিবর্তন করা যাবে না!`)) {
+      updateGlobalState({ accounts: appData.accounts.filter((a) => a.id !== id2) });
+      alert(`✅ "${name2}" অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে।`);
+    }
+  };
+  const handleEditAccountSubmit = (updatedAccount) => {
+    const updatedAccounts = appData.accounts.map(
+      (a) => a.id === updatedAccount.id ? updatedAccount : a
+    );
+    updateGlobalState({ accounts: updatedAccounts });
+    alert(`✅ "${updatedAccount.name}" অ্যাকাউন্ট সফলভাবে সম্পাদিত হয়েছে।`);
+    setShowEditModal(false);
+  };
+  const handleTransactionToggle = (acc) => {
+    if ((acc.type || "").toLowerCase() === "desco") {
+      if (expandedAccountId === acc.id) {
+        setExpandedAccountId(null);
+      } else {
+        setExpandedAccountId(acc.id);
+      }
+    } else {
+      alert("শুধুমাত্র Desco সাপোর্টেড এই মুহূর্তে।");
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white", minHeight: "400px" }, children: [
+    showSettings && /* @__PURE__ */ jsxRuntimeExports.jsx(DescoSettings, { onClose: () => setShowSettings(false) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AddAccountModal,
+      {
+        isOpen: showAddModal,
+        onClose: () => setShowAddModal(false),
+        onSubmit: handleAddAccountSubmit,
+        currentAccountType: activeTab,
+        cash: appData?.cash || 0,
+        formatNum
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      EditAccountModal,
+      {
+        isOpen: showEditModal,
+        onClose: () => setShowEditModal(false),
+        onSubmit: handleEditAccountSubmit,
+        account: editingAccount,
+        formatNum
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { margin: "0 0 5px 0", color: "#cbd5e1" }, children: [
+          "একাউন্ট: ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#fbbf24", fontWeight: "bold" }, children: activeTab })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { fontSize: "12px", color: "#94a3b8", margin: 0 }, children: [
+          activeTab === "All" ? "সকল প্রকার অ্যাকাউন্ট" : `সকল ${activeTab} ধরনের একাউন্ট`,
+          " ম্যানেজ করুন"
+        ] })
+      ] }),
+      activeTab.toLowerCase() === "desco" && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowSettings(true), style: { background: "rgba(255,255,255,0.1)", color: "#fbbf24", padding: "8px 12px", borderRadius: "8px", border: "1px solid #fbbf24", cursor: "pointer" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-gear" }),
+        " সেটিংস"
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginBottom: "20px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "text",
+          placeholder: "অ্যাকাউন্ট খুঁজুন...",
+          value: searchTerm,
+          onChange: (e) => setSearchTerm(e.target.value),
+          style: { flex: 1, padding: "12px", borderRadius: "8px", background: "rgba(0,0,0,0.3)", color: "white", border: "1px solid rgba(255,255,255,0.1)" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          onClick: () => setShowAddModal(true),
+          style: { padding: "0 20px", background: "#3b82f6", color: "white", borderRadius: "8px", border: "none", fontWeight: "bold", cursor: "pointer", transition: "all 0.3s" },
+          onMouseOver: (e) => e.target.style.background = "#2563eb",
+          onMouseOut: (e) => e.target.style.background = "#3b82f6",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus" }),
+            " নতুন"
+          ]
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { overflowX: "auto", background: "rgba(30, 41, 59, 0.4)", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.05)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: "14px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { background: "rgba(255,255,255,0.05)", color: "#94a3b8", textAlign: "left" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "15px" }, children: "নাম" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "15px" }, children: "ধরন" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "15px" }, children: "ব্যালেন্স" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "15px", textAlign: "right" }, children: "অ্যাকশন" })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: filteredAccounts.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", style: { padding: "30px", textAlign: "center" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "#64748b" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+          "🔍 কোনো ",
+          activeTab,
+          " অ্যাকাউন্ট পাওয়া যায়নি।"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => setShowAddModal(true),
+            style: {
+              marginTop: "15px",
+              padding: "10px 20px",
+              background: "#3b82f6",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              transition: "all 0.3s"
+            },
+            onMouseOver: (e) => e.target.style.background = "#2563eb",
+            onMouseOut: (e) => e.target.style.background = "#3b82f6",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus" }),
+              " ",
+              activeTab,
+              " অ্যাকাউন্ট তৈরি করুন"
+            ]
+          }
+        )
+      ] }) }) }) : filteredAccounts.map((acc) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { borderBottom: "1px solid rgba(255,255,255,0.05)", background: expandedAccountId === acc.id ? "rgba(59, 130, 246, 0.1)" : "transparent", transition: "all 0.2s" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "500" }, children: acc.name }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { padding: "4px 8px", background: "rgba(255,255,255,0.1)", borderRadius: "4px", fontSize: "11px" }, children: acc.type }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px", color: "#4ade80", fontWeight: "bold" }, children: formatNum(acc.balance) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { style: { padding: "15px", textAlign: "right" }, children: [
+            (acc.type || "").toLowerCase() === "desco" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => handleTransactionToggle(acc),
+                style: {
+                  background: expandedAccountId === acc.id ? "#10b981" : "#3b82f6",
+                  color: "white",
+                  border: "none",
+                  padding: "6px 12px",
+                  borderRadius: "6px",
+                  marginRight: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  fontWeight: "bold",
+                  fontSize: "12px"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${expandedAccountId === acc.id ? "fa-chevron-up" : "fa-chevron-down"}` }),
+                  " লেনদেন"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  setEditingAccount(acc);
+                  setShowEditModal(true);
+                },
+                style: {
+                  color: "#fbbf24",
+                  background: "rgba(251, 191, 36, 0.15)",
+                  border: "1px solid rgba(251, 191, 36, 0.3)",
+                  marginRight: "10px",
+                  cursor: "pointer",
+                  padding: "8px 12px",
+                  fontSize: "14px",
+                  borderRadius: "6px",
+                  transition: "all 0.3s",
+                  fontWeight: "bold"
+                },
+                title: "সম্পাদন করুন",
+                onMouseOver: (e) => {
+                  e.target.style.background = "rgba(251, 191, 36, 0.25)";
+                  e.target.style.borderColor = "rgba(251, 191, 36, 0.6)";
+                },
+                onMouseOut: (e) => {
+                  e.target.style.background = "rgba(251, 191, 36, 0.15)";
+                  e.target.style.borderColor = "rgba(251, 191, 36, 0.3)";
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-pen" }),
+                  " এডিট"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => handleDelete(acc.id, acc.name),
+                style: {
+                  color: "#ef4444",
+                  background: "rgba(239, 68, 68, 0.15)",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  cursor: "pointer",
+                  padding: "8px 12px",
+                  fontSize: "14px",
+                  borderRadius: "6px",
+                  transition: "all 0.3s",
+                  fontWeight: "bold"
+                },
+                title: "মুছুন",
+                onMouseOver: (e) => {
+                  e.target.style.background = "rgba(239, 68, 68, 0.25)";
+                  e.target.style.borderColor = "rgba(239, 68, 68, 0.6)";
+                },
+                onMouseOut: (e) => {
+                  e.target.style.background = "rgba(239, 68, 68, 0.15)";
+                  e.target.style.borderColor = "rgba(239, 68, 68, 0.3)";
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-trash" }),
+                  " ডিলিট"
+                ]
+              }
+            )
+          ] })
+        ] }),
+        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", style: { padding: "20px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DescoTransaction,
+          {
+            account: acc,
+            onBack: () => setExpandedAccountId(null),
+            inline: true
+          }
+        ) }) })
+      ] }, acc.id)) })
     ] }) })
   ] });
 };
@@ -49944,140 +51432,383 @@ const Capital = ({ cards }) => {
     ] })
   ] });
 };
-const History = ({ transactions, onDelete, onClearAll, filterType }) => {
+const History = ({ transactions = [], onDelete, onClearAll, filterType }) => {
   const { t } = useApp();
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "#fff", width: "100%" }, children: [
+  const [currentPage, setCurrentPage] = reactExports.useState(1);
+  const itemsPerPage = 30;
+  reactExports.useEffect(() => {
+    setCurrentPage(1);
+  }, [filterType, transactions]);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = transactions.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const getIconByType = (type) => {
+    const t2 = type?.toLowerCase() || "";
+    if (t2.includes("cash")) return /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-wallet" });
+    if (t2.includes("bkash") || t2.includes("nagad") || t2.includes("rocket") || t2.includes("desco")) return /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-mobile-screen" });
+    if (t2.includes("sale") || t2.includes("bikroy")) return /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-cart-shopping" });
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-circle-info" });
+  };
+  const truncateText = (text, maxLength = 20) => {
+    if (!text) return "";
+    if (text.length > maxLength) {
+      return { truncated: text.substring(0, maxLength) + "...", full: text };
+    }
+    return { truncated: text, full: text };
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { width: "100%", paddingBottom: "20px" }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
-        .history-grid {
+        /* 3-Column Grid Layout */
+        .history-list {
           display: grid;
-          grid-template-columns: repeat(3, 1fr); /* কম্পিউটারে ৩ কলাম */
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
           gap: 15px;
-          width: 100%;
+          margin-bottom: 20px;
         }
 
-        /* মাঝারি স্ক্রিন (ট্যাবলেট বা ছোট ল্যাপটপ) */
-        @media (max-width: 1100px) {
-          .history-grid {
-            grid-template-columns: repeat(2, 1fr); /* ২ কলাম */
+        /* স্লিম কার্ড ডিজাইন */
+        .h-row-card {
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-left: 4px solid #3b82f6;
+          border-radius: 8px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          transition: all 0.2s ease;
+          position: relative;
+          min-height: 140px;
+        }
+
+        .h-row-card:hover {
+          background: rgba(30, 41, 59, 0.8);
+          transform: translateY(-2px);
+          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        /* বাম পাশের ইনফো */
+        .h-info-group {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          flex: 1;
+        }
+
+        .h-icon-box {
+          width: 35px;
+          height: 35px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.05);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          flex-shrink: 0;
+        }
+
+        .h-details {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .h-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: #f1f5f9;
+          margin: 0;
+          word-break: break-word;
+          line-height: 1.3;
+        }
+
+        .h-title-truncated {
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: help;
+        }
+
+        .h-meta {
+          font-size: 10px;
+          color: #94a3b8;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+        }
+        
+        .h-badge-user {
+          background: rgba(59, 130, 246, 0.25);
+          color: #93c5fd;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 150px;
+        }
+
+        /* Amount and Date Section */
+        .h-amount-section {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          gap: 10px;
+          padding-top: 8px;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .h-amount-box {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
+        .h-amount {
+          font-size: 15px;
+          font-weight: 700;
+          color: #fff;
+        }
+
+        .h-date {
+          font-size: 10px;
+          color: #cbd5e1;
+          opacity: 0.8;
+          white-space: nowrap;
+        }
+
+        .h-delete-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 6px;
+          background: rgba(239, 68, 68, 0.15);
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          color: #ef4444;
+          font-size: 14px;
+          flex-shrink: 0;
+          padding: 0;
+        }
+
+        .h-delete-btn:hover {
+          background: #ef4444;
+          color: #fff;
+          transform: scale(1.1);
+          border-color: #ef4444;
+        }
+
+        /* পেজিনেশন ডিজাইন */
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          margin-top: 20px;
+          padding-top: 15px;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .page-btn {
+          background: rgba(15, 23, 42, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #94a3b8;
+          width: 36px;
+          height: 36px;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+        }
+
+        .page-btn:hover:not(:disabled) {
+          background: rgba(255, 255, 255, 0.1);
+          color: #fff;
+        }
+
+        .page-btn.active {
+          background: #3b82f6;
+          color: white;
+          border-color: #3b82f6;
+        }
+
+        .page-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+          .history-list {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        /* ছোট স্ক্রিন (মোবাইল) */
         @media (max-width: 600px) {
-          .history-grid {
-            grid-template-columns: 1fr; /* ১ কলাম */
+          .history-list {
+            grid-template-columns: 1fr;
+          }
+          
+          .h-row-card {
+            min-height: auto;
           }
         }
       ` }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: "20px",
-      flexWrap: "wrap",
-      gap: "10px"
-    }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { opacity: 0.7, margin: 0 }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px", padding: "0 5px" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { fontSize: "14px", color: "#cbd5e1", margin: 0 }, children: [
         t.hist_cat,
         ": ",
-        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: filterType })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#60a5fa", fontWeight: "bold" }, children: filterType }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontSize: "11px", opacity: 0.6, marginLeft: "5px" }, children: [
+          "(Total: ",
+          transactions.length,
+          " | Page ",
+          currentPage,
+          "/",
+          totalPages || 1,
+          ")"
+        ] })
       ] }),
-      transactions && transactions.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      transactions.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "button",
         {
           onClick: onClearAll,
           style: {
-            background: "rgba(239, 68, 68, 0.1)",
+            background: "transparent",
             color: "#fca5a5",
-            border: "1px solid rgba(239, 68, 68, 0.3)",
-            padding: "8px 16px",
-            borderRadius: "8px",
+            border: "1px solid rgba(239, 68, 68, 0.4)",
+            padding: "5px 12px",
+            borderRadius: "6px",
             cursor: "pointer",
-            fontSize: "12px",
+            fontSize: "11px",
             display: "flex",
             alignItems: "center",
             gap: "5px"
           },
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-trash-can" }),
+            " ",
             t.hist_reset
           ]
         }
       )
     ] }),
-    !transactions || transactions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-      padding: "40px",
-      textAlign: "center",
-      opacity: 0.5,
-      border: "2px dashed rgba(255,255,255,0.1)",
-      borderRadius: "15px",
-      background: "rgba(0,0,0,0.2)"
-    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.hist_empty }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "history-grid", children: transactions.map((tx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        style: {
-          background: "rgba(255,255,255,0.05)",
-          padding: "15px 20px",
-          borderRadius: "16px",
-          borderLeft: `5px solid ${tx.color}`,
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          borderRight: "1px solid rgba(255,255,255,0.05)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          gap: "10px",
-          transition: "transform 0.2s",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-        },
-        onMouseEnter: (e) => e.currentTarget.style.transform = "translateY(-3px)",
-        onMouseLeave: (e) => e.currentTarget.style.transform = "translateY(0)",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "5px" }, children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "bold", fontSize: "15px", color: "#e2e8f0" }, children: tx.type }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", background: "rgba(255,255,255,0.1)", padding: "2px 6px", borderRadius: "4px", color: "#cbd5e1" }, children: tx.category })
+    !transactions || transactions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { padding: "40px", textAlign: "center", background: "rgba(0,0,0,0.2)", borderRadius: "10px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#64748b" }, children: t.hist_empty }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "history-list", children: currentItems.map((tx) => {
+        const userText = truncateText(tx.user || "Admin", 20);
+        const descText = truncateText(tx.desc || tx.type || "Transaction", 25);
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-row-card", style: { borderLeftColor: tx.color || "#3b82f6" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-info-group", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-icon-box", style: { color: tx.color || "#fff" }, children: getIconByType(tx.type) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-details", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-title", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "span",
+                {
+                  className: descText.full.length > 25 ? "h-title-truncated" : "",
+                  title: descText.full,
+                  children: descText.truncated
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-meta", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "span",
+                  {
+                    className: "h-badge-user",
+                    title: userText.full,
+                    children: [
+                      "👤 ",
+                      userText.truncated
+                    ]
+                  }
+                ),
+                tx.category && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  "• ",
+                  tx.category
+                ] })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "13px", color: "#94a3b8", lineHeight: "1.4" }, children: tx.desc })
+              tx.accountType && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "10px", color: "#94a3b8", marginTop: "2px" }, children: [
+                "💳 ",
+                tx.accountType
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-amount-section", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-amount-box", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-amount", style: { color: tx.color || "#fff" }, children: tx.amount }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-date", children: [
+                tx.date,
+                " ",
+                tx.time && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  "| ",
+                  tx.time
+                ] })
+              ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
+                className: "h-delete-btn",
                 onClick: () => onDelete(tx.id),
-                title: "Delete Item",
-                style: {
-                  background: "transparent",
-                  border: "none",
-                  color: "#64748b",
-                  cursor: "pointer",
-                  padding: "4px",
-                  borderRadius: "50%",
-                  transition: "all 0.2s"
-                },
-                onMouseOver: (e) => {
-                  e.currentTarget.style.color = "#ef4444";
-                  e.currentTarget.style.background = "rgba(239,68,68,0.1)";
-                },
-                onMouseOut: (e) => {
-                  e.currentTarget.style.color = "#64748b";
-                  e.currentTarget.style.background = "transparent";
-                },
-                children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "3 6 5 6 21 6" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" })
-                ] })
+                title: "Delete this transaction",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-xmark" })
               }
             )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "5px" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { fontSize: "11px", color: "#64748b" }, children: tx.date }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "18px", fontWeight: "bold", color: tx.color }, children: tx.amount })
           ] })
-        ]
-      },
-      tx.id
-    )) })
+        ] }, tx.id);
+      }) }),
+      totalPages > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pagination", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "page-btn",
+            onClick: () => paginate(currentPage - 1),
+            disabled: currentPage === 1,
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-chevron-left" })
+          }
+        ),
+        [...Array(totalPages)].map((_, i) => {
+          if (totalPages > 7 && Math.abs(currentPage - (i + 1)) > 2 && i !== 0 && i !== totalPages - 1) {
+            return null;
+          }
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => paginate(i + 1),
+              className: `page-btn ${currentPage === i + 1 ? "active" : ""}`,
+              children: i + 1
+            },
+            i
+          );
+        }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "page-btn",
+            onClick: () => paginate(currentPage + 1),
+            disabled: currentPage === totalPages,
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-chevron-right" })
+          }
+        )
+      ] })
+    ] })
   ] });
 };
 const ADMIN_PASS = "M~R.88@Mizhan.25";
@@ -50435,7 +52166,8 @@ const cardStyle = {
   overflow: "hidden"
 };
 const ActiveBadge = () => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "absolute", top: "8px", right: "8px", width: "10px", height: "10px", background: "#22c55e", borderRadius: "50%", boxShadow: "0 0 5px #22c55e" } });
-const HardResetZone = ({ currentPassword, onResetComplete }) => {
+const HardResetZone = ({ currentPassword }) => {
+  const { activeDB, resetLocalState } = useApp();
   const [step, setStep] = reactExports.useState("idle");
   const [inputPassword, setInputPassword] = reactExports.useState("");
   const [error, setError] = reactExports.useState("");
@@ -50452,23 +52184,43 @@ const HardResetZone = ({ currentPassword, onResetComplete }) => {
       setError("পাসওয়ার্ড ভুল হয়েছে! আবার চেষ্টা করুন।");
     }
   };
-  const executeHardReset = () => {
+  const executeHardReset = async () => {
     setStep("processing");
-    setTimeout(() => {
+    try {
+      if (resetOptions.teamData && activeDB) {
+        const emptyData = {
+          cash: 0,
+          profit: 0,
+          accounts: [],
+          items: [],
+          history: []
+        };
+        await activeDB.collection("noksha_store").doc("main_data").set(emptyData);
+        console.log("Team Database reset to 0.");
+      }
       if (resetOptions.localStorage) {
-        localStorage.clear();
-        console.log("Local Storage Cleared");
+        localStorage.removeItem("noksha_local_data");
+        if (!activeDB) {
+          resetLocalState();
+        }
+        console.log("Local Data Cleared");
       }
-      if (onResetComplete) {
-        onResetComplete();
-      } else {
+      setTimeout(() => {
         window.location.reload();
-      }
-    }, 1500);
+      }, 1500);
+    } catch (err) {
+      console.error("Reset Error:", err);
+      setError("রিসেট করতে সমস্যা হয়েছে: " + err.message);
+      setStep("options");
+    }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hard-reset-container", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hr-header", children: "⚠️ ডেঞ্জার জোন (Hard Reset)" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "hr-warning-text", children: "সতর্কতা: এই অপশনটি আপনার লোকাল স্টোরেজ, কার্ড হিস্টোরি এবং লাভ-ক্ষতির সকল হিসাব স্থায়ীভাবে মুছে ফেলবে। এটি পুনরুদ্ধার করা সম্ভব নয়।" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "hr-warning-text", children: [
+      "সতর্কতা: এটি আপনার সিলেক্ট করা ডাটা (লোকাল বা অনলাইন) সম্পূর্ণ মুছে ",
+      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "০ (শূন্য)" }),
+      " করে দিবে। রিফ্রেশ করলেও আর ফিরে আসবে না।"
+    ] }),
     step === "idle" && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setStep("password"), className: "hr-btn-primary", children: "রিসেট শুরু করুন" }),
     step === "password" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-input-group", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "hr-label", children: "সিকিউরিটি পাসওয়ার্ড দিন:" }),
@@ -50479,7 +52231,7 @@ const HardResetZone = ({ currentPassword, onResetComplete }) => {
           value: inputPassword,
           onChange: (e) => setInputPassword(e.target.value),
           className: "hr-input",
-          placeholder: "পাসওয়ার্ড লিখুন..."
+          placeholder: "পাসওয়ার্ড..."
         }
       ),
       error && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "hr-error", children: error }),
@@ -50492,7 +52244,7 @@ const HardResetZone = ({ currentPassword, onResetComplete }) => {
       ] })
     ] }),
     step === "options" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-options-box", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "white", marginBottom: "15px" }, children: "আপনি কি নিশ্চিত?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "white", marginBottom: "15px" }, children: "কোনটি রিসেট করতে চান?" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "hr-checkbox-row", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
@@ -50503,7 +52255,7 @@ const HardResetZone = ({ currentPassword, onResetComplete }) => {
             onChange: (e) => setResetOptions({ ...resetOptions, localStorage: e.target.checked })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লোকাল স্টোরেজ (হিস্টোরি, কার্ড ভ্যালু)" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লোকাল ডাটা (অফলাইন কাজ)" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "hr-checkbox-row", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -50515,14 +52267,14 @@ const HardResetZone = ({ currentPassword, onResetComplete }) => {
             onChange: (e) => setResetOptions({ ...resetOptions, teamData: e.target.checked })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "টিম ডাটাবেজ কানেকশন" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "টিম ডাটাবেজ (অনলাইন সার্ভার)" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hr-actions", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: executeHardReset, className: "hr-btn-primary", children: "হ্যাঁ, সব ডিলিট করুন" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: executeHardReset, className: "hr-btn-primary", children: "হ্যাঁ, সব ০ করে দিন" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setStep("idle"), className: "hr-btn-secondary", children: "ফিরে যান" })
       ] })
     ] }),
-    step === "processing" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hr-processing", children: "সিস্টেম রিসেট হচ্ছে... দয়া করে অপেক্ষা করুন..." })
+    step === "processing" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hr-processing", children: "সিস্টেম ক্লিন করা হচ্ছে... দয়া করে অপেক্ষা করুন..." })
   ] });
 };
 const Settings = ({ activeTab }) => {
@@ -50609,166 +52361,6 @@ const Settings = ({ activeTab }) => {
             ` })
   ] });
 };
-const ShortcutBtn = ({ title, isActive, onClick }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "button",
-    {
-      className: `${styles.shortcutBtn} ${isActive ? styles.active : ""}`,
-      onClick,
-      children: title
-    }
-  );
-};
-const HistoryShortcuts = ({ onFilterChange }) => {
-  const [active2, setActive] = reactExports.useState("All");
-  const items = ["All", "Cash", "Account", "Product", "Profit", "Capital"];
-  const handleClick = (item) => {
-    setActive(item);
-    if (onFilterChange) onFilterChange(item);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-    ShortcutBtn,
-    {
-      title: item,
-      isActive: active2 === item,
-      onClick: () => handleClick(item)
-    },
-    item
-  )) });
-};
-const SettingsNavigation = ({ active: active2, onSelect }) => {
-  const { t } = useApp();
-  const tabs = [
-    { id: "Database", label: t.set_db, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIcon, {}) },
-    { id: "Theme", label: t.set_theme, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeIcon, {}) },
-    { id: "Font", label: t.set_font, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(FontIcon, {}) },
-    { id: "Reset", label: t.set_reset, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ResetIcon, {}) }
-  ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle, children: tabs.map((tab) => {
-    const isActive = active2 === tab.id;
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "button",
-      {
-        onClick: () => onSelect(tab.id),
-        style: buttonStyle,
-        onMouseEnter: (e) => {
-          if (!isActive) e.currentTarget.style.color = "#fff";
-          e.currentTarget.style.background = isActive ? "transparent" : "rgba(255,255,255,0.05)";
-        },
-        onMouseLeave: (e) => {
-          if (!isActive) e.currentTarget.style.color = "#94a3b8";
-          e.currentTarget.style.background = "transparent";
-        },
-        children: [
-          isActive && /* @__PURE__ */ jsxRuntimeExports.jsx(
-            motion.div,
-            {
-              layoutId: "activeTabIndicator",
-              style: activeBgStyle,
-              transition: { type: "spring", stiffness: 500, damping: 30 }
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: {
-            position: "relative",
-            zIndex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            // এক্টিভ হলে সাদা, না হলে হালকা গ্রে কালার
-            color: isActive ? "#fff" : "#94a3b8",
-            fontWeight: isActive ? "600" : "500",
-            transition: "color 0.2s",
-            fontSize: "14px"
-          }, children: [
-            tab.icon,
-            tab.label
-          ] })
-        ]
-      },
-      tab.id
-    );
-  }) });
-};
-const containerStyle = {
-  display: "flex",
-  background: "rgba(15, 23, 42, 0.6)",
-  // হালকা ডার্ক ব্যাকগ্রাউন্ড
-  padding: "6px",
-  borderRadius: "16px",
-  // রাউন্ডেড শেপ
-  border: "1px solid rgba(255, 255, 255, 0.1)",
-  gap: "5px",
-  flexWrap: "wrap",
-  // মোবাইল রেসপন্সিভ এর জন্য
-  marginBottom: "10px"
-  // টাইটেল থেকে একটু গ্যাপ
-};
-const buttonStyle = {
-  position: "relative",
-  background: "transparent",
-  border: "none",
-  padding: "10px 20px",
-  borderRadius: "12px",
-  cursor: "pointer",
-  outline: "none",
-  flex: "1",
-  // সমান জায়গা নিবে
-  minWidth: "100px",
-  // মোবাইলে খুব ছোট হবে না
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  transition: "background 0.2s"
-};
-const activeBgStyle = {
-  position: "absolute",
-  inset: 0,
-  borderRadius: "12px",
-  // সুন্দর ব্লু গ্রেডিয়েন্ট
-  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-  boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)",
-  // গ্লো ইফেক্ট
-  zIndex: 0
-};
-const DatabaseIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("ellipse", { cx: "12", cy: "5", rx: "9", ry: "3" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" })
-] });
-const ThemeIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94" })
-] });
-const FontIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "4 7 4 4 20 4 20 7" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "9", y1: "20", x2: "15", y2: "20" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "12", y1: "4", x2: "12", y2: "20" })
-] });
-const ResetIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 3v5h5" })
-] });
-const CashShortcuts = ({ onAction }) => {
-  const [active2, setActive] = reactExports.useState("Add");
-  const items = [
-    { label: "Add (Deposit)", key: "add" },
-    { label: "Withdraw", key: "withdraw" },
-    { label: "Modified", key: "modified" }
-  ];
-  const handleClick = (key) => {
-    setActive(key);
-    if (onAction) onAction(key);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-    ShortcutBtn,
-    {
-      title: item.label,
-      isActive: active2 === item.key,
-      onClick: () => handleClick(item.key)
-    },
-    item.key
-  )) });
-};
 const DatabaseIndicator = ({ dbName }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
@@ -50851,6 +52443,57 @@ const DatabaseIndicator = ({ dbName }) => {
       ` })
   ] });
 };
+const useHistoryManager = (appData, updateGlobalState, filterType) => {
+  const filteredHistory = reactExports.useMemo(() => {
+    const history = appData.history || [];
+    if (filterType === "All") {
+      return history;
+    }
+    return history.filter((item) => {
+      const type = (item.type || "").toLowerCase();
+      const category = (item.category || "").toLowerCase();
+      const filter2 = filterType.toLowerCase();
+      if (filter2 === "cash") {
+        return category === "cash" || type.includes("cash") || type.includes("withdraw") || type.includes("deposit");
+      }
+      if (filter2 === "account") {
+        return category === "account" || type.includes("bkash") || type.includes("nagad") || type.includes("rocket") || type.includes("bank");
+      }
+      if (filter2 === "product") {
+        return category === "product" || type.includes("stock") || type.includes("sale");
+      }
+      if (filter2 === "profit") {
+        return category === "profit" || type.includes("profit");
+      }
+      if (filter2 === "capital") {
+        return category === "capital" || type.includes("capital") || type.includes("adjustment");
+      }
+      return category.includes(filter2) || type.includes(filter2);
+    });
+  }, [appData.history, filterType]);
+  const handleDelete = (id2) => {
+    const confirmDelete = window.confirm("আপনি কি নিশ্চিত এই হিস্টোরিটি ডিলিট করতে চান?");
+    if (confirmDelete) {
+      const updatedHistory = appData.history.filter((item) => item.id !== id2);
+      updateGlobalState({
+        history: updatedHistory
+      });
+    }
+  };
+  const handleClearAll = () => {
+    const confirmReset = window.confirm("আপনি কি নিশ্চিত সমস্ত হিস্টোরি মুছে ফেলতে চান? এটি আর ফিরিয়ে আনা যাবে না।");
+    if (confirmReset) {
+      updateGlobalState({
+        history: []
+      });
+    }
+  };
+  return {
+    filteredHistory,
+    handleDelete,
+    handleClearAll
+  };
+};
 const Dashboard = ({ onLogout, userName }) => {
   const { appData, updateGlobalState, dbName, formatNum, t } = useApp();
   const [selectedKey, setSelectedKey] = reactExports.useState("capital");
@@ -50859,32 +52502,14 @@ const Dashboard = ({ onLogout, userName }) => {
   const [cashMode, setCashMode] = reactExports.useState("add");
   const [historyFilter, setHistoryFilter] = reactExports.useState("All");
   const [settingsView, setSettingsView] = reactExports.useState("Database");
+  const [accountTab, setAccountTab] = reactExports.useState("All");
+  const { cards, totalCash } = useDashboardStats(appData, t, formatNum);
+  const { filteredHistory, handleDelete, handleClearAll } = useHistoryManager(appData, updateGlobalState, historyFilter);
   reactExports.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 880);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const totalCash = parseFloat(appData.cash) || 0;
-  const totalAccount = (appData.accounts || []).reduce((sum, acc) => sum + (parseFloat(acc.balance) || 0), 0);
-  const totalProduct = (appData.items || []).reduce((sum, item) => sum + (parseFloat(item.cost) || 0) * (parseFloat(item.stock) || 0), 0);
-  const totalProfit = parseFloat(appData.profit) || 0;
-  const totalCapital = totalCash + totalAccount + totalProduct;
-  const cards = [
-    {
-      id: "1",
-      key: "capital",
-      title: t.capital,
-      // আগে ছিল 'Capital'
-      value: formatNum(totalCapital),
-      sub: `${t.cash} + ${t.balance} + ${t.stock}`,
-      // সাবটাইটেলও বাংলায় হবে
-      color: "#14b8a6"
-    },
-    { id: "2", key: "cash", title: t.cash, value: formatNum(totalCash), sub: t.sub_cash, color: "#22c55e" },
-    { id: "3", key: "balance", title: t.balance, value: formatNum(totalAccount), sub: t.sub_acc, color: "#3b82f6" },
-    { id: "4", key: "stock", title: t.stock, value: formatNum(totalProduct), sub: t.sub_stock, color: "#f97316" },
-    { id: "5", key: "profit", title: t.profit, value: formatNum(totalProfit), sub: t.sub_profit, color: "#a855f7" }
-  ];
   const handleCashUpdate = (amountStr, type, description) => {
     let amount = parseFloat(amountStr) || 0;
     let newCash = totalCash;
@@ -50897,7 +52522,9 @@ const Dashboard = ({ onLogout, userName }) => {
       type: type === "add" ? "Cash In" : type === "withdraw" ? "Cash Out" : "Adjustment",
       amount: formatNum(amount),
       desc: description,
-      date: (/* @__PURE__ */ new Date()).toLocaleDateString(),
+      date: (/* @__PURE__ */ new Date()).toLocaleDateString("bn-BD"),
+      time: (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true }),
+      user: userName || "Unknown",
       color: type === "add" ? "#22c55e" : "#ef4444"
     };
     updateGlobalState({
@@ -50909,12 +52536,17 @@ const Dashboard = ({ onLogout, userName }) => {
     cash: Cash,
     history: History,
     settings: Settings,
-    account: Account,
-    product: Product,
+    balance: Account,
+    // ✅ 'account' নয়, 'balance' ব্যবহার করছি কারণ card.key='balance'
+    stock: Product,
     profit: Profit,
     capital: Capital
   };
   const ActiveComponent = VIEW_MAPPING[selectedKey];
+  const handleCardSelect = (card) => {
+    setSelectedKey(card.key);
+    if (isMobile) setShowContent(true);
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Background, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -50932,28 +52564,29 @@ const Dashboard = ({ onLogout, userName }) => {
         }
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.container, children: [
-      (!isMobile || !showContent) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.sidebar, children: /* @__PURE__ */ jsxRuntimeExports.jsx(StatsCards, { cards, setCards: () => {
-      }, onCardSelect: (card) => {
-        setSelectedKey(card.key);
-        if (isMobile) setShowContent(true);
-      } }) }),
-      (!isMobile || showContent) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.glassContent, style: { "--theme-color": "#fff" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.contentHeaderRow, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.headerLeft, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles.glassHeader, children: selectedKey.toUpperCase() }),
-            selectedKey === "settings" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-              SettingsNavigation,
-              {
-                active: settingsView,
-                onSelect: setSettingsView
-              }
-            ),
-            selectedKey === "history" && /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryShortcuts, { onFilterChange: setHistoryFilter }),
-            selectedKey === "cash" && /* @__PURE__ */ jsxRuntimeExports.jsx(CashShortcuts, { onAction: setCashMode })
-          ] }),
-          isMobile && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: styles.closeBtn, onClick: () => setShowContent(false), children: "✕" })
-        ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.container, children: [
+      (!isMobile || !showContent) && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        DashboardSidebar,
+        {
+          cards,
+          onCardSelect: handleCardSelect
+        }
+      ),
+      (!isMobile || showContent) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.glassContent, style: { "--theme-color": "#fff" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DashboardHeader,
+          {
+            selectedKey,
+            isMobile,
+            onCloseContent: () => setShowContent(false),
+            settingsView,
+            setSettingsView,
+            setHistoryFilter,
+            setCashMode,
+            accountTab,
+            setAccountTab
+          }
+        ),
         ActiveComponent && /* @__PURE__ */ jsxRuntimeExports.jsx(
           ActiveComponent,
           {
@@ -50961,9 +52594,14 @@ const Dashboard = ({ onLogout, userName }) => {
             currentBalance: formatNum(totalCash),
             mode: cashMode,
             onUpdate: handleCashUpdate,
-            transactions: appData.history || [],
+            transactions: filteredHistory,
+            onDelete: handleDelete,
+            onClearAll: handleClearAll,
             filterType: historyFilter,
-            cards
+            cards,
+            accountFilter: accountTab,
+            appData,
+            updateGlobalState
           }
         )
       ] })
@@ -50971,33 +52609,53 @@ const Dashboard = ({ onLogout, userName }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIndicator, { dbName })
   ] });
 };
-const B_Baria = () => {
+const STORAGE_KEYS = {
+  // লোকাল স্টোরেজে এই নামেই 'true'/'false' সেভ হবে
+  LOGIN_STATUS: "adminLoggedIn",
+  // লোকাল স্টোরেজে এই নামেই ইউজার নেম সেভ হবে
+  USER_NAME: "adminName"
+};
+const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = reactExports.useState(false);
   const [userName, setUserName] = reactExports.useState("");
   reactExports.useEffect(() => {
-    const userLoggedIn = localStorage.getItem("adminLoggedIn");
-    const storedName = localStorage.getItem("adminName");
+    const userLoggedIn = localStorage.getItem(STORAGE_KEYS.LOGIN_STATUS);
+    const storedName = localStorage.getItem(STORAGE_KEYS.USER_NAME);
     if (userLoggedIn === "true") {
       setIsLoggedIn(true);
       if (storedName) setUserName(storedName);
     }
   }, []);
-  const handleLoginSuccess = (name2) => {
-    localStorage.setItem("adminLoggedIn", "true");
-    localStorage.setItem("adminName", name2);
+  const login = (name2) => {
+    localStorage.setItem(STORAGE_KEYS.LOGIN_STATUS, "true");
+    localStorage.setItem(STORAGE_KEYS.USER_NAME, name2);
     setUserName(name2);
     setIsLoggedIn(true);
   };
-  const handleLogout = () => {
-    localStorage.removeItem("adminLoggedIn");
-    localStorage.removeItem("adminName");
+  const logout = () => {
+    localStorage.removeItem(STORAGE_KEYS.LOGIN_STATUS);
+    localStorage.removeItem(STORAGE_KEYS.USER_NAME);
     setUserName("");
     setIsLoggedIn(false);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(AppProvider, { children: [
-    " ",
-    isLoggedIn ? /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: handleLogout, userName }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Login, { onLoginSuccess: handleLoginSuccess })
-  ] });
+  return {
+    isLoggedIn,
+    userName,
+    login,
+    logout
+  };
+};
+const B_Baria = () => {
+  const { isLoggedIn, userName, login, logout } = useAuth();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AppProvider, { children: isLoggedIn ? (
+    // হ্যাঁ, লগইন করা আছে -> ড্যাশবোর্ড দেখাও
+    // ড্যাশবোর্ডকে লগআউট ফাংশন আর নাম পাঠিয়ে দিলাম
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: logout, userName })
+  ) : (
+    // না, লগইন করা নেই -> লগইন পেজ দেখাও
+    // লগইন পেজকে 'login' ফাংশনটি দিয়ে দিলাম যেন সফল হলে কল করতে পারে
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Login, { onLoginSuccess: login })
+  ) });
 };
 const products = [
   {
