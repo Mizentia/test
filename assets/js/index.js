@@ -50228,11 +50228,102 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { textAlign: "center", marginTop: "20px", opacity: 0.5, fontSize: "12px" }, children: "* এই পরিবর্তনটি মূলধন (Capital) এবং হিস্টোরিতে স্বয়ংক্রিয়ভাবে আপডেট হবে।" })
   ] });
 };
+const useDescoSettings = (activeDB) => {
+  const DEFAULT_SETTINGS = {
+    customerFee: 10,
+    companyCost: 2.5,
+    minRecharge: 100,
+    lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
+    updatedBy: "unknown"
+  };
+  const [settings, setSettings] = reactExports.useState(DEFAULT_SETTINGS);
+  const [isLoading, setIsLoading] = reactExports.useState(false);
+  const [isSaving, setIsSaving] = reactExports.useState(false);
+  const [error, setError] = reactExports.useState(null);
+  const [lastSyncTime, setLastSyncTime] = reactExports.useState(null);
+  reactExports.useEffect(() => {
+    if (!activeDB) {
+      const savedSettings = localStorage.getItem("desco_settings");
+      if (savedSettings) {
+        setSettings(JSON.parse(savedSettings));
+      }
+      return;
+    }
+    setIsLoading(true);
+    const unsubscribe = activeDB.collection("noksha_config").doc("desco_rates").onSnapshot(
+      (doc2) => {
+        if (doc2.exists) {
+          const dbSettings = doc2.data();
+          setSettings(dbSettings);
+          setLastSyncTime(/* @__PURE__ */ new Date());
+        } else {
+          activeDB.collection("noksha_config").doc("desco_rates").set(DEFAULT_SETTINGS);
+          setSettings(DEFAULT_SETTINGS);
+        }
+        setIsLoading(false);
+        setError(null);
+      },
+      (err) => {
+        console.error("Desco Settings Listener Error:", err);
+        setError(err.message);
+        setIsLoading(false);
+      }
+    );
+    return () => unsubscribe();
+  }, [activeDB]);
+  const updateDescoSettings = async (newSettings, userId = "unknown") => {
+    setIsSaving(true);
+    setError(null);
+    try {
+      const updatedData = {
+        ...newSettings,
+        lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
+        updatedBy: userId
+      };
+      if (activeDB) {
+        await activeDB.collection("noksha_config").doc("desco_rates").update(updatedData);
+      } else {
+        localStorage.setItem("desco_settings", JSON.stringify(updatedData));
+        setSettings(updatedData);
+      }
+      setIsSaving(false);
+      return true;
+    } catch (err) {
+      console.error("Update Desco Settings Error:", err);
+      setError(err.message);
+      setIsSaving(false);
+      return false;
+    }
+  };
+  const updateSingleSetting = async (key, value, userId = "unknown") => {
+    const newSettings = {
+      ...settings,
+      [key]: value
+    };
+    return updateDescoSettings(newSettings, userId);
+  };
+  const resetDescoSettings = async (userId = "unknown") => {
+    return updateDescoSettings(DEFAULT_SETTINGS, userId);
+  };
+  return {
+    settings,
+    isLoading,
+    isSaving,
+    error,
+    lastSyncTime,
+    updateDescoSettings,
+    updateSingleSetting,
+    resetDescoSettings,
+    customerFee: settings.customerFee,
+    companyCost: settings.companyCost,
+    minRecharge: settings.minRecharge
+  };
+};
 const DescoTransaction = ({ account, onBack, inline = false }) => {
-  const { appData, updateGlobalState, formatNum } = useApp();
+  const { appData, updateGlobalState, formatNum, activeDB } = useApp();
+  const { settings } = useDescoSettings(activeDB);
   const [mode, setMode] = reactExports.useState("Sale");
   const [amount, setAmount] = reactExports.useState("");
-  const settings = JSON.parse(localStorage.getItem("desco_settings") || '{"customerFee":10, "companyCost":2.5, "minRecharge":100}');
   const inputAmount = parseFloat(amount) || 0;
   let customerTakes = 0;
   let balanceCuts = 0;
@@ -50550,18 +50641,31 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
   ] });
 };
 const DescoSettings = ({ onClose }) => {
-  const [settings, setSettings] = reactExports.useState(() => {
-    const saved = localStorage.getItem("desco_settings");
-    return saved ? JSON.parse(saved) : {
-      customerFee: 10,
-      companyCost: 2.5,
-      minRecharge: 100
-    };
-  });
-  const handleSave = () => {
-    localStorage.setItem("desco_settings", JSON.stringify(settings));
-    alert("সেটিংস সেভ করা হয়েছে!");
-    onClose();
+  const { activeDB } = useApp();
+  const {
+    settings,
+    isLoading,
+    isSaving,
+    error,
+    updateDescoSettings
+  } = useDescoSettings(activeDB);
+  const [formData, setFormData] = reactExports.useState(settings);
+  reactExports.useEffect(() => {
+    setFormData(settings);
+  }, [settings]);
+  const handleSave = async () => {
+    try {
+      const success = await updateDescoSettings(formData);
+      if (success) {
+        alert("✓ সেটিংস সফলভাবে সেভ হয়েছে! সব ডিভাইসে আপডেট হবে।");
+        onClose();
+      } else {
+        alert("✗ সেটিংস সেভ করতে ব্যর্থ হয়েছে।");
+      }
+    } catch (err) {
+      console.error("Save Error:", err);
+      alert("✗ একটি সমস্যা হয়েছে: " + error);
+    }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
     position: "fixed",
@@ -50582,16 +50686,32 @@ const DescoSettings = ({ onClose }) => {
     maxWidth: "400px",
     border: "1px solid rgba(255,255,255,0.1)"
   }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { color: "#fff", marginTop: 0, borderBottom: "1px solid #334155", paddingBottom: "10px" }, children: "Desco রেট কনফিগারেশন" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { color: "#fff", marginTop: 0, borderBottom: "1px solid #334155", paddingBottom: "10px" }, children: [
+      "🔗 Desco রেট কনফিগারেশন",
+      !isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "12px", color: "#10b981", marginLeft: "10px" }, children: "● Firebase সিঙ্ক" })
+    ] }),
+    error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      marginBottom: "15px",
+      padding: "10px",
+      background: "#7f1d1d",
+      border: "1px solid #dc2626",
+      borderRadius: "6px",
+      color: "#fca5a5",
+      marginTop: "15px"
+    }, children: [
+      "⚠️ ",
+      error
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "15px", marginTop: "15px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", fontSize: "13px", display: "block", marginBottom: "5px" }, children: "কাস্টমার ফি (প্রতি ১০০০ স্ল্যাবে)" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "input",
         {
           type: "number",
-          value: settings.customerFee,
-          onChange: (e) => setSettings({ ...settings, customerFee: parseFloat(e.target.value) }),
-          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+          value: formData.customerFee,
+          onChange: (e) => setFormData({ ...formData, customerFee: parseFloat(e.target.value) }),
+          disabled: isLoading || isSaving,
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px", cursor: isLoading || isSaving ? "not-allowed" : "text", opacity: isLoading ? 0.6 : 1 }
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#64748b", fontSize: "10px" }, children: "যেমন: ১০০০ টাকায় ১০ টাকা, ২০০০ টাকায় ২০ টাকা।" })
@@ -50602,9 +50722,10 @@ const DescoSettings = ({ onClose }) => {
         "input",
         {
           type: "number",
-          value: settings.companyCost,
-          onChange: (e) => setSettings({ ...settings, companyCost: parseFloat(e.target.value) }),
-          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+          value: formData.companyCost,
+          onChange: (e) => setFormData({ ...formData, companyCost: parseFloat(e.target.value) }),
+          disabled: isLoading || isSaving,
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px", cursor: isLoading || isSaving ? "not-allowed" : "text", opacity: isLoading ? 0.6 : 1 }
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#64748b", fontSize: "10px" }, children: "কোম্পানি আপনার ব্যালেন্স থেকে যত টাকা কাটবে।" })
@@ -50615,15 +50736,33 @@ const DescoSettings = ({ onClose }) => {
         "input",
         {
           type: "number",
-          value: settings.minRecharge,
-          onChange: (e) => setSettings({ ...settings, minRecharge: parseFloat(e.target.value) }),
-          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px" }
+          value: formData.minRecharge,
+          onChange: (e) => setFormData({ ...formData, minRecharge: parseFloat(e.target.value) }),
+          disabled: isLoading || isSaving,
+          style: { width: "100%", padding: "10px", background: "#0f172a", border: "1px solid #334155", color: "white", borderRadius: "6px", cursor: isLoading || isSaving ? "not-allowed" : "text", opacity: isLoading ? 0.6 : 1 }
         }
       )
     ] }),
+    isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginBottom: "15px", padding: "10px", textAlign: "center", color: "#60a5fa", fontSize: "13px" }, children: "⟳ সেটিংস লোড হচ্ছে..." }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onClose, style: { flex: 1, padding: "10px", background: "#475569", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }, children: "বাতিল" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handleSave, style: { flex: 1, padding: "10px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" }, children: "সেভ করুন" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onClose,
+          disabled: isSaving,
+          style: { flex: 1, padding: "10px", background: "#475569", color: "white", border: "none", borderRadius: "6px", cursor: isSaving ? "not-allowed" : "pointer", opacity: isSaving ? 0.6 : 1 },
+          children: "বাতিল"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleSave,
+          disabled: isSaving || isLoading,
+          style: { flex: 1, padding: "10px", background: isSaving ? "#1e40af" : "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: isSaving || isLoading ? "not-allowed" : "pointer", fontWeight: "bold", opacity: isSaving || isLoading ? 0.6 : 1 },
+          children: isSaving ? "⟳ সেভ হচ্ছে..." : "সেভ করুন"
+        }
+      )
     ] })
   ] }) });
 };
@@ -52362,84 +52501,453 @@ const Settings = ({ activeTab }) => {
   ] });
 };
 const DatabaseIndicator = ({ dbName }) => {
+  const [isOpen, setIsOpen] = reactExports.useState(false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-      position: "fixed",
-      bottom: "20px",
-      left: "20px",
-      zIndex: 3e3,
-      // সবার উপরে থাকার জন্য হাই z-index
-      background: "rgba(15, 23, 42, 0.85)",
-      // ডার্ক গ্লাস ব্যাকগ্রাউন্ড
-      backdropFilter: "blur(12px)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      borderRadius: "12px",
-      padding: "12px 18px",
-      boxShadow: "0 10px 40px rgba(0,0,0,0.6)",
-      display: "flex",
-      flexDirection: "column",
-      gap: "10px",
-      minWidth: "220px",
-      fontFamily: "'Poppins', sans-serif",
-      // ফন্ট সুন্দর করার জন্য
-      userSelect: "none",
-      pointerEvents: "none"
-      // এটি ব্যাকগ্রাউন্ডের মতো কাজ করবে, ক্লিক আটকাবে না (প্রয়োজন হলে auto দিতে পারেন)
-    }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderBottom: "1px solid rgba(255,255,255,0.1)",
-        paddingBottom: "8px"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: "#a855f7",
-            boxShadow: "0 0 8px #a855f7"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-            fontSize: "11px",
-            color: "#d8b4fe",
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            fontWeight: "600"
-          }, children: "Master DB" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "11px", color: "#fff", fontWeight: "bold" }, children: "Connected" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", alignItems: "center", gap: "8px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pulse-dot", style: {
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: "#22c55e",
-            boxShadow: "0 0 8px #22c55e"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-            fontSize: "11px",
-            color: "#86efac",
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            fontWeight: "600"
-          }, children: "Active Team" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "12px", color: "#fff", fontWeight: "bold" }, children: dbName || "Local" })
-      ] })
-    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "db-indicator-fab",
+        style: {
+          position: "fixed",
+          bottom: "20px",
+          left: "20px",
+          zIndex: isOpen ? 2e3 : 3e3,
+          display: "none"
+        },
+        children: [
+          isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "db-overlay",
+              onClick: () => setIsOpen(false),
+              style: {
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0, 0, 0, 0.5)",
+                zIndex: 3e3,
+                animation: "fadeIn 0.3s ease"
+              }
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: "db-card-expanded",
+              style: {
+                position: "fixed",
+                bottom: "20px",
+                left: "20px",
+                right: "20px",
+                maxWidth: "calc(100% - 40px)",
+                zIndex: 3001,
+                background: "rgba(15, 23, 42, 0.95)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "16px",
+                padding: "16px",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
+                display: isOpen ? "block" : "none",
+                animation: isOpen ? "slideUp 0.4s ease" : "none",
+                fontFamily: "'Poppins', sans-serif",
+                userSelect: "none",
+                width: "fit-content"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => setIsOpen(false),
+                    style: {
+                      position: "absolute",
+                      top: "12px",
+                      right: "12px",
+                      background: "rgba(255, 255, 255, 0.1)",
+                      border: "none",
+                      color: "#fff",
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.2s",
+                      padding: 0
+                    },
+                    onMouseEnter: (e) => {
+                      e.target.style.background = "rgba(255, 255, 255, 0.2)";
+                    },
+                    onMouseLeave: (e) => {
+                      e.target.style.background = "rgba(255, 255, 255, 0.1)";
+                    },
+                    title: "Close"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      gap: "8px",
+                      borderBottom: "1px solid rgba(255,255,255,0.1)",
+                      paddingBottom: "12px",
+                      paddingRight: "40px",
+                      marginBottom: "12px"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          style: {
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+                            background: "#a855f7",
+                            boxShadow: "0 0 8px #a855f7",
+                            flexShrink: 0
+                          }
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          style: {
+                            fontSize: "12px",
+                            color: "#d8b4fe",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                            fontWeight: "600",
+                            whiteSpace: "nowrap"
+                          },
+                          children: "Master DB"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          style: {
+                            fontSize: "12px",
+                            color: "#10b981",
+                            fontWeight: "bold",
+                            marginLeft: "auto",
+                            whiteSpace: "nowrap"
+                          },
+                          children: "Connected"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      gap: "8px",
+                      paddingRight: "40px"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          className: "pulse-dot",
+                          style: {
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+                            background: "#22c55e",
+                            boxShadow: "0 0 8px #22c55e",
+                            flexShrink: 0
+                          }
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          style: {
+                            fontSize: "12px",
+                            color: "#86efac",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                            fontWeight: "600",
+                            whiteSpace: "nowrap"
+                          },
+                          children: "Active Team"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          style: {
+                            fontSize: "13px",
+                            color: "#fff",
+                            fontWeight: "bold",
+                            marginLeft: "auto",
+                            whiteSpace: "nowrap"
+                          },
+                          children: dbName || "Local"
+                        }
+                      )
+                    ]
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setIsOpen(!isOpen),
+              className: "db-fab-button",
+              style: {
+                position: "fixed",
+                bottom: "20px",
+                left: "20px",
+                width: "56px",
+                height: "56px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, #a855f7, #7c3aed)",
+                border: "2px solid rgba(255, 255, 255, 0.2)",
+                boxShadow: "0 8px 24px rgba(168, 85, 247, 0.4)",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: isOpen ? 2001 : 3001,
+                transition: "all 0.3s ease",
+                transform: isOpen ? "scale(0)" : "scale(1)",
+                opacity: isOpen ? 0 : 1,
+                pointerEvents: isOpen ? "none" : "auto"
+              },
+              onMouseEnter: (e) => {
+                if (!isOpen) {
+                  e.target.style.boxShadow = "0 12px 32px rgba(168, 85, 247, 0.6)";
+                  e.target.style.transform = "scale(1.1)";
+                }
+              },
+              onMouseLeave: (e) => {
+                if (!isOpen) {
+                  e.target.style.boxShadow = "0 8px 24px rgba(168, 85, 247, 0.4)";
+                  e.target.style.transform = "scale(1)";
+                }
+              },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  style: {
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#fff",
+                    boxShadow: "0 0 6px rgba(255,255,255,0.8)",
+                    animation: "pulse 2s infinite"
+                  }
+                }
+              )
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "db-indicator-desktop",
+        style: {
+          position: "fixed",
+          bottom: "20px",
+          left: "20px",
+          zIndex: 3e3,
+          background: "rgba(15, 23, 42, 0.85)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          borderRadius: "12px",
+          padding: "12px 16px",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.6)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          width: "fit-content",
+          fontFamily: "'Poppins', sans-serif",
+          userSelect: "none"
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "8px",
+                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                paddingBottom: "8px"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    style: {
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "#a855f7",
+                      boxShadow: "0 0 8px #a855f7",
+                      flexShrink: 0
+                    }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    style: {
+                      fontSize: "11px",
+                      color: "#d8b4fe",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      fontWeight: "600",
+                      whiteSpace: "nowrap"
+                    },
+                    children: "Master DB"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    style: {
+                      fontSize: "11px",
+                      color: "#10b981",
+                      fontWeight: "bold",
+                      marginLeft: "auto"
+                    },
+                    children: "Connected"
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "8px"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "pulse-dot",
+                    style: {
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "#22c55e",
+                      boxShadow: "0 0 8px #22c55e",
+                      flexShrink: 0
+                    }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    style: {
+                      fontSize: "11px",
+                      color: "#86efac",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                      fontWeight: "600",
+                      whiteSpace: "nowrap"
+                    },
+                    children: "Active Team"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    style: {
+                      fontSize: "12px",
+                      color: "#fff",
+                      fontWeight: "bold",
+                      marginLeft: "auto",
+                      whiteSpace: "nowrap"
+                    },
+                    children: dbName || "Local"
+                  }
+                )
+              ]
+            }
+          )
+        ]
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
-          @keyframes pulse {
-              0% { opacity: 1; transform: scale(1); }
-              50% { opacity: 0.5; transform: scale(1.2); }
-              100% { opacity: 1; transform: scale(1); }
+        @keyframes pulse {
+          0% {
+            opacity: 1;
+            transform: scale(1);
           }
-          .pulse-dot {
-              animation: pulse 2s infinite;
+          50% {
+            opacity: 0.5;
+            transform: scale(1.2);
           }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        .pulse-dot {
+          animation: pulse 2s infinite;
+        }
+
+        @media (min-width: 768px) {
+          .db-indicator-fab {
+            display: none !important;
+          }
+          .db-indicator-desktop {
+            display: flex !important;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .db-indicator-fab {
+            display: block !important;
+          }
+          .db-indicator-desktop {
+            display: none !important;
+          }
+        }
       ` })
   ] });
 };
