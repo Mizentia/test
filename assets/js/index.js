@@ -40479,44 +40479,22 @@ const useFirebaseDB = (setAppData) => {
   const [activeDB, setActiveDB] = reactExports.useState(null);
   const [dbName, setDbName] = reactExports.useState("Local Mode");
   const [isLoading, setIsLoading] = reactExports.useState(false);
-  const [isSyncing, setIsSyncing] = reactExports.useState(false);
-  const [broadcastDBs, setBroadcastDBs] = reactExports.useState({});
-  const broadcastConfigs = reactExports.useRef({});
   reactExports.useEffect(() => {
     const handleOnline = () => {
-      const savedBroadcasts2 = localStorage.getItem("broadcastConfigs");
-      if (savedBroadcasts2) {
-        const configs = JSON.parse(savedBroadcasts2);
-        broadcastConfigs.current = configs;
-        Object.keys(configs).forEach((id2) => {
-          toggleBroadcastDB(configs[id2], id2, true);
-        });
-      }
       const savedConfig2 = localStorage.getItem("activeConfig");
       const savedName2 = localStorage.getItem("activeDBName");
       if (savedConfig2) {
-        console.log("Back Online: Reconnecting...");
+        console.log("Back Online: Attempting to Reconnect to Team DB...");
         connectToDB(JSON.parse(savedConfig2), savedName2 || "Team DB");
       }
     };
     const handleOffline = () => {
-      console.log("Offline Mode");
+      console.log("Connection Lost: Switching to Local Mode");
       setActiveDB(null);
       setDbName("Local Storage (Offline)");
-      setIsSyncing(false);
     };
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
-    const savedBroadcasts = localStorage.getItem("broadcastConfigs");
-    if (savedBroadcasts) {
-      const configs = JSON.parse(savedBroadcasts);
-      broadcastConfigs.current = configs;
-      if (navigator.onLine) {
-        Object.keys(configs).forEach((id2) => {
-          toggleBroadcastDB(configs[id2], id2, true);
-        });
-      }
-    }
     const savedConfig = localStorage.getItem("activeConfig");
     const savedName = localStorage.getItem("activeDBName");
     if (navigator.onLine && savedConfig) {
@@ -40543,27 +40521,13 @@ const useFirebaseDB = (setAppData) => {
         const localDataRaw = localStorage.getItem("noksha_local_data");
         if (localDataRaw) {
           try {
-            console.log("Syncing Local Data...");
-            setIsSyncing(true);
+            console.log("Syncing Local Data to Cloud...");
             const localData = JSON.parse(localDataRaw);
             await dbInstance.collection("noksha_store").doc("main_data").set(localData, { merge: true });
-            const broadcastPromises = Object.keys(broadcastConfigs.current).map((id2) => {
-              const appName = `broadcast_${id2}`;
-              const app = firebase.apps.find((a) => a.name === appName);
-              if (app) {
-                return app.firestore().collection("noksha_store").doc("main_data").set(localData, { merge: true });
-              }
-              return Promise.resolve();
-            });
-            if (broadcastPromises.length > 0) {
-              await Promise.all(broadcastPromises);
-            }
             console.log("Sync Successful!");
             localStorage.removeItem("pendingSync");
-            setTimeout(() => setIsSyncing(false), 1500);
           } catch (syncErr) {
             console.error("Sync Failed:", syncErr);
-            setIsSyncing(false);
           }
         }
       }
@@ -40573,13 +40537,13 @@ const useFirebaseDB = (setAppData) => {
       if (existingApp && existingApp.options.projectId === config.projectId) {
         setDbName(name2);
         setIsLoading(false);
-        const db2 = existingApp.firestore();
         if (!activeDB) {
+          const db2 = existingApp.firestore();
           setActiveDB(db2);
           await syncLocalChanges(db2);
           setupRealtimeListener(db2);
         } else {
-          await syncLocalChanges(db2);
+          await syncLocalChanges(existingApp.firestore());
         }
         return;
       }
@@ -40597,7 +40561,6 @@ const useFirebaseDB = (setAppData) => {
       setActiveDB(null);
       setDbName("Local Storage (Fallback)");
       setIsLoading(false);
-      setIsSyncing(false);
     }
   };
   const setupRealtimeListener = (dbInstance) => {
@@ -40615,58 +40578,16 @@ const useFirebaseDB = (setAppData) => {
       setIsLoading(false);
     });
   };
-  const toggleBroadcastDB = async (config, id2, enable) => {
-    if (enable) {
-      try {
-        const appName = `broadcast_${id2}`;
-        let app = firebase.apps.find((a) => a.name === appName);
-        if (!app) {
-          app = firebase.initializeApp(config, appName);
-        }
-        const db = app.firestore();
-        setBroadcastDBs((prev) => ({ ...prev, [id2]: db }));
-        broadcastConfigs.current[id2] = config;
-        localStorage.setItem("broadcastConfigs", JSON.stringify(broadcastConfigs.current));
-        const localDataRaw = localStorage.getItem("noksha_local_data");
-        if (localDataRaw) {
-          const localData = JSON.parse(localDataRaw);
-          db.collection("noksha_store").doc("main_data").set(localData, { merge: true }).then(() => console.log(`Synced to broadcast: ${appName}`)).catch((e) => console.error("Broadcast Sync error", e));
-        }
-      } catch (e) {
-        console.error("Failed to add broadcast DB", e);
-      }
-    } else {
-      setBroadcastDBs((prev) => {
-        const newState = { ...prev };
-        delete newState[id2];
-        return newState;
-      });
-      if (broadcastConfigs.current[id2]) {
-        delete broadcastConfigs.current[id2];
-        localStorage.setItem("broadcastConfigs", JSON.stringify(broadcastConfigs.current));
-      }
-      const appName = `broadcast_${id2}`;
-      const app = firebase.apps.find((a) => a.name === appName);
-      if (app) await app.delete();
-    }
-  };
   const updateOnlineData = async (newData) => {
-    const promises = [];
     if (activeDB) {
-      promises.push(
-        activeDB.collection("noksha_store").doc("main_data").update(newData).catch((err) => console.error("Update Failed (Active):", err))
-      );
-    }
-    Object.values(broadcastDBs).forEach((db) => {
-      promises.push(
-        db.collection("noksha_store").doc("main_data").update(newData).catch((err) => console.error("Update Failed (Broadcast):", err))
-      );
-    });
-    if (promises.length > 0) {
-      await Promise.all(promises);
+      try {
+        await activeDB.collection("noksha_store").doc("main_data").update(newData);
+      } catch (err) {
+        console.error("Update Failed:", err);
+      }
     }
   };
-  return { activeDB, dbName, isLoading, isSyncing, connectToDB, updateOnlineData, toggleBroadcastDB, broadcastDBs };
+  return { activeDB, dbName, isLoading, connectToDB, updateOnlineData };
 };
 const ToastContainer = ({ toasts = [], removeToast }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "noksha-toast-root", children: toasts.map((t) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `noksha-toast ${t.type || "info"}`, children: [
@@ -40688,15 +40609,15 @@ const AppProvider = ({ children }) => {
       profit: 0
     };
   });
-  const { activeDB, dbName, isLoading, isSyncing, connectToDB, updateOnlineData, toggleBroadcastDB, broadcastDBs } = useFirebaseDB(setAppData);
+  const { activeDB, dbName, isLoading, connectToDB, updateOnlineData } = useFirebaseDB(setAppData);
   reactExports.useEffect(() => {
     localStorage.setItem("noksha_local_data", JSON.stringify(appData));
   }, [appData]);
   const updateGlobalState = (newData) => {
-    setAppData((prev) => ({ ...prev, ...newData }));
     if (activeDB) {
       updateOnlineData(newData);
     } else {
+      setAppData((prev) => ({ ...prev, ...newData }));
       localStorage.setItem("pendingSync", "true");
     }
   };
@@ -40732,9 +40653,6 @@ const AppProvider = ({ children }) => {
     dbName,
     connectToDB,
     isLoading,
-    isSyncing,
-    toggleBroadcastDB,
-    broadcastDBs,
     // Data Props
     appData,
     updateGlobalState,
@@ -42190,7 +42108,7 @@ const todayBtnStyle = {
   textTransform: "uppercase"
 };
 const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
-  const { t, language, isSyncing } = useApp();
+  const { t, language } = useApp();
   const [time2, setTime] = reactExports.useState(/* @__PURE__ */ new Date());
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const [showCalendar, setShowCalendar] = reactExports.useState(false);
@@ -42328,8 +42246,7 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_logout })
         ] })
       ] })
-    ] }),
-    isSyncing && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "sync-line-loader" })
+    ] })
   ] });
 };
 const container = "_container_69urd_7";
@@ -42378,9 +42295,8 @@ const useDashboardStats = (appData, t, formatNum) => {
       const today = (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB");
       let total = 0;
       allHistory.forEach((item) => {
-        if (!item) return;
         const itemDate = item.date || item.dateStr;
-        if (typeof itemDate === "string" && itemDate === today) {
+        if (itemDate === today) {
           total += parseFloat(item.totalPrice || item.profit || 0);
         }
       });
@@ -42390,15 +42306,11 @@ const useDashboardStats = (appData, t, formatNum) => {
       const weekAgo = new Date(now2.getTime() - 7 * 24 * 60 * 60 * 1e3);
       let total = 0;
       allHistory.forEach((item) => {
-        if (!item) return;
         const itemDate = item.date || item.dateStr;
-        if (typeof itemDate === "string") {
-          const parts = itemDate.split("/");
-          if (parts.length === 3) {
-            const itemDateObj = new Date(parts.reverse().join("-"));
-            if (!isNaN(itemDateObj) && itemDateObj >= weekAgo && itemDateObj <= now2) {
-              total += parseFloat(item.totalPrice || item.profit || 0);
-            }
+        if (itemDate) {
+          const itemDateObj = new Date(itemDate.split("/").reverse().join("-"));
+          if (itemDateObj >= weekAgo && itemDateObj <= now2) {
+            total += parseFloat(item.totalPrice || item.profit || 0);
           }
         }
       });
@@ -42408,15 +42320,12 @@ const useDashboardStats = (appData, t, formatNum) => {
       const currentMonth = `${now2.getFullYear()}-${String(now2.getMonth() + 1).padStart(2, "0")}`;
       let total = 0;
       allHistory.forEach((item) => {
-        if (!item) return;
         const itemDate = item.date || item.dateStr;
-        if (typeof itemDate === "string") {
+        if (itemDate) {
           const parts = itemDate.split("/");
-          if (parts.length === 3) {
-            const itemMonth = `${parts[2]}-${parts[1]}`;
-            if (itemMonth === currentMonth) {
-              total += parseFloat(item.totalPrice || item.profit || 0);
-            }
+          const itemMonth = `${parts[2]}-${parts[1]}`;
+          if (itemMonth === currentMonth) {
+            total += parseFloat(item.totalPrice || item.profit || 0);
           }
         }
       });
@@ -42426,15 +42335,12 @@ const useDashboardStats = (appData, t, formatNum) => {
       const currentYear = now2.getFullYear().toString();
       let total = 0;
       allHistory.forEach((item) => {
-        if (!item) return;
         const itemDate = item.date || item.dateStr;
-        if (typeof itemDate === "string") {
+        if (itemDate) {
           const parts = itemDate.split("/");
-          if (parts.length === 3) {
-            const itemYear = parts[2];
-            if (itemYear === currentYear) {
-              total += parseFloat(item.totalPrice || item.profit || 0);
-            }
+          const itemYear = parts[2];
+          if (itemYear === currentYear) {
+            total += parseFloat(item.totalPrice || item.profit || 0);
           }
         }
       });
@@ -50515,12 +50421,12 @@ const AccountNavigation = ({ active, onSelect }) => {
     { id: "Bkash", label: "Bkash", class: "nav-bkash" },
     { id: "Nagad", label: "Nagad", class: "nav-nagad" },
     { id: "Rocket", label: "Rocket", class: "nav-rocket" },
-    { id: "Upay", label: "Upay", class: "nav-upay" },
+    { id: "Parsonal", label: "Parsonal", class: "nav-Parsonal" },
     { id: "GP", label: "GP", class: "nav-gp" },
     { id: "Banglalink", label: "Banglalink", class: "nav-bl" },
     { id: "Airtel", label: "Airtel", class: "nav-airtel" },
     { id: "Robi", label: "Robi", class: "nav-robi" },
-    { id: "Teletalk", label: "Teletalk", class: "nav-teletalk" }
+    { id: "Due", label: "Due", class: "nav-Due" }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "acc-nav-container", children: items.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "button",
@@ -51216,12 +51122,12 @@ const usePaymentSettings = (activeDB) => {
     Bkash: { cashOut: 4, cashIn: 3.75, recharge: 2, openAccount: 18 },
     Nagad: { cashOut: 4, cashIn: 4, recharge: 2.5, openAccount: 15 },
     Rocket: { cashOut: 4.75, cashIn: 4.75, recharge: 3, openAccount: 16 },
-    Upay: { cashOut: 4, cashIn: 4, recharge: 2, openAccount: 14 },
+    Parsonal: { cashOut: 4, cashIn: 4, recharge: 2, openAccount: 14 },
     GP: { rate: 28 },
     Banglalink: { rate: 28 },
     Airtel: { rate: 28 },
     Robi: { rate: 28 },
-    Teletalk: { rate: 28 },
+    Due: { rate: 28 },
     lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
     updatedBy: "unknown"
   };
@@ -51275,7 +51181,7 @@ const usePaymentSettings = (activeDB) => {
   };
   return { settings, isLoading, isSaving, error, updatePaymentSettings };
 };
-const ALL_OPERATORS = ["Bkash", "Nagad", "Rocket", "Upay", "GP", "Banglalink", "Airtel", "Robi", "Teletalk"];
+const ALL_OPERATORS = ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
 const PaymentSettings = ({ onClose, operator = null }) => {
   const { activeDB, showToast } = useApp();
   const { settings, isLoading, isSaving, error, updatePaymentSettings } = usePaymentSettings(activeDB);
@@ -51299,7 +51205,7 @@ const PaymentSettings = ({ onClose, operator = null }) => {
       showToast("সেভ করতে ব্যর্থ হয়েছে।", { type: "error" });
     }
   };
-  const GP_LIKE = ["gp", "banglalink", "airtel", "robi", "teletalk"];
+  const GP_LIKE = ["gp", "banglalink", "airtel", "robi", "Due"];
   const renderType = (key) => {
     const d = form[key] || {};
     const isGp = GP_LIKE.includes((key || "").toLowerCase());
@@ -51362,7 +51268,7 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
   const { settings } = usePaymentSettings(activeDB);
   const paymentType = (account?.type || "").trim();
   const rates = settings?.[paymentType] || {};
-  const isRechargeOnlyOperator = ["gp", "banglalink", "airtel", "robi", "teletalk"].includes((paymentType || "").toLowerCase());
+  const isRechargeOnlyOperator = ["gp", "banglalink", "airtel", "robi", "Due"].includes((paymentType || "").toLowerCase());
   const [mode, setMode] = reactExports.useState("transaction");
   const [subMode, setSubMode] = reactExports.useState(isRechargeOnlyOperator ? "recharge" : "cash_out");
   const [amount, setAmount] = reactExports.useState("");
@@ -51775,7 +51681,7 @@ const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, 
     type: currentAccountType === "All" ? "Desco" : currentAccountType,
     balance: ""
   });
-  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Upay", "GP", "Banglalink", "Airtel", "Robi", "Teletalk"];
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
   const handleSubmit = (e) => {
     e.preventDefault();
     const balance = parseFloat(formData.balance) || 0;
@@ -52001,7 +51907,7 @@ const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => 
     type: account?.type || "Desco",
     balance: account?.balance || ""
   });
-  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Upay", "GP", "Banglalink", "Airtel", "Robi", "Teletalk"];
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
   reactExports.useEffect(() => {
     if (account) {
       setFormData({
@@ -52251,7 +52157,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
   const handleAddAccountSubmit = (formData) => {
     const accountType = formData.type;
     const initialBalance = parseFloat(formData.balance) || 0;
-    const gp_like = ["gp", "banglalink", "airtel", "robi", "teletalk"].includes((accountType || "").toLowerCase());
+    const gp_like = ["gp", "banglalink", "airtel", "robi", "Due"].includes((accountType || "").toLowerCase());
     let finalBalance = initialBalance;
     let extraProfit = 0;
     if (gp_like && paymentSettings && paymentSettings[accountType]) {
@@ -52309,7 +52215,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
       setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
       return;
     }
-    if (["bkash", "nagad", "rocket", "upay", "gp", "banglalink", "airtel", "robi", "teletalk"].includes(t)) {
+    if (["bkash", "nagad", "rocket", "Parsonal", "gp", "banglalink", "airtel", "robi", "Due"].includes(t)) {
       setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
       return;
     }
@@ -52362,7 +52268,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
       }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-gear" }),
         " সেটিংস"
-      ] }) : ["Bkash", "Nagad", "Rocket", "Upay", "GP", "Banglalink", "Airtel", "Robi", "Teletalk"].includes(activeTab) && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setPaymentSettingsOperator(activeTab), style: { background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", padding: "12px 16px", borderRadius: "8px", border: "1px solid #fbbf24", cursor: "pointer", fontWeight: "bold", whiteSpace: "nowrap", transition: "all 0.3s" }, onMouseOver: (e) => {
+      ] }) : ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"].includes(activeTab) && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setPaymentSettingsOperator(activeTab), style: { background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", padding: "12px 16px", borderRadius: "8px", border: "1px solid #fbbf24", cursor: "pointer", fontWeight: "bold", whiteSpace: "nowrap", transition: "all 0.3s" }, onMouseOver: (e) => {
         e.target.style.background = "rgba(251, 191, 36, 0.25)";
       }, onMouseOut: (e) => {
         e.target.style.background = "rgba(251, 191, 36, 0.15)";
@@ -52451,7 +52357,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
                   " লেনদেন"
                 ]
               }
-            ) : ["Bkash", "Nagad", "Rocket", "Upay", "GP", "Banglalink", "Airtel", "Robi", "Teletalk"].includes(acc.type) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            ) : ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"].includes(acc.type) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
                 onClick: () => handleTransactionToggle(acc),
@@ -52528,7 +52434,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
             )
           ] })
         ] }),
-        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", style: { padding: "20px" }, children: (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsx(DescoTransaction, { account: acc, onBack: () => setExpandedAccountId(null), inline: true }) : ["bkash", "nagad", "rocket", "upay", "gp", "banglalink", "airtel", "robi", "teletalk"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(PaymentTransaction, { account: acc, inline: true, onBack: () => setExpandedAccountId(null) }) }) })
+        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", style: { padding: "20px" }, children: (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsx(DescoTransaction, { account: acc, onBack: () => setExpandedAccountId(null), inline: true }) : ["bkash", "nagad", "rocket", "Parsonal", "gp", "banglalink", "airtel", "robi", "Due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(PaymentTransaction, { account: acc, inline: true, onBack: () => setExpandedAccountId(null) }) }) })
       ] }, acc.id)) })
     ] }) })
   ] });
@@ -53801,7 +53707,7 @@ const History = ({ transactions = [], onDelete, onClearAll, filterType }) => {
 };
 const ADMIN_PASS = "M~R.88@Mizhan.25";
 const DatabaseSettings = ({ masterDB }) => {
-  const { connectToDB, dbName, showToast, activeDB, showDBIndicator, toggleDBIndicator, toggleBroadcastDB, broadcastDBs } = useApp();
+  const { connectToDB, dbName, showToast, activeDB, showDBIndicator, toggleDBIndicator } = useApp();
   const [dbList, setDbList] = reactExports.useState([]);
   const [loading, setLoading] = reactExports.useState(true);
   const [name2, setName] = reactExports.useState("");
@@ -54051,43 +53957,6 @@ const DatabaseSettings = ({ masterDB }) => {
               /* @__PURE__ */ jsxRuntimeExports.jsx("small", { style: { color: "#94a3b8" }, children: item.email })
             ] }),
             dbName === item.name && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", background: "#22c55e", color: "black", padding: "2px 6px", borderRadius: "4px", fontWeight: "bold" }, children: "ACTIVE" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "8px",
-            background: "rgba(255,255,255,0.05)",
-            borderRadius: "8px",
-            marginBottom: "8px"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "12px", color: "#cbd5e1" }, children: "Auto-Sync Writes" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                onClick: () => toggleBroadcastDB(item.config, item.id, !broadcastDBs[item.id]),
-                style: {
-                  width: "36px",
-                  height: "20px",
-                  background: broadcastDBs && broadcastDBs[item.id] ? "#22c55e" : "#475569",
-                  borderRadius: "20px",
-                  position: "relative",
-                  cursor: "pointer",
-                  transition: "background 0.3s"
-                },
-                title: "Toggle to automatically send data to this database",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-                  width: "16px",
-                  height: "16px",
-                  background: "white",
-                  borderRadius: "50%",
-                  position: "absolute",
-                  top: "2px",
-                  left: broadcastDBs && broadcastDBs[item.id] ? "18px" : "2px",
-                  transition: "left 0.3s"
-                } })
-              }
-            )
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", marginTop: "5px" }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -56034,75 +55903,12 @@ const useAuth = () => {
     logout
   };
 };
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-  componentDidCatch(error, errorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
-    this.setState({ errorInfo });
-  }
-  handleReset = () => {
-    this.setState({ hasError: false, error: null, errorInfo: null });
-    window.location.reload();
-  };
-  render() {
-    if (this.state.hasError) {
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        padding: "40px",
-        color: "white",
-        textAlign: "center",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#0f172a"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { style: { color: "#ef4444" }, children: "⚠️ Something went wrong!" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { maxWidth: "600px", margin: "20px auto", color: "#cbd5e1" }, children: "We encountered an unexpected error. Please try refreshing the page." }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-          background: "rgba(0,0,0,0.3)",
-          padding: "20px",
-          borderRadius: "8px",
-          textAlign: "left",
-          margin: "20px 0",
-          maxWidth: "800px",
-          overflow: "auto",
-          border: "1px solid rgba(255,255,255,0.1)"
-        }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("code", { style: { color: "#fca5a5", fontSize: "12px", whiteSpace: "pre-wrap" }, children: this.state.error && this.state.error.toString() }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            onClick: this.handleReset,
-            style: {
-              padding: "12px 24px",
-              background: "#3b82f6",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "16px",
-              fontWeight: "bold",
-              cursor: "pointer"
-            },
-            children: "Refresh Page"
-          }
-        )
-      ] });
-    }
-    return this.props.children;
-  }
-}
 const B_Baria = () => {
   const { isLoggedIn, userName, login, logout } = useAuth();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AppProvider, { children: isLoggedIn ? (
     // হ্যাঁ, লগইন করা আছে -> ড্যাশবোর্ড দেখাও
     // ড্যাশবোর্ডকে লগআউট ফাংশন আর নাম পাঠিয়ে দিলাম
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ErrorBoundary, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: logout, userName }) })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Dashboard, { onLogout: logout, userName })
   ) : (
     // না, লগইন করা নেই -> লগইন পেজ দেখাও
     // লগইন পেজকে 'login' ফাংশনটি দিয়ে দিলাম যেন সফল হলে কল করতে পারে

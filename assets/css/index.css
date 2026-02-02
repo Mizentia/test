@@ -596,25 +596,6 @@ body {
     right: 16px;
     width: 180px;
   }
-}
-
-/* Sync Loader Animation */
-.sync-line-loader {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(to right, transparent 0%, #3b82f6 50%, transparent 100%);
-  background-size: 50% 100%;
-  background-repeat: no-repeat;
-  animation: syncMove 1.5s linear infinite;
-  z-index: 2005;
-}
-
-@keyframes syncMove {
-  0% { background-position: -50% 0; }
-  100% { background-position: 150% 0; }
 }/* Dashboard.module.css */
 
 /* মেইন কন্টেইনার */
@@ -1001,13 +982,13 @@ body {
 .acc-nav-btn.active.nav-bkash { background: linear-gradient(135deg, #e2136e, #c90e60); border-color: #e2136e; color: #fff; }
 .acc-nav-btn.active.nav-nagad { background: linear-gradient(135deg, #f16124, #d94e12); border-color: #f16124; color: #fff; }
 .acc-nav-btn.active.nav-rocket { background: linear-gradient(135deg, #8c3494, #702678); border-color: #8c3494; color: #fff; }
-.acc-nav-btn.active.nav-upay { background: linear-gradient(135deg, #0081c7, #006aa6); border-color: #0081c7; color: #fff; }
+.acc-nav-btn.active.nav-Parsonal { background: linear-gradient(135deg, #0081c7, #006aa6); border-color: #0081c7; color: #fff; }
 .acc-nav-btn.active.nav-desco { background: linear-gradient(135deg, #009c48, #007a38); border-color: #009c48; color: #fff; }
 .acc-nav-btn.active.nav-gp { background: linear-gradient(135deg, #00699e, #00507a); border-color: #00699e; color: #fff; }
 .acc-nav-btn.active.nav-bl { background: linear-gradient(135deg, #ff6b00, #cc5500); border-color: #ff6b00; color: #fff; }
 .acc-nav-btn.active.nav-robi { background: linear-gradient(135deg, #ed1c24, #c4131a); border-color: #ed1c24; color: #fff; }
 .acc-nav-btn.active.nav-airtel { background: linear-gradient(135deg, #d60d16, #b00910); border-color: #d60d16; color: #fff; }
-.acc-nav-btn.active.nav-teletalk { background: linear-gradient(135deg, #87c540, #6da330); border-color: #87c540; color: #fff; }/* File: B_Baria/Card/Cards/Product/ProductNavigation.css */
+.acc-nav-btn.active.nav-Due { background: linear-gradient(135deg, #87c540, #6da330); border-color: #87c540; color: #fff; }/* File: B_Baria/Card/Cards/Product/ProductNavigation.css */
 
 .prod-nav-container {
   display: flex;
