@@ -493,7 +493,7 @@ function requireReact_production() {
   react_production.useTransition = function() {
     return ReactSharedInternals.H.useTransition();
   };
-  react_production.version = "19.2.3";
+  react_production.version = "19.2.4";
   return react_production;
 }
 var hasRequiredReact;
@@ -921,7 +921,7 @@ function requireReactDom_production() {
   reactDom_production.useFormStatus = function() {
     return ReactSharedInternals.H.useHostTransitionStatus();
   };
-  reactDom_production.version = "19.2.3";
+  reactDom_production.version = "19.2.4";
   return reactDom_production;
 }
 var hasRequiredReactDom;
@@ -948,7 +948,7 @@ var hasRequiredReactDomClient_production;
 function requireReactDomClient_production() {
   if (hasRequiredReactDomClient_production) return reactDomClient_production;
   hasRequiredReactDomClient_production = 1;
-  var Scheduler = requireScheduler(), React2 = requireReact(), ReactDOM = requireReactDom();
+  var Scheduler = requireScheduler(), React2 = requireReact(), ReactDOM2 = requireReactDom();
   function formatProdErrorMessage(code) {
     var url = "https://react.dev/errors/" + code;
     if (1 < arguments.length) {
@@ -1124,7 +1124,7 @@ function requireReactDomClient_production() {
       }
     return null;
   }
-  var isArrayImpl = Array.isArray, ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, sharedNotPendingObject = {
+  var isArrayImpl = Array.isArray, ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, sharedNotPendingObject = {
     pending: false,
     data: null,
     method: null,
@@ -12365,12 +12365,12 @@ function requireReactDomClient_production() {
     }
   };
   var isomorphicReactPackageVersion$jscomp$inline_1840 = React2.version;
-  if ("19.2.3" !== isomorphicReactPackageVersion$jscomp$inline_1840)
+  if ("19.2.4" !== isomorphicReactPackageVersion$jscomp$inline_1840)
     throw Error(
       formatProdErrorMessage(
         527,
         isomorphicReactPackageVersion$jscomp$inline_1840,
-        "19.2.3"
+        "19.2.4"
       )
     );
   ReactDOMSharedInternals.findDOMNode = function(componentOrElement) {
@@ -12388,10 +12388,10 @@ function requireReactDomClient_production() {
   };
   var internals$jscomp$inline_2347 = {
     bundleType: 0,
-    version: "19.2.3",
+    version: "19.2.4",
     rendererPackageName: "react-dom",
     currentDispatcherRef: ReactSharedInternals,
-    reconcilerVersion: "19.2.3"
+    reconcilerVersion: "19.2.4"
   };
   if ("undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) {
     var hook$jscomp$inline_2348 = __REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -12458,7 +12458,7 @@ function requireReactDomClient_production() {
     listenToAllSupportedEvents(container2);
     return new ReactDOMHydrationRoot(initialChildren);
   };
-  reactDomClient_production.version = "19.2.3";
+  reactDomClient_production.version = "19.2.4";
   return reactDomClient_production;
 }
 var hasRequiredClient;
@@ -14763,6 +14763,8 @@ function useViewTransitionState(to, { relative } = {}) {
   let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
   return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
+var reactDomExports = requireReactDom();
+const ReactDOM = /* @__PURE__ */ getDefaultExportFromCjs(reactDomExports);
 const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 const toCamelCase = (string) => string.replace(
   /^([A-Z])|[\s-_]+(\w)/g,
@@ -39754,17 +39756,17 @@ function assertBase64Available() {
     throw new FirestoreError("unimplemented", "Blobs are unavailable in Firestore in this environment.");
   }
 }
-class Blob {
+let Blob$1 = class Blob2 {
   constructor(_delegate) {
     this._delegate = _delegate;
   }
   static fromBase64String(base642) {
     assertBase64Available();
-    return new Blob(Bytes.fromBase64String(base642));
+    return new Blob2(Bytes.fromBase64String(base642));
   }
   static fromUint8Array(array) {
     assertUint8ArrayAvailable();
-    return new Blob(Bytes.fromUint8Array(array));
+    return new Blob2(Bytes.fromUint8Array(array));
   }
   toBase64() {
     assertBase64Available();
@@ -39780,7 +39782,7 @@ class Blob {
   toString() {
     return "Blob(base64: " + this.toBase64() + ")";
   }
-}
+};
 function isPartialObserver(obj) {
   return implementsAnyMethods(obj, ["next", "error", "complete"]);
 }
@@ -39927,7 +39929,7 @@ class UserDataWriter extends AbstractUserDataWriter {
     this.firestore = firestore;
   }
   convertBytes(bytes) {
-    return new Blob(new Bytes(bytes));
+    return new Blob$1(new Bytes(bytes));
   }
   convertReference(name2) {
     const key = this.convertDocumentKey(name2, this.firestore._databaseId);
@@ -40449,7 +40451,7 @@ const firestoreNamespace = {
   Firestore: Firestore2,
   GeoPoint,
   Timestamp,
-  Blob,
+  Blob: Blob$1,
   Transaction: Transaction3,
   WriteBatch: WriteBatch2,
   DocumentReference: DocumentReference2,
@@ -40587,7 +40589,17 @@ const useFirebaseDB = (setAppData) => {
       }
     }
   };
-  return { activeDB, dbName, isLoading, connectToDB, updateOnlineData };
+  const replaceOnlineData = async (newData) => {
+    if (activeDB) {
+      try {
+        await activeDB.collection("noksha_store").doc("main_data").set(newData);
+      } catch (err) {
+        console.error("Replace Failed:", err);
+        throw err;
+      }
+    }
+  };
+  return { activeDB, dbName, isLoading, connectToDB, updateOnlineData, replaceOnlineData };
 };
 const ToastContainer = ({ toasts = [], removeToast }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "noksha-toast-root", children: toasts.map((t) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `noksha-toast ${t.type || "info"}`, children: [
@@ -40609,7 +40621,7 @@ const AppProvider = ({ children }) => {
       profit: 0
     };
   });
-  const { activeDB, dbName, isLoading, connectToDB, updateOnlineData } = useFirebaseDB(setAppData);
+  const { activeDB, dbName, isLoading, connectToDB, updateOnlineData, replaceOnlineData } = useFirebaseDB(setAppData);
   reactExports.useEffect(() => {
     localStorage.setItem("noksha_local_data", JSON.stringify(appData));
   }, [appData]);
@@ -40618,6 +40630,14 @@ const AppProvider = ({ children }) => {
       updateOnlineData(newData);
     } else {
       setAppData((prev) => ({ ...prev, ...newData }));
+      localStorage.setItem("pendingSync", "true");
+    }
+  };
+  const replaceAllData = async (newData) => {
+    setAppData(newData);
+    if (activeDB) {
+      await replaceOnlineData(newData);
+    } else {
       localStorage.setItem("pendingSync", "true");
     }
   };
@@ -40657,6 +40677,7 @@ const AppProvider = ({ children }) => {
     appData,
     updateGlobalState,
     resetLocalState,
+    replaceAllData,
     // Theme & Language Props
     themeIndex,
     changeTheme,
@@ -51181,7 +51202,7 @@ const usePaymentSettings = (activeDB) => {
   };
   return { settings, isLoading, isSaving, error, updatePaymentSettings };
 };
-const ALL_OPERATORS = ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
+const ALL_OPERATORS = ["Bkash", "Nagad", "Rocket", "Personal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
 const PaymentSettings = ({ onClose, operator = null }) => {
   const { activeDB, showToast } = useApp();
   const { settings, isLoading, isSaving, error, updatePaymentSettings } = usePaymentSettings(activeDB);
@@ -51205,7 +51226,7 @@ const PaymentSettings = ({ onClose, operator = null }) => {
       showToast("সেভ করতে ব্যর্থ হয়েছে।", { type: "error" });
     }
   };
-  const GP_LIKE = ["gp", "banglalink", "airtel", "robi", "Due"];
+  const GP_LIKE = ["gp", "banglalink", "airtel", "robi", "due"];
   const renderType = (key) => {
     const d = form[key] || {};
     const isGp = GP_LIKE.includes((key || "").toLowerCase());
@@ -51267,24 +51288,50 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
   const { appData, updateGlobalState, formatNum, activeDB, showToast } = useApp();
   const { settings } = usePaymentSettings(activeDB);
   const paymentType = (account?.type || "").trim();
+  const lowerType = paymentType.toLowerCase();
   const rates = settings?.[paymentType] || {};
-  const isRechargeOnlyOperator = ["gp", "banglalink", "airtel", "robi", "Due"].includes((paymentType || "").toLowerCase());
+  const isRechargeOnlyOperator = ["gp", "banglalink", "airtel", "robi", "due"].includes(lowerType);
+  const isAgentCashOutSupported = ["bkash", "nagad", "rocket"].includes(lowerType);
   const [mode, setMode] = reactExports.useState("transaction");
   const [subMode, setSubMode] = reactExports.useState(isRechargeOnlyOperator ? "recharge" : "cash_out");
   const [amount, setAmount] = reactExports.useState("");
+  const [isAgentCashOut, setIsAgentCashOut] = reactExports.useState(false);
+  const [shortcuts, setShortcuts] = reactExports.useState([]);
   const [hasExtraCommission, setHasExtraCommission] = reactExports.useState(false);
   const [extraCommission, setExtraCommission] = reactExports.useState("");
   const [hasCustomerPayment, setHasCustomerPayment] = reactExports.useState(false);
   const [customerPayment, setCustomerPayment] = reactExports.useState("");
   const [openCount, setOpenCount] = reactExports.useState(1);
   reactExports.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(`shortcuts_${lowerType}`);
+      if (saved) {
+        setShortcuts(JSON.parse(saved));
+      } else {
+        setShortcuts([500, 1e3, 2e3, 5e3, 1e4]);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [lowerType]);
+  reactExports.useEffect(() => {
     setAmount("");
     setHasExtraCommission(false);
     setExtraCommission("");
     setHasCustomerPayment(false);
     setCustomerPayment("");
+    setIsAgentCashOut(false);
   }, [subMode, mode]);
+  const updateShortcuts = (amt) => {
+    const val = parseFloat(amt);
+    if (!val || val <= 0) return;
+    let newShortcuts = [val, ...shortcuts.filter((s) => s !== val)];
+    if (newShortcuts.length > 8) newShortcuts = newShortcuts.slice(0, 8);
+    setShortcuts(newShortcuts);
+    localStorage.setItem(`shortcuts_${lowerType}`, JSON.stringify(newShortcuts));
+  };
   const getRate = () => {
+    if (isAgentCashOut) return 0;
     if (subMode === "cash_out") return rates.cashOut || 0;
     if (subMode === "cash_in") return rates.cashIn || 0;
     if (subMode === "recharge") return rates.recharge || 0;
@@ -51297,6 +51344,7 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
     return amt / 1e3 * rate;
   };
   const handleTransactionInit = () => {
+    const amt = parseFloat(amount) || 0;
     if (mode === "open_account") {
       const count = parseInt(openCount, 10);
       if (!count || count < 1) {
@@ -51307,9 +51355,17 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
       executeOpenAccount(count, fee);
       return;
     }
-    const amt = parseFloat(amount) || 0;
     if (amt <= 0) {
       showToast("দয়া করে সঠিক পরিমাণ লিখুন।", { type: "error" });
+      return;
+    }
+    updateShortcuts(amt);
+    if (subMode === "cash_out" && isAgentCashOut) {
+      if ((parseFloat(account.balance) || 0) < amt) {
+        showToast("❌ অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!", { type: "error" });
+        return;
+      }
+      executeAgentCashOut(amt);
       return;
     }
     if (subMode === "add_balance") {
@@ -51358,6 +51414,30 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
       }
     }
   };
+  const executeAgentCashOut = (amt) => {
+    const updatedAccounts = appData.accounts.map(
+      (a) => a.id === account.id ? { ...a, balance: parseFloat(a.balance) - amt } : a
+    );
+    const newCash = (parseFloat(appData.cash) || 0) + amt;
+    const newHistory = {
+      id: Date.now(),
+      name: `${paymentType} Agent Withdaw`,
+      type: "agent_withdraw",
+      category: "account",
+      amount: amt,
+      totalPrice: 0,
+      date: (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB"),
+      time: (/* @__PURE__ */ new Date()).toLocaleTimeString(),
+      desc: `Agent Cash Out: ${formatNum(amt)} added to Cash`
+    };
+    updateGlobalState({
+      accounts: updatedAccounts,
+      cash: newCash,
+      history: [newHistory, ...appData.history]
+    });
+    showToast("এজেন্ট ক্যাশ আউট সফল! ক্যাশ যুক্ত হয়েছে।", { type: "success" });
+    closeAll();
+  };
   const executeAddBalance = (cashDeducted, balanceAdded, profit) => {
     const updatedAccounts = appData.accounts.map(
       (a) => a.id === account.id ? { ...a, balance: parseFloat(a.balance) + balanceAdded } : a
@@ -51370,7 +51450,6 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
       type: "add_balance",
       category: "account",
       amount: cashDeducted,
-      // The amount spent from cash
       totalPrice: profit,
       date: (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB"),
       time: (/* @__PURE__ */ new Date()).toLocaleTimeString(),
@@ -51382,12 +51461,7 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
       profit: newProfit,
       history: [newHistory, ...appData.history]
     });
-    let msg = `✅ ব্যালেন্স লোড সফল!
-৳${formatNum(cashDeducted)} ক্যাশ থেকে কাটা হয়েছে।
-৳${formatNum(balanceAdded)} যুক্ত হয়েছে।`;
-    if (profit > 0) msg += `
-📈 লাভ: ৳${formatNum(profit)}`;
-    showToast(msg, { type: "success" });
+    showToast(`✅ লোড সফল!`, { type: "success" });
     closeAll();
   };
   const executeOpenAccount = (count, fee) => {
@@ -51470,207 +51544,375 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
     if (onClose) onClose();
     if (onBack) onBack();
   };
-  const renderContent = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { color: "white" }, children: [
-    !isRechargeOnlyOperator && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", marginBottom: "15px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: () => setMode("transaction"),
-          style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: mode === "transaction" ? "#3b82f6" : "rgba(255,255,255,0.1)", color: mode === "transaction" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "12px", fontWeight: "bold" },
-          children: "লেনদেন"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: () => setMode("open_account"),
-          style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: mode === "open_account" ? "#10b981" : "rgba(255,255,255,0.1)", color: mode === "open_account" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "12px", fontWeight: "bold" },
-          children: "অ্যাকাউন্ট খোলা (+১)"
-        }
-      )
-    ] }),
-    mode === "open_account" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", display: "block", marginBottom: "8px", fontSize: "12px" }, children: "কতটি নতুন অ্যাকাউন্ট খোলা হয়েছে?" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
-        {
-          type: "number",
-          min: "1",
-          value: openCount,
-          onChange: (e) => setOpenCount(e.target.value),
-          style: { width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.3)", color: "white", fontSize: "16px", fontWeight: "bold" }
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "10px 0 0", fontSize: "11px", color: "#94a3b8" }, children: [
-        "প্রতিটি অ্যাকাউন্টের জন্য কমিশন: ",
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#fbbf24" }, children: formatNum(rates.openAccount || 0) })
-      ] })
-    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", gap: "5px", marginBottom: "15px" }, children: isRechargeOnlyOperator ? (
-        // For Operators: Recharge vs Add Balance
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setSubMode("recharge"),
-              style: {
-                flex: 1,
-                padding: "8px",
-                borderRadius: "6px",
-                border: "none",
-                background: subMode === "recharge" ? "#10b981" : "rgba(255,255,255,0.1)",
-                color: subMode === "recharge" ? "white" : "#94a3b8",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: "bold"
-              },
-              children: "বিক্রয় / রিচার্জ"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setSubMode("add_balance"),
-              style: {
-                flex: 1,
-                padding: "8px",
-                borderRadius: "6px",
-                border: "none",
-                background: subMode === "add_balance" ? "#f59e0b" : "rgba(255,255,255,0.1)",
-                color: subMode === "add_balance" ? "white" : "#94a3b8",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: "bold"
-              },
-              children: "ব্যালেন্স লোড"
-            }
-          )
+  const renderShortcuts = () => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "15px" }, children: shortcuts.map((s, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "button",
+    {
+      onClick: () => setAmount(s.toString()),
+      style: {
+        background: "rgba(59, 130, 246, 0.15)",
+        border: "1px solid rgba(59, 130, 246, 0.3)",
+        color: "#93c5fd",
+        padding: "6px 10px",
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontSize: "12px",
+        fontWeight: "600",
+        transition: "all 0.2s"
+      },
+      onMouseOver: (e) => {
+        e.target.style.background = "rgba(59, 130, 246, 0.3)";
+      },
+      onMouseOut: (e) => {
+        e.target.style.background = "rgba(59, 130, 246, 0.15)";
+      },
+      children: s
+    },
+    idx
+  )) });
+  const renderDetails = () => {
+    const amt = parseFloat(amount) || 0;
+    if (amt <= 0) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", padding: "50px 0", color: "#64748b" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-calculator", style: { fontSize: "40px", marginBottom: "12px", opacity: 0.5 } }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { margin: 0, fontSize: "12px", fontWeight: "500" }, children: "পরিমাণ লিখুন বিবরণ দেখতে" })
+      ] });
+    }
+    if (mode === "open_account") {
+      const fee = (rates.openAccount || 0) * parseInt(openCount || 0);
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(16, 185, 129, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #10b981" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "মোট অ্যাকাউন্ট:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "white" }, children: [
+            openCount,
+            " টি"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "মোট ফি (লাভ):" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#4ade80" }, children: [
+            "+",
+            formatNum(fee)
+          ] })
         ] })
-      ) : (
-        // For Mobile Banking: All options + Add Balance
-        ["cash_out", "cash_in", "recharge", "add_balance"].map((sm) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ] });
+    }
+    if (subMode === "cash_out" && isAgentCashOut) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(245, 158, 11, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #f59e0b" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { style: { margin: "0 0 10px 0", color: "#fbbf24", fontSize: "13px" }, children: "এজেন্ট ক্যাশ আউট (Withdraw)" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "অ্যাকাউন্ট থেকে কমবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+            "-",
+            formatNum(amt)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ক্যাশে যোগ হবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#4ade80" }, children: [
+            "+",
+            formatNum(amt)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "10px", fontSize: "10px", color: "#94a3b8", fontStyle: "italic" }, children: "* কোন লাভ বা ফি প্রযোজ্য নয়।" })
+      ] });
+    }
+    if (subMode === "add_balance") {
+      let profit = isRechargeOnlyOperator ? getLoadBalanceProfit(amt) : 0;
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(239, 68, 68, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #ef4444" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ক্যাশ থেকে কমবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+            "-",
+            formatNum(amt)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "অ্যাকাউন্টে যোগ হবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#4ade80" }, children: [
+            "+",
+            formatNum(amt + profit)
+          ] })
+        ] }),
+        profit > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#4ade80", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "বাকি লাভ (কমিশন):" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700" }, children: [
+            "+",
+            formatNum(profit)
+          ] })
+        ] })
+      ] });
+    }
+    const comm = isRechargeOnlyOperator ? 0 : getCommission(amt);
+    if (isRechargeOnlyOperator && subMode === "recharge") {
+      const extraComm = hasExtraCommission ? parseFloat(extraCommission) || 0 : 0;
+      const custPay = hasCustomerPayment ? parseFloat(customerPayment) || 0 : amt;
+      const balanceDeduct = amt - extraComm;
+      const profit = extraComm + (custPay - amt);
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(59, 130, 246, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #3b82f6" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "রিচার্জ পরিমাণ:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "white" }, children: formatNum(amt) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ব্যালেন্স কাটবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+            "-",
+            formatNum(balanceDeduct)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "কাস্টমার দিচ্ছে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "white" }, children: formatNum(custPay) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#4ade80", fontSize: "13px", fontWeight: "700" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "মোট লাভ:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            "+",
+            formatNum(profit)
+          ] })
+        ] })
+      ] });
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(59, 130, 246, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #3b82f6" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "লেনদেন পরিমাণ:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "white" }, children: formatNum(amt) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "কমিশন:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#fbbf24" }, children: [
+          "+",
+          formatNum(comm)
+        ] })
+      ] }),
+      subMode === "cash_out" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ব্যালেন্স যুক্ত হবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#4ade80" }, children: [
+            "+",
+            formatNum(amt + comm)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ক্যাশ থেকে কমবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+            "-",
+            formatNum(amt)
+          ] })
+        ] })
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ব্যালেন্স কমবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#f87171" }, children: [
+            "-",
+            formatNum(amt - comm)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "ক্যাশ যুক্ত হবে:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: "#4ade80" }, children: [
+            "+",
+            formatNum(amt)
+          ] })
+        ] })
+      ] })
+    ] });
+  };
+  const renderContent = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+    display: "grid",
+    gridTemplateColumns: inline ? "repeat(auto-fit, minmax(320px, 1fr))" : "1.2fr 0.8fr",
+    gap: "20px"
+  }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6))",
+      padding: "20px",
+      borderRadius: "12px",
+      border: "1px solid rgba(59, 130, 246, 0.1)"
+    }, children: [
+      !isRechargeOnlyOperator && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", marginBottom: "20px", background: "rgba(0,0,0,0.2)", padding: "5px", borderRadius: "8px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setMode("transaction"),
+            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "transaction" ? "#3b82f6" : "transparent", color: mode === "transaction" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold" },
+            children: "লেনদেন"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setMode("open_account"),
+            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "open_account" ? "#10b981" : "transparent", color: mode === "open_account" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold" },
+            children: "অ্যাকাউন্ট খোলা"
+          }
+        )
+      ] }),
+      mode === "open_account" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", display: "block", marginBottom: "8px", fontSize: "12px" }, children: "কতটি নতুন অ্যাকাউন্ট খোলা হয়েছে?" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "number",
+            min: "1",
+            value: openCount,
+            onChange: (e) => setOpenCount(e.target.value),
+            style: { width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.3)", color: "white", fontSize: "16px", fontWeight: "bold", boxSizing: "border-box" }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "10px 0 0", fontSize: "11px", color: "#94a3b8" }, children: [
+          "প্রতিটি অ্যকাউন্টের জন্য কমিশন: ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#fbbf24" }, children: formatNum(rates.openAccount || 0) })
+        ] })
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "20px" }, children: isRechargeOnlyOperator ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("recharge"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "recharge" ? "#10b981" : "rgba(255,255,255,0.05)", color: subMode === "recharge" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "বিক্রয় / রিচার্জ" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("add_balance"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "add_balance" ? "#f59e0b" : "rgba(255,255,255,0.05)", color: subMode === "add_balance" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "ব্যালেন্স লোড" })
+        ] }) : ["cash_out", "cash_in", "recharge", "add_balance"].map((sm) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => setSubMode(sm),
             style: {
               flex: 1,
-              padding: "6px",
+              padding: "8px",
               borderRadius: "6px",
               border: "1px solid rgba(255,255,255,0.1)",
-              background: subMode === sm ? sm === "add_balance" ? "rgba(245, 158, 11, 0.2)" : "rgba(59, 130, 246, 0.3)" : "transparent",
-              color: subMode === sm ? sm === "add_balance" ? "#fbbf24" : "#60a5fa" : "#94a3b8",
+              background: subMode === sm ? sm === "add_balance" ? "rgba(245, 158, 11, 0.4)" : "rgba(59, 130, 246, 0.5)" : "rgba(255,255,255,0.05)",
+              color: subMode === sm ? "white" : "#94a3b8",
               cursor: "pointer",
-              fontSize: "10px",
-              whiteSpace: "nowrap"
+              fontSize: "11px",
+              whiteSpace: "nowrap",
+              fontWeight: "600"
             },
             children: sm === "add_balance" ? "LOAD BAL" : sm.replace("_", " ").toUpperCase()
           },
           sm
-        ))
-      ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "15px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", display: "block", marginBottom: "8px", fontSize: "12px" }, children: "পরিমাণ (টাকা)" }),
+        )) }),
+        isAgentCashOutSupported && subMode === "cash_out" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(0,0,0,0.2)", padding: "10px", borderRadius: "8px", marginBottom: "15px", display: "flex", gap: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "8px", color: !isAgentCashOut ? "#4ade80" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: !isAgentCashOut ? "bold" : "normal" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "radio",
+                checked: !isAgentCashOut,
+                onChange: () => setIsAgentCashOut(false),
+                style: { accentColor: "#4ade80" }
+              }
+            ),
+            "Customer Cash Out"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "8px", color: isAgentCashOut ? "#fbbf24" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: isAgentCashOut ? "bold" : "normal" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "radio",
+                checked: isAgentCashOut,
+                onChange: () => setIsAgentCashOut(true),
+                style: { accentColor: "#fbbf24" }
+              }
+            ),
+            "Agent Cash Out/Withdraw"
+          ] })
+        ] }),
+        renderShortcuts(),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1", display: "block", marginBottom: "8px", fontSize: "12px", fontWeight: "700", textTransform: "uppercase" }, children: "পরিমাণ (টাকা)" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "number",
+              value: amount,
+              onChange: (e) => setAmount(e.target.value),
+              autoFocus: true,
+              placeholder: "0",
+              style: {
+                width: "100%",
+                padding: "16px",
+                borderRadius: "10px",
+                border: "2px solid rgba(59, 130, 246, 0.3)",
+                background: "rgba(0,0,0,0.3)",
+                color: "white",
+                fontSize: "24px",
+                fontWeight: "bold",
+                outline: "none",
+                boxSizing: "border-box"
+              },
+              onFocus: (e) => e.target.style.borderColor = "#3b82f6",
+              onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+            }
+          )
+        ] }),
+        isRechargeOnlyOperator && subMode === "recharge" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "8px", marginBottom: "15px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "15px", marginBottom: "10px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasExtraCommission ? "#fbbf24" : "#94a3b8" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasExtraCommission, onChange: (e) => setHasExtraCommission(e.target.checked) }),
+              "এক্সট্রা কমিশন?"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasCustomerPayment ? "#4ade80" : "#94a3b8" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasCustomerPayment, onChange: (e) => setHasCustomerPayment(e.target.checked) }),
+              "কাস্টমার পেমেন্ট?"
+            ] })
+          ] }),
+          hasExtraCommission && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "10px" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "অতিরিক্ত কমিশন পরিমাণ" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: extraCommission, onChange: (e) => setExtraCommission(e.target.value), placeholder: "0", style: { width: "100%", padding: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "white", borderRadius: "6px", boxSizing: "border-box" } })
+          ] }),
+          hasCustomerPayment && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "কাস্টমার কত টাকা দিয়েছে?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: customerPayment, onChange: (e) => setCustomerPayment(e.target.value), placeholder: amount, style: { width: "100%", padding: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "white", borderRadius: "6px", boxSizing: "border-box" } })
+          ] })
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
+          "button",
           {
-            type: "number",
-            value: amount,
-            onChange: (e) => setAmount(e.target.value),
-            autoFocus: true,
-            placeholder: "0",
-            style: { width: "100%", padding: "14px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.3)", color: "white", fontSize: "20px", fontWeight: "bold", outline: "none" },
-            onFocus: (e) => e.target.style.borderColor = "#3b82f6",
-            onBlur: (e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"
+            onClick: handleTransactionInit,
+            style: {
+              width: "100%",
+              padding: "14px",
+              background: subMode === "add_balance" ? "linear-gradient(135deg, #f59e0b, #d97706)" : "linear-gradient(135deg, #3b82f6, #2563eb)",
+              color: "white",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "14px",
+              fontWeight: "800",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              textTransform: "uppercase",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.2)"
+            },
+            onMouseEnter: (e) => e.target.style.transform = "translateY(-2px)",
+            onMouseLeave: (e) => e.target.style.transform = "translateY(0)",
+            children: subMode === "add_balance" ? "ব্যালেন্স লোড করুন" : "নিশ্চিত করুন"
           }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "8px", fontSize: "11px", color: "#64748b" }, children: subMode === "add_balance" ? (
-          // Add Balance Info
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-              "ক্যাশ: ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#4ade80" }, children: formatNum(appData.cash) })
-            ] }),
-            isRechargeOnlyOperator && amount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "#f59e0b" }, children: [
-              "অতিরিক্ত যুক্ত হবে (লাভ): +",
-              formatNum(getLoadBalanceProfit(amount))
-            ] })
-          ] })
-        ) : (
-          // Transaction Info
-          !isRechargeOnlyOperator && amount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-              "কমিশন হার: ",
-              getRate()
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "#fbbf24" }, children: [
-              "কমিশন: ",
-              formatNum(getCommission(amount))
-            ] })
-          ] })
-        ) })
-      ] }),
-      isRechargeOnlyOperator && subMode === "recharge" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "8px", marginBottom: "15px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "15px", marginBottom: "10px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasExtraCommission ? "#fbbf24" : "#94a3b8" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasExtraCommission, onChange: (e) => setHasExtraCommission(e.target.checked) }),
-            "এক্সট্রা কমিশন?"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasCustomerPayment ? "#4ade80" : "#94a3b8" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasCustomerPayment, onChange: (e) => setHasCustomerPayment(e.target.checked) }),
-            "কাস্টমার পেমেন্ট?"
-          ] })
-        ] }),
-        hasExtraCommission && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "10px" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "অতিরিক্ত কমিশন পরিমাণ" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: extraCommission, onChange: (e) => setExtraCommission(e.target.value), placeholder: "0", style: { width: "100%", padding: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "white", borderRadius: "6px" } })
-        ] }),
-        hasCustomerPayment && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "কাস্টমার কত টাকা দিয়েছে?" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: customerPayment, onChange: (e) => setCustomerPayment(e.target.value), placeholder: amount, style: { width: "100%", padding: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "white", borderRadius: "6px" } })
-        ] }),
-        amount > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid rgba(255,255,255,0.05)", fontSize: "11px", color: "#64748b" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-            "ব্যালেন্স কাটবে: ",
-            formatNum(parseFloat(amount) - (hasExtraCommission ? parseFloat(extraCommission) || 0 : 0))
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "#4ade80" }, children: [
-            "লাভ: ",
-            formatNum(
-              (hasCustomerPayment ? parseFloat(customerPayment) || 0 : parseFloat(amount)) - parseFloat(amount) + (hasExtraCommission ? parseFloat(extraCommission) || 0 : 0)
-            )
-          ] })
-        ] }) })
+        )
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginTop: "20px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: handleTransactionInit,
-          style: { flex: 1, padding: "12px", background: subMode === "add_balance" ? "#f59e0b" : "#3b82f6", color: "white", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" },
-          children: subMode === "add_balance" ? "ব্যালেন্স লোড করুন" : "নিশ্চিত করুন"
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4))",
+      padding: "20px",
+      borderRadius: "12px",
+      border: "1px solid rgba(255,255,255,0.05)"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { color: "#94a3b8", marginTop: 0, marginBottom: "20px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.8px", fontWeight: "bold", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "10px" }, children: "বিস্তারিত বিবরণ" }),
+      renderDetails()
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+        @media (max-width: 900px) {
+          [style*="gridTemplateColumns"] {
+            grid-template-columns: 1fr !important;
+          }
         }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: closeAll,
-          style: { flex: 1, padding: "12px", background: "rgba(255,255,255,0.1)", color: "#94a3b8", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer" },
-          children: "বাতিল"
-        }
-      )
-    ] })
+      ` })
   ] });
   if (inline) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", gap: "15px", flexDirection: "column" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { background: "rgba(2,6,23,0.4)", borderRadius: "12px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }, children: renderContent() }) });
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "15px" }, children: renderContent() });
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1200, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { width: "450px", background: "#0f172a", borderRadius: "16px", padding: "25px", border: "1px solid rgba(59, 130, 246, 0.3)", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { margin: 0, color: "#fbbf24", display: "flex", alignItems: "center", gap: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-money-bill-transfer" }),
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1200, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { width: "900px", maxWidth: "95%", maxHeight: "90vh", overflowY: "auto", background: "#0f172a", borderRadius: "16px", padding: "30px", border: "1px solid rgba(59, 130, 246, 0.3)", boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px", paddingBottom: "15px", borderBottom: "1px solid rgba(255,255,255,0.1)" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { style: { margin: 0, color: "#fbbf24", display: "flex", alignItems: "center", gap: "12px", fontSize: "22px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { background: "rgba(251, 191, 36, 0.1)", padding: "8px", borderRadius: "10px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-money-bill-transfer" }) }),
         paymentType
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onClose, style: { background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: "20px" }, children: "✕" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onClose, style: { background: "none", border: "none", color: "#94a3b8", cursor: "pointer", fontSize: "24px", transition: "color 0.2s" }, onMouseOver: (e) => e.target.style.color = "white", onMouseOut: (e) => e.target.style.color = "#94a3b8", children: "✕" })
     ] }),
     renderContent()
   ] }) });
@@ -51681,7 +51923,7 @@ const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, 
     type: currentAccountType === "All" ? "Desco" : currentAccountType,
     balance: ""
   });
-  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Personal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
   const handleSubmit = (e) => {
     e.preventDefault();
     const balance = parseFloat(formData.balance) || 0;
@@ -51712,113 +51954,63 @@ const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, 
     });
   };
   if (!isOpen) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.6)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1e3,
-    backdropFilter: "blur(5px)"
-  }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
-    borderRadius: "16px",
-    border: "1px solid rgba(59, 130, 246, 0.3)",
-    padding: "40px",
-    maxWidth: "500px",
-    width: "90%",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
-    color: "white",
-    animation: "slideUp 0.3s ease-out"
-  }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus-circle" }),
-        " নতুন অ্যাকাউন্ট"
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onClose,
-          style: {
-            background: "none",
-            border: "none",
-            color: "#94a3b8",
-            fontSize: "24px",
-            cursor: "pointer"
-          },
-          children: "✕"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
+  return ReactDOM.createPortal(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "rgba(0, 0, 0, 0.6)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1e3,
+      backdropFilter: "blur(5px)"
+    }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
+      borderRadius: "16px",
+      border: "1px solid rgba(59, 130, 246, 0.3)",
+      padding: "40px",
+      maxWidth: "500px",
+      width: "90%",
+      boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+      color: "white",
+      animation: "slideUp 0.3s ease-out"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus-circle" }),
+          " নতুন অ্যাকাউন্ট"
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
+          "button",
           {
-            type: "text",
-            value: formData.name,
-            onChange: (e) => setFormData({ ...formData, name: e.target.value }),
-            placeholder: "যেমন: 'Desco Main', 'Bkash Personal'",
+            onClick: onClose,
             style: {
-              width: "100%",
-              padding: "12px 15px",
-              borderRadius: "8px",
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              color: "white",
-              fontSize: "14px",
-              boxSizing: "border-box",
-              transition: "all 0.3s"
-            },
-            onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
-            onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "select",
-          {
-            value: formData.type,
-            onChange: (e) => setFormData({ ...formData, type: e.target.value }),
-            style: {
-              width: "100%",
-              padding: "12px 15px",
-              borderRadius: "8px",
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              color: "white",
-              fontSize: "14px",
-              boxSizing: "border-box",
+              background: "none",
+              border: "none",
+              color: "#94a3b8",
+              fontSize: "24px",
               cursor: "pointer"
             },
-            children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+            children: "✕"
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "প্রাথমিক ব্যালেন্স (টাকা) *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
-              type: "number",
-              value: formData.balance,
-              onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
-              placeholder: "0",
-              min: "0",
-              step: "0.01",
+              type: "text",
+              value: formData.name,
+              onChange: (e) => setFormData({ ...formData, name: e.target.value }),
+              placeholder: "যেমন: 'Desco Main', 'Bkash Personal'",
               style: {
                 width: "100%",
-                padding: "12px 15px 12px 35px",
+                padding: "12px 15px",
                 borderRadius: "8px",
                 background: "rgba(0, 0, 0, 0.3)",
                 border: "1px solid rgba(59, 130, 246, 0.3)",
@@ -51832,62 +52024,113 @@ const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, 
             }
           )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "10px 0 0 0", fontSize: "12px", color: "#64748b" }, children: [
-          "💰 উপলব্ধ ক্যাশ: ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#4ade80", fontWeight: "bold" }, children: formatNum(cash) })
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "select",
+            {
+              value: formData.type,
+              onChange: (e) => setFormData({ ...formData, type: e.target.value }),
+              style: {
+                width: "100%",
+                padding: "12px 15px",
+                borderRadius: "8px",
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(59, 130, 246, 0.3)",
+                color: "white",
+                fontSize: "14px",
+                boxSizing: "border-box",
+                cursor: "pointer"
+              },
+              children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "প্রাথমিক ব্যালেন্স (টাকা) *" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "number",
+                value: formData.balance,
+                onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
+                placeholder: "0",
+                min: "0",
+                step: "0.01",
+                style: {
+                  width: "100%",
+                  padding: "12px 15px 12px 35px",
+                  borderRadius: "8px",
+                  background: "rgba(0, 0, 0, 0.3)",
+                  border: "1px solid rgba(59, 130, 246, 0.3)",
+                  color: "white",
+                  fontSize: "14px",
+                  boxSizing: "border-box",
+                  transition: "all 0.3s"
+                },
+                onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
+                onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "10px 0 0 0", fontSize: "12px", color: "#64748b" }, children: [
+            "💰 উপলব্ধ ক্যাশ: ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#4ade80", fontWeight: "bold" }, children: formatNum(cash) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "submit",
+              style: {
+                flex: 1,
+                padding: "12px",
+                background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "all 0.3s"
+              },
+              onMouseOver: (e) => e.target.style.transform = "translateY(-2px)",
+              onMouseOut: (e) => e.target.style.transform = "translateY(0)",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-check" }),
+                " তৈরি করুন"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: onClose,
+              style: {
+                flex: 1,
+                padding: "12px",
+                background: "rgba(255, 255, 255, 0.1)",
+                color: "#94a3b8",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                transition: "all 0.3s"
+              },
+              onMouseOver: (e) => e.target.style.background = "rgba(255, 255, 255, 0.15)",
+              onMouseOut: (e) => e.target.style.background = "rgba(255, 255, 255, 0.1)",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
+                " বাতিল"
+              ]
+            }
+          )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "submit",
-            style: {
-              flex: 1,
-              padding: "12px",
-              background: "linear-gradient(135deg, #3b82f6, #2563eb)",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              cursor: "pointer",
-              transition: "all 0.3s"
-            },
-            onMouseOver: (e) => e.target.style.transform = "translateY(-2px)",
-            onMouseOut: (e) => e.target.style.transform = "translateY(0)",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-check" }),
-              " তৈরি করুন"
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "button",
-            onClick: onClose,
-            style: {
-              flex: 1,
-              padding: "12px",
-              background: "rgba(255, 255, 255, 0.1)",
-              color: "#94a3b8",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              cursor: "pointer",
-              transition: "all 0.3s"
-            },
-            onMouseOver: (e) => e.target.style.background = "rgba(255, 255, 255, 0.15)",
-            onMouseOut: (e) => e.target.style.background = "rgba(255, 255, 255, 0.1)",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
-              " বাতিল"
-            ]
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+      /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
           @keyframes slideUp {
             from {
               opacity: 0;
@@ -51899,7 +52142,9 @@ const AddAccountModal = ({ isOpen, onClose, onSubmit, currentAccountType, cash, 
             }
           }
         ` })
-  ] }) });
+    ] }) }),
+    document.body
+  );
 };
 const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => {
   const [formData, setFormData] = reactExports.useState({
@@ -51907,7 +52152,7 @@ const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => 
     type: account?.type || "Desco",
     balance: account?.balance || ""
   });
-  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
+  const accountTypes = ["Desco", "Bkash", "Nagad", "Rocket", "Personal", "GP", "Banglalink", "Airtel", "Robi", "Due"];
   reactExports.useEffect(() => {
     if (account) {
       setFormData({
@@ -51931,107 +52176,62 @@ const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => 
     });
   };
   if (!isOpen || !account) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.6)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1e3,
-    backdropFilter: "blur(5px)"
-  }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
-    borderRadius: "16px",
-    border: "1px solid rgba(59, 130, 246, 0.3)",
-    padding: "40px",
-    maxWidth: "500px",
-    width: "90%",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
-    color: "white",
-    animation: "slideUp 0.3s ease-out"
-  }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-edit" }),
-        " অ্যাকাউন্ট সম্পাদন"
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onClose,
-          style: {
-            background: "none",
-            border: "none",
-            color: "#94a3b8",
-            fontSize: "24px",
-            cursor: "pointer"
-          },
-          children: "✕"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
+  return ReactDOM.createPortal(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "rgba(0, 0, 0, 0.6)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1e3,
+      backdropFilter: "blur(5px)"
+    }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))",
+      borderRadius: "16px",
+      border: "1px solid rgba(59, 130, 246, 0.3)",
+      padding: "40px",
+      maxWidth: "500px",
+      width: "90%",
+      boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+      color: "white",
+      animation: "slideUp 0.3s ease-out"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { style: { margin: 0, color: "#fbbf24", fontSize: "24px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-edit" }),
+          " অ্যাকাউন্ট সম্পাদন"
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
+          "button",
           {
-            type: "text",
-            value: formData.name,
-            onChange: (e) => setFormData({ ...formData, name: e.target.value }),
+            onClick: onClose,
             style: {
-              width: "100%",
-              padding: "12px 15px",
-              borderRadius: "8px",
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              color: "white",
-              fontSize: "14px",
-              boxSizing: "border-box"
-            }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "select",
-          {
-            value: formData.type,
-            onChange: (e) => setFormData({ ...formData, type: e.target.value }),
-            style: {
-              width: "100%",
-              padding: "12px 15px",
-              borderRadius: "8px",
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              color: "white",
-              fontSize: "14px",
-              boxSizing: "border-box",
+              background: "none",
+              border: "none",
+              color: "#94a3b8",
+              fontSize: "24px",
               cursor: "pointer"
             },
-            children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+            children: "✕"
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "বর্তমান ব্যালেন্স (টাকা)" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের নাম *" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
-              type: "number",
-              value: formData.balance,
-              onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
-              step: "0.01",
+              type: "text",
+              value: formData.name,
+              onChange: (e) => setFormData({ ...formData, name: e.target.value }),
               style: {
                 width: "100%",
-                padding: "12px 15px 12px 35px",
+                padding: "12px 15px",
                 borderRadius: "8px",
                 background: "rgba(0, 0, 0, 0.3)",
                 border: "1px solid rgba(59, 130, 246, 0.3)",
@@ -52041,53 +52241,99 @@ const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => 
               }
             }
           )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "অ্যাকাউন্টের ধরন *" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "select",
+            {
+              value: formData.type,
+              onChange: (e) => setFormData({ ...formData, type: e.target.value }),
+              style: {
+                width: "100%",
+                padding: "12px 15px",
+                borderRadius: "8px",
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(59, 130, 246, 0.3)",
+                color: "white",
+                fontSize: "14px",
+                boxSizing: "border-box",
+                cursor: "pointer"
+              },
+              children: accountTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: type, style: { background: "#1e293b" }, children: type }, type))
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "8px", color: "#cbd5e1", fontWeight: "bold" }, children: "বর্তমান ব্যালেন্স (টাকা)" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { position: "absolute", left: "15px", top: "12px", color: "#64748b" }, children: "৳" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "number",
+                value: formData.balance,
+                onChange: (e) => setFormData({ ...formData, balance: e.target.value }),
+                step: "0.01",
+                style: {
+                  width: "100%",
+                  padding: "12px 15px 12px 35px",
+                  borderRadius: "8px",
+                  background: "rgba(0, 0, 0, 0.3)",
+                  border: "1px solid rgba(59, 130, 246, 0.3)",
+                  color: "white",
+                  fontSize: "14px",
+                  boxSizing: "border-box"
+                }
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "submit",
+              style: {
+                flex: 1,
+                padding: "12px",
+                background: "linear-gradient(135deg, #10b981, #059669)",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-save" }),
+                " সংরক্ষণ"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: onClose,
+              style: {
+                flex: 1,
+                padding: "12px",
+                background: "rgba(255, 255, 255, 0.1)",
+                color: "#94a3b8",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
+                " বাতিল"
+              ]
+            }
+          )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "12px", marginTop: "20px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "submit",
-            style: {
-              flex: 1,
-              padding: "12px",
-              background: "linear-gradient(135deg, #10b981, #059669)",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              cursor: "pointer"
-            },
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-save" }),
-              " সংরক্ষণ"
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            type: "button",
-            onClick: onClose,
-            style: {
-              flex: 1,
-              padding: "12px",
-              background: "rgba(255, 255, 255, 0.1)",
-              color: "#94a3b8",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              cursor: "pointer"
-            },
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-times" }),
-              " বাতিল"
-            ]
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+      /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
           @keyframes slideUp {
             from {
               opacity: 0;
@@ -52099,7 +52345,9 @@ const EditAccountModal = ({ isOpen, onClose, onSubmit, account, formatNum }) => 
             }
           }
         ` })
-  ] }) });
+    ] }) }),
+    document.body
+  );
 };
 const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propUpdateGlobalState }) => {
   const contextData = useApp();
@@ -52215,7 +52463,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
       setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
       return;
     }
-    if (["bkash", "nagad", "rocket", "Parsonal", "gp", "banglalink", "airtel", "robi", "Due"].includes(t)) {
+    if (["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(t)) {
       setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
       return;
     }
@@ -52268,7 +52516,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
       }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-gear" }),
         " সেটিংস"
-      ] }) : ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"].includes(activeTab) && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setPaymentSettingsOperator(activeTab), style: { background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", padding: "12px 16px", borderRadius: "8px", border: "1px solid #fbbf24", cursor: "pointer", fontWeight: "bold", whiteSpace: "nowrap", transition: "all 0.3s" }, onMouseOver: (e) => {
+      ] }) : ["Bkash", "Nagad", "Rocket", "Parsonal", "Personal", "GP", "Banglalink", "Airtel", "Robi", "Due"].includes(activeTab) && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setPaymentSettingsOperator(activeTab), style: { background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", padding: "12px 16px", borderRadius: "8px", border: "1px solid #fbbf24", cursor: "pointer", fontWeight: "bold", whiteSpace: "nowrap", transition: "all 0.3s" }, onMouseOver: (e) => {
         e.target.style.background = "rgba(251, 191, 36, 0.25)";
       }, onMouseOut: (e) => {
         e.target.style.background = "rgba(251, 191, 36, 0.15)";
@@ -52357,7 +52605,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
                   " লেনদেন"
                 ]
               }
-            ) : ["Bkash", "Nagad", "Rocket", "Parsonal", "GP", "Banglalink", "Airtel", "Robi", "Due"].includes(acc.type) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            ) : ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
                 onClick: () => handleTransactionToggle(acc),
@@ -52434,7 +52682,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
             )
           ] })
         ] }),
-        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", style: { padding: "20px" }, children: (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsx(DescoTransaction, { account: acc, onBack: () => setExpandedAccountId(null), inline: true }) : ["bkash", "nagad", "rocket", "Parsonal", "gp", "banglalink", "airtel", "robi", "Due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(PaymentTransaction, { account: acc, inline: true, onBack: () => setExpandedAccountId(null) }) }) })
+        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", style: { padding: "20px" }, children: (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsx(DescoTransaction, { account: acc, onBack: () => setExpandedAccountId(null), inline: true }) : ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(PaymentTransaction, { account: acc, inline: true, onBack: () => setExpandedAccountId(null) }) }) })
       ] }, acc.id)) })
     ] }) })
   ] });
@@ -52495,24 +52743,27 @@ const AddProductModal = ({ isOpen, onClose, onSubmit, category }) => {
     setFormData({ name: "", buyingPrice: "", price: "", quantity: "", sku: "" });
   };
   if (!isOpen) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "#1e293b", padding: "30px", borderRadius: "16px", border: "1px solid #3b82f6", width: "90%", maxWidth: "500px", color: "white" }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { marginTop: 0, color: "#fbbf24" }, children: "নতুন পণ্য যুক্ত করুন" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "15px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("input", { placeholder: "পণ্যের নাম *", value: formData.name, onChange: (e) => setFormData({ ...formData, name: e.target.value }), style: inputStyle$1 }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "ক্রয় মূল্য (Cost)", value: formData.buyingPrice, onChange: (e) => setFormData({ ...formData, buyingPrice: e.target.value }), style: inputStyle$1 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "বিক্রয় মূল্য (Sale) *", value: formData.price, onChange: (e) => setFormData({ ...formData, price: e.target.value }), style: inputStyle$1 })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "স্টক (Qty)", value: formData.quantity, onChange: (e) => setFormData({ ...formData, quantity: e.target.value }), style: inputStyle$1 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { placeholder: "SKU", value: formData.sku, onChange: (e) => setFormData({ ...formData, sku: e.target.value }), style: inputStyle$1 })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginTop: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", style: btnPrimary$1, children: "যুক্ত করুন" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: onClose, style: btnSecondary$1, children: "বাতিল" })
+  return ReactDOM.createPortal(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "#1e293b", padding: "30px", borderRadius: "16px", border: "1px solid #3b82f6", width: "90%", maxWidth: "500px", color: "white" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { marginTop: 0, color: "#fbbf24" }, children: "নতুন পণ্য যুক্ত করুন" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "15px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { placeholder: "পণ্যের নাম *", value: formData.name, onChange: (e) => setFormData({ ...formData, name: e.target.value }), style: inputStyle$1 }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "ক্রয় মূল্য (Cost)", value: formData.buyingPrice, onChange: (e) => setFormData({ ...formData, buyingPrice: e.target.value }), style: inputStyle$1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "বিক্রয় মূল্য (Sale) *", value: formData.price, onChange: (e) => setFormData({ ...formData, price: e.target.value }), style: inputStyle$1 })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "স্টক (Qty)", value: formData.quantity, onChange: (e) => setFormData({ ...formData, quantity: e.target.value }), style: inputStyle$1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { placeholder: "SKU", value: formData.sku, onChange: (e) => setFormData({ ...formData, sku: e.target.value }), style: inputStyle$1 })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginTop: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", style: btnPrimary$1, children: "যুক্ত করুন" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: onClose, style: btnSecondary$1, children: "বাতিল" })
+        ] })
       ] })
-    ] })
-  ] }) });
+    ] }) }),
+    document.body
+  );
 };
 const EditProductModal = ({ isOpen, onClose, onSubmit, product }) => {
   const [formData, setFormData] = reactExports.useState({ name: "", buyingPrice: "", price: "", quantity: "", sku: "" });
@@ -52524,24 +52775,27 @@ const EditProductModal = ({ isOpen, onClose, onSubmit, product }) => {
     onSubmit({ ...product, name: formData.name, buyingPrice: parseFloat(formData.buyingPrice) || 0, price: parseFloat(formData.price) || 0, quantity: parseFloat(formData.quantity) || 0, sku: formData.sku });
   };
   if (!isOpen || !product) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "#1e293b", padding: "30px", borderRadius: "16px", border: "1px solid #3b82f6", width: "90%", maxWidth: "500px", color: "white" }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { marginTop: 0, color: "#fbbf24" }, children: "পণ্য সম্পাদন" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "15px" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value: formData.name, onChange: (e) => setFormData({ ...formData, name: e.target.value }), style: inputStyle$1 }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Cost", value: formData.buyingPrice, onChange: (e) => setFormData({ ...formData, buyingPrice: e.target.value }), style: inputStyle$1 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Sale", value: formData.price, onChange: (e) => setFormData({ ...formData, price: e.target.value }), style: inputStyle$1 })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Qty", value: formData.quantity, onChange: (e) => setFormData({ ...formData, quantity: e.target.value }), style: inputStyle$1 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value: formData.sku, onChange: (e) => setFormData({ ...formData, sku: e.target.value }), style: inputStyle$1 })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginTop: "10px" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", style: btnPrimary$1, children: "সংরক্ষণ" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: onClose, style: btnSecondary$1, children: "বাতিল" })
+  return ReactDOM.createPortal(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, backdropFilter: "blur(5px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "#1e293b", padding: "30px", borderRadius: "16px", border: "1px solid #3b82f6", width: "90%", maxWidth: "500px", color: "white" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { style: { marginTop: 0, color: "#fbbf24" }, children: "পণ্য সম্পাদন" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, style: { display: "flex", flexDirection: "column", gap: "15px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value: formData.name, onChange: (e) => setFormData({ ...formData, name: e.target.value }), style: inputStyle$1 }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Cost", value: formData.buyingPrice, onChange: (e) => setFormData({ ...formData, buyingPrice: e.target.value }), style: inputStyle$1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Sale", value: formData.price, onChange: (e) => setFormData({ ...formData, price: e.target.value }), style: inputStyle$1 })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", placeholder: "Qty", value: formData.quantity, onChange: (e) => setFormData({ ...formData, quantity: e.target.value }), style: inputStyle$1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value: formData.sku, onChange: (e) => setFormData({ ...formData, sku: e.target.value }), style: inputStyle$1 })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px", marginTop: "10px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", style: btnPrimary$1, children: "সংরক্ষণ" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: onClose, style: btnSecondary$1, children: "বাতিল" })
+        ] })
       ] })
-    ] })
-  ] }) });
+    ] }) }),
+    document.body
+  );
 };
 const inputStyle$1 = { width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.3)", color: "white" };
 const btnPrimary$1 = { flex: 1, padding: "10px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", fontWeight: "bold", cursor: "pointer" };
@@ -53707,7 +53961,7 @@ const History = ({ transactions = [], onDelete, onClearAll, filterType }) => {
 };
 const ADMIN_PASS = "M~R.88@Mizhan.25";
 const DatabaseSettings = ({ masterDB }) => {
-  const { connectToDB, dbName, showToast, activeDB, showDBIndicator, toggleDBIndicator } = useApp();
+  const { connectToDB, dbName, showToast, activeDB, showDBIndicator, toggleDBIndicator, appData, replaceAllData } = useApp();
   const [dbList, setDbList] = reactExports.useState([]);
   const [loading, setLoading] = reactExports.useState(true);
   const [name2, setName] = reactExports.useState("");
@@ -53717,6 +53971,8 @@ const DatabaseSettings = ({ masterDB }) => {
   const [showPassModal, setShowPassModal] = reactExports.useState(false);
   const [passInput, setPassInput] = reactExports.useState("");
   const [pendingAction, setPendingAction] = reactExports.useState(null);
+  const [showSyncModal, setShowSyncModal] = reactExports.useState(false);
+  const [targetDb, setTargetDb] = reactExports.useState(null);
   reactExports.useEffect(() => {
     if (!masterDB) return;
     const unsubscribe = masterDB.collection("shared_configs").onSnapshot((snapshot) => {
@@ -53727,19 +53983,63 @@ const DatabaseSettings = ({ masterDB }) => {
     return () => unsubscribe();
   }, [masterDB]);
   const handleConnect = (item) => {
-    const isDirty = localStorage.getItem("pendingSync") === "true";
     const isLocalMode = !activeDB;
-    let message = `আপনি কি '${item.name}' এর ডাটাবেজে সুইচ করতে চান?`;
-    if (isLocalMode && isDirty) {
-      message = `সতর্কতা: আপনি ইন্টারনেট থাকা অবস্থাতেও লোকাল মোডে কিছু ডাটা পরিবর্তন করেছেন।
-
-এখন '${item.name}' এ সুইচ করলে আপনার লোকাল স্টোরেজের ডাটাগুলো সেখানে সেভ/মার্জ হয়ে যাবে।
-
-আপনি কি নিশ্চিত যে আপনি এই পরিবর্তনগুলো ক্লাউড ডাটাবেজে সেভ করতে চান?`;
+    if (isLocalMode) {
+      setTargetDb(item);
+      setShowSyncModal(true);
+    } else {
+      if (window.confirm(`আপনি কি '${item.name}' এর ডাটাবেজে সুইচ করতে চান?`)) {
+        connectToDB(item.config, item.name);
+      }
     }
-    if (window.confirm(message)) {
-      connectToDB(item.config, item.name);
+  };
+  const handleSyncYes = () => {
+    localStorage.setItem("pendingSync", "true");
+    if (targetDb) {
+      connectToDB(targetDb.config, targetDb.name);
     }
+    closeSyncModal();
+  };
+  const handleSyncNo = () => {
+    localStorage.removeItem("pendingSync");
+    if (targetDb) {
+      connectToDB(targetDb.config, targetDb.name);
+    }
+    closeSyncModal();
+  };
+  const closeSyncModal = () => {
+    setShowSyncModal(false);
+    setTargetDb(null);
+  };
+  const handleExport = () => {
+    const dataStr = JSON.stringify(appData, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `backup_${dbName.replace(/\s+/g, "_")}_${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast("Data Exported Successfully!");
+  };
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+        if (window.confirm("সতর্কতা: এই ফাইলটি ইম্পোর্ট করলে বর্তমান ডাটাবেজের সমস্ত ডাটা রিপ্লেস হয়ে যাবে। আপনি কি নিশ্চিত?")) {
+          await replaceAllData(jsonData);
+          showToast("Data Imported & Replaced Successfully!");
+        }
+      } catch (err) {
+        showToast("Invalid JSON File!", { type: "error" });
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
   };
   const initiateProtectedAction = (type, payload) => {
     setPendingAction({ type, payload });
@@ -53803,7 +54103,7 @@ const DatabaseSettings = ({ masterDB }) => {
       border: "1px solid rgba(59, 130, 246, 0.3)",
       padding: "20px",
       borderRadius: "15px",
-      marginBottom: "30px",
+      marginBottom: "20px",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center"
@@ -53857,6 +54157,34 @@ const DatabaseSettings = ({ masterDB }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", background: "rgba(0,0,0,0.3)", padding: "10px 20px", borderRadius: "10px" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "block", fontSize: "12px", opacity: 0.6 }, children: "Total DBs" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "28px", fontWeight: "bold" }, children: dbList.length })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "rgba(16, 185, 129, 0.1)",
+      border: "1px solid rgba(16, 185, 129, 0.3)",
+      padding: "15px 20px",
+      borderRadius: "15px",
+      marginBottom: "30px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: "10px"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: 0, fontSize: "18px", color: "#34d399" }, children: "Data Backup & Restore" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: "5px 0 0", opacity: 0.7, fontSize: "12px" }, children: [
+          "আপনার বর্তমান ডাটাবেজ (",
+          dbName,
+          ") ব্যাকআপ নিন অথবা অন্য ফাইল ইম্পোর্ট করুন।"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "10px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handleExport, style: { ...actionBtn, background: "#059669", padding: "10px 20px", fontSize: "14px" }, children: "Download / Export Data" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { ...actionBtn, background: "#d97706", padding: "10px 20px", fontSize: "14px", cursor: "pointer" }, children: [
+          "Import & Replace Data",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "file", accept: ".json", onChange: handleImport, style: { display: "none" } })
         ] })
       ] })
     ] }),
@@ -54026,6 +54354,106 @@ const DatabaseSettings = ({ masterDB }) => {
           setShowPassModal(false);
           setPendingAction(null);
         }, style: btnSecondary, children: "Cancel" })
+      ] })
+    ] }) }),
+    showSyncModal && targetDb && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0,0,0,0.85)",
+      backdropFilter: "blur(8px)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1e4
+    }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+      background: "#0f172a",
+      padding: "30px",
+      borderRadius: "20px",
+      width: "90%",
+      maxWidth: "450px",
+      border: "1px solid rgba(59, 130, 246, 0.3)",
+      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.5)"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center", marginBottom: "25px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "40px", marginBottom: "10px" }, children: "⚠️" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 10px 0", color: "#f59e0b", fontSize: "20px" }, children: "Data Transfer Confirmation" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { fontSize: "14px", color: "#cbd5e1", lineHeight: "1.6" }, children: [
+          "আপনি লোকাল স্টোরেজ থেকে ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: targetDb.name }),
+          " এ যাচ্ছেন।",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          "আপনি কি আপনার বর্তমান লোকাল ডাটা ওই ডাটাবেজে সেভ (Sync) করতে চান?"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", flexDirection: "column", gap: "10px" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: handleSyncYes,
+            style: {
+              padding: "12px",
+              borderRadius: "10px",
+              border: "none",
+              background: "#10b981",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "15px",
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "8px"
+            },
+            children: [
+              "✅ Yes (Sync & Go)",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "11px", fontWeight: "normal", opacity: 0.8 }, children: "(ডাটা সেভ হবে)" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: handleSyncNo,
+            style: {
+              padding: "12px",
+              borderRadius: "10px",
+              border: "none",
+              background: "#ef4444",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "15px",
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "8px"
+            },
+            children: [
+              "❌ No (Go without Sync)",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "11px", fontWeight: "normal", opacity: 0.8 }, children: "(ডাটা সেভ হবে না)" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: closeSyncModal,
+            style: {
+              padding: "12px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,255,255,0.2)",
+              background: "transparent",
+              color: "#94a3b8",
+              fontSize: "14px",
+              cursor: "pointer",
+              marginTop: "5px"
+            },
+            children: "Close (Cancel)"
+          }
+        )
       ] })
     ] }) })
   ] });
@@ -55874,6 +56302,7 @@ const STORAGE_KEYS = {
   USER_NAME: "adminName"
 };
 const useAuth = () => {
+  console.log("useAuth React Version:", React.version);
   const [isLoggedIn, setIsLoggedIn] = reactExports.useState(false);
   const [userName, setUserName] = reactExports.useState("");
   reactExports.useEffect(() => {
@@ -56707,6 +57136,7 @@ function TobeerGallery() {
     ] }) })
   ] });
 }
+console.log("App React Version:", React.version);
 function App() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(HashRouter, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Routes, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(MizentiaMain, {}) }),
