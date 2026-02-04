@@ -51315,7 +51315,6 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
     }
   }, [lowerType]);
   reactExports.useEffect(() => {
-    setAmount("");
     setHasExtraCommission(false);
     setExtraCommission("");
     setHasCustomerPayment(false);
