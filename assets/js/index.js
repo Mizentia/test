@@ -41976,6 +41976,189 @@ const Login = ({ onLoginSuccess }) => {
     ) })
   ] });
 };
+const NavigationContext = reactExports.createContext();
+const useNavigation = () => reactExports.useContext(NavigationContext);
+const NavigationProvider = ({ children, initialSection = "capital", sectionKeys = [] }) => {
+  const [navMode, setNavMode] = reactExports.useState("SIDEBAR");
+  const [focusArea, setFocusArea] = reactExports.useState("NAV_TABS");
+  const [contentSource, setContentSource] = reactExports.useState("SIDEBAR");
+  const [sidebarIndex, setSidebarIndex] = reactExports.useState(0);
+  const [navTabIndex, setNavTabIndex] = reactExports.useState(0);
+  const [tableRowIndex, setTableRowIndex] = reactExports.useState(0);
+  const [actionBtnIndex, setActionBtnIndex] = reactExports.useState(0);
+  const [navbarIndex, setNavbarIndex] = reactExports.useState(0);
+  const [navbarAction, setNavbarAction] = reactExports.useState(null);
+  const [counts, setCounts] = reactExports.useState({
+    navTabs: 0,
+    tableRows: 0,
+    actionBtns: 3
+    // Default usually 3 (Transaction, Edit, Delete)
+  });
+  const registerCount = reactExports.useCallback((type, count) => {
+    setCounts((prev) => ({ ...prev, [type]: count }));
+  }, []);
+  reactExports.useEffect(() => {
+    const idx = sectionKeys.indexOf(initialSection);
+    if (idx !== -1) setSidebarIndex(idx);
+  }, [initialSection, sectionKeys]);
+  const handleKeyDown = reactExports.useCallback((e) => {
+    if (["INPUT", "TEXTAREA"].includes(e.target.tagName) || e.target.isContentEditable) return;
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      e.preventDefault();
+    }
+    if (navMode === "NAVBAR") {
+      if (e.key === "ArrowDown") {
+        if (navbarIndex === 0 || navbarIndex === 3) {
+          setNavMode("SIDEBAR");
+          setSidebarIndex(0);
+          setFocusArea("NAV_TABS");
+        } else if (navbarIndex === 1 || navbarIndex === 2) {
+          setNavMode("CONTENT");
+          setContentSource("NAVBAR");
+          setFocusArea("NAV_TABS");
+        }
+      } else if (e.key === "ArrowRight") {
+        setNavbarIndex((prev) => Math.min(prev + 1, 3));
+      } else if (e.key === "ArrowLeft") {
+        setNavbarIndex((prev) => Math.max(prev - 1, 0));
+      } else if (e.key === "Enter") {
+        setNavbarAction({ index: navbarIndex, ts: Date.now() });
+      }
+    } else if (navMode === "SIDEBAR") {
+      if (e.key === "ArrowDown") {
+        setSidebarIndex((prev) => (prev + 1) % sectionKeys.length);
+      } else if (e.key === "ArrowUp") {
+        if (sidebarIndex === 0) {
+          setNavMode("NAVBAR");
+          setNavbarIndex(0);
+        } else {
+          setSidebarIndex((prev) => (prev - 1 + sectionKeys.length) % sectionKeys.length);
+        }
+      } else if (e.key === "ArrowRight" || e.key === "Enter") {
+        const activeKey = sectionKeys[sidebarIndex];
+        setNavMode("CONTENT");
+        setContentSource("SIDEBAR");
+        if (activeKey === "cash") {
+          setFocusArea("CASH_TABS");
+          setNavTabIndex(0);
+        } else {
+          setFocusArea("NAV_TABS");
+          setNavTabIndex(0);
+        }
+      }
+    } else if (navMode === "CONTENT") {
+      if (focusArea === "CASH_TABS") {
+        if (e.key === "ArrowRight") {
+          setNavTabIndex((prev) => prev < 2 ? prev + 1 : prev);
+        } else if (e.key === "ArrowLeft") {
+          if (navTabIndex > 0) setNavTabIndex((prev) => prev - 1);
+          else {
+            if (contentSource === "NAVBAR") setNavMode("NAVBAR");
+            else setNavMode("SIDEBAR");
+          }
+        } else if (e.key === "ArrowDown") {
+          setFocusArea("CASH_INPUTS");
+          setActionBtnIndex(0);
+        } else if (e.key === "ArrowUp") {
+          if (contentSource === "NAVBAR") setNavMode("NAVBAR");
+          else setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "CASH_INPUTS") {
+        if (e.key === "ArrowUp") {
+          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
+          else setFocusArea("CASH_TABS");
+        } else if (e.key === "ArrowDown") {
+          if (actionBtnIndex < 2) setActionBtnIndex((prev) => prev + 1);
+        }
+      } else if (focusArea === "NAV_TABS") {
+        if (e.key === "ArrowRight") {
+          if (navTabIndex < counts.navTabs - 1) {
+            setNavTabIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowLeft") {
+          if (navTabIndex > 0) {
+            setNavTabIndex((prev) => prev - 1);
+          } else {
+            if (contentSource === "NAVBAR") setNavMode("NAVBAR");
+            else setNavMode("SIDEBAR");
+          }
+        } else if (e.key === "ArrowDown") {
+          setFocusArea("TABLE");
+          setTableRowIndex(0);
+        } else if (e.key === "ArrowUp") {
+          if (contentSource === "NAVBAR") setNavMode("NAVBAR");
+          else setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "TABLE") {
+        if (e.key === "ArrowDown") {
+          if (tableRowIndex < counts.tableRows - 1) {
+            setTableRowIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowUp") {
+          if (tableRowIndex > 0) {
+            setTableRowIndex((prev) => prev - 1);
+          } else {
+            setFocusArea("NAV_TABS");
+          }
+        } else if (e.key === "ArrowRight") {
+          setFocusArea("ACTIONS");
+          setActionBtnIndex(0);
+        } else if (e.key === "ArrowLeft") {
+          if (contentSource === "NAVBAR") setNavMode("NAVBAR");
+          else setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "ACTIONS") {
+        if (e.key === "ArrowRight") {
+          if (actionBtnIndex < counts.actionBtns - 1) {
+            setActionBtnIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowLeft") {
+          if (actionBtnIndex > 0) {
+            setActionBtnIndex((prev) => prev - 1);
+          } else {
+            setFocusArea("TABLE");
+          }
+        }
+      } else if (focusArea === "TRANSACTION_FORM") {
+        if (e.key === "ArrowRight") {
+          setActionBtnIndex((prev) => prev + 1);
+        } else if (e.key === "ArrowLeft") {
+          setActionBtnIndex((prev) => prev > 0 ? prev - 1 : 0);
+        } else if (e.key === "ArrowDown") {
+          setActionBtnIndex((prev) => prev + 1);
+        } else if (e.key === "ArrowUp") {
+          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
+          else {
+            setFocusArea("ACTIONS");
+            setActionBtnIndex(0);
+          }
+        }
+      }
+    }
+  }, [navMode, focusArea, sidebarIndex, navTabIndex, tableRowIndex, actionBtnIndex, counts, sectionKeys, navbarIndex]);
+  reactExports.useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(NavigationContext.Provider, { value: {
+    navMode,
+    focusArea,
+    sidebarIndex,
+    navTabIndex,
+    tableRowIndex,
+    actionBtnIndex,
+    navbarIndex,
+    navbarAction,
+    contentSource,
+    registerCount,
+    setTableRowIndex,
+    setNavTabIndex,
+    setFocusArea,
+    setActionBtnIndex,
+    setNavMode,
+    activeSectionKey: sectionKeys[sidebarIndex]
+  }, children });
+};
 const CalendarPopup = ({ isOpen, onClose, themeColor = "#a855f7" }) => {
   const [currentDate, setCurrentDate] = reactExports.useState(/* @__PURE__ */ new Date());
   if (!isOpen) return null;
@@ -42130,12 +42313,24 @@ const todayBtnStyle = {
 };
 const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
   const { t, language } = useApp();
+  const { navMode, navbarIndex, navbarAction } = useNavigation();
   const [time2, setTime] = reactExports.useState(/* @__PURE__ */ new Date());
   const [isMenuOpen, setIsMenuOpen] = reactExports.useState(false);
   const [showCalendar, setShowCalendar] = reactExports.useState(false);
   const menuRef = reactExports.useRef(null);
   const toggleBtnRef = reactExports.useRef(null);
   const calendarRef = reactExports.useRef(null);
+  const lastActionTsRef = reactExports.useRef(0);
+  reactExports.useEffect(() => {
+    if (navbarAction && navMode === "NAVBAR" && navbarAction.ts > lastActionTsRef.current) {
+      lastActionTsRef.current = navbarAction.ts;
+      const { index } = navbarAction;
+      if (index === 0) setShowCalendar((prev) => !prev);
+      else if (index === 1) onOpenHistory();
+      else if (index === 2) onOpenSettings();
+      else if (index === 3) onLogout();
+    }
+  }, [navbarAction, navMode, onOpenHistory, onOpenSettings, onLogout]);
   reactExports.useEffect(() => {
     const timer = setInterval(() => setTime(/* @__PURE__ */ new Date()), 1e3);
     return () => clearInterval(timer);
@@ -42212,7 +42407,14 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
             id: "clock-trigger",
             className: "clock-glass-card",
             onClick: () => setShowCalendar(!showCalendar),
-            style: { cursor: "pointer", position: "relative", pointerEvents: "auto" },
+            style: {
+              cursor: "pointer",
+              position: "relative",
+              pointerEvents: "auto",
+              border: navMode === "NAVBAR" && navbarIndex === 0 ? "2px solid #a855f7" : "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "12px",
+              transition: "all 0.2s ease"
+            },
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "clock-day-bn", style: { fontWeight: "600", color: "#a855f7" }, children: formatDay(time2) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "clock-v-line" }),
@@ -42225,12 +42427,38 @@ const Navbar = ({ onOpenHistory, onOpenSettings, onLogout, userName }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: calendarRef, style: { display: showCalendar ? "block" : "none", pointerEvents: "auto" }, children: showCalendar && /* @__PURE__ */ jsxRuntimeExports.jsx(CalendarPopup, { isOpen: showCalendar, onClose: () => setShowCalendar(false) }) })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-actions-row", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenHistory, title: t.nav_history, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.History, {}) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "nav-action-btn", onClick: onOpenSettings, title: t.nav_settings, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.Settings, {}) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "logout-action-btn", onClick: onLogout, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.Logout, {}),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_logout })
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "nav-action-btn",
+            onClick: onOpenHistory,
+            title: t.nav_history,
+            style: navMode === "NAVBAR" && navbarIndex === 1 ? { border: "2px solid #a855f7", transform: "scale(1.1)", boxShadow: "0 0 10px rgba(168, 85, 247, 0.3)" } : {},
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.History, {})
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "nav-action-btn",
+            onClick: onOpenSettings,
+            title: t.nav_settings,
+            style: navMode === "NAVBAR" && navbarIndex === 2 ? { border: "2px solid #a855f7", transform: "scale(1.1)", boxShadow: "0 0 10px rgba(168, 85, 247, 0.3)" } : {},
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.Settings, {})
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            className: "logout-action-btn",
+            onClick: onLogout,
+            style: navMode === "NAVBAR" && navbarIndex === 3 ? { border: "2px solid #ef4444", transform: "scale(1.05)", boxShadow: "0 0 10px rgba(239, 68, 68, 0.3)" } : {},
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Icons2.Logout, {}),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: t.nav_logout })
+            ]
+          }
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
@@ -50180,7 +50408,7 @@ function StatsCards({ cards, setCards, onCardSelect, isSidebarFocused, currentKe
         {
           card,
           onClick: () => onCardSelect && onCardSelect(card),
-          isFocused: currentKey === card.key
+          isFocused: isSidebarFocused && currentKey === card.key
         },
         card.id
       ))
@@ -50200,8 +50428,9 @@ const DashboardSidebar = ({ cards, onCardSelect, isSidebarFocused, currentKey })
     }
   ) });
 };
-const HistoryNavigation = ({ onFilterChange }) => {
-  const [active, setActive] = reactExports.useState("All");
+const HistoryNavigation = ({ onFilterChange, externalActive }) => {
+  const [internalActive, setInternalActive] = reactExports.useState("All");
+  const active = externalActive || internalActive;
   const items = [
     { label: "All", color: "#6366f1" },
     // Indigo
@@ -50217,7 +50446,7 @@ const HistoryNavigation = ({ onFilterChange }) => {
     // Teal
   ];
   const handleClick = (itemLabel) => {
-    setActive(itemLabel);
+    setInternalActive(itemLabel);
     if (onFilterChange) onFilterChange(itemLabel);
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: containerStyle$1, children: items.map((item) => {
@@ -50403,151 +50632,6 @@ const ShortcutIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width
   /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" }),
   /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "9 22 9 12 15 12 15 22" })
 ] });
-const NavigationContext = reactExports.createContext();
-const useNavigation = () => reactExports.useContext(NavigationContext);
-const NavigationProvider = ({ children, initialSection = "capital", sectionKeys = [] }) => {
-  const [navMode, setNavMode] = reactExports.useState("SIDEBAR");
-  const [focusArea, setFocusArea] = reactExports.useState("NAV_TABS");
-  const [sidebarIndex, setSidebarIndex] = reactExports.useState(0);
-  const [navTabIndex, setNavTabIndex] = reactExports.useState(0);
-  const [tableRowIndex, setTableRowIndex] = reactExports.useState(0);
-  const [actionBtnIndex, setActionBtnIndex] = reactExports.useState(0);
-  const [counts, setCounts] = reactExports.useState({
-    navTabs: 0,
-    tableRows: 0,
-    actionBtns: 3
-    // Default usually 3 (Transaction, Edit, Delete)
-  });
-  const registerCount = reactExports.useCallback((type, count) => {
-    setCounts((prev) => ({ ...prev, [type]: count }));
-  }, []);
-  reactExports.useEffect(() => {
-    const idx = sectionKeys.indexOf(initialSection);
-    if (idx !== -1) setSidebarIndex(idx);
-  }, [initialSection, sectionKeys]);
-  const handleKeyDown = reactExports.useCallback((e) => {
-    if (["INPUT", "TEXTAREA"].includes(e.target.tagName) || e.target.isContentEditable) return;
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-      e.preventDefault();
-    }
-    if (navMode === "SIDEBAR") {
-      if (e.key === "ArrowDown") {
-        setSidebarIndex((prev) => (prev + 1) % sectionKeys.length);
-      } else if (e.key === "ArrowUp") {
-        setSidebarIndex((prev) => (prev - 1 + sectionKeys.length) % sectionKeys.length);
-      } else if (e.key === "ArrowRight" || e.key === "Enter") {
-        const activeKey = sectionKeys[sidebarIndex];
-        setNavMode("CONTENT");
-        if (activeKey === "cash") {
-          setFocusArea("CASH_TABS");
-          setNavTabIndex(0);
-        } else {
-          setFocusArea("NAV_TABS");
-          setNavTabIndex(0);
-        }
-      }
-    } else if (navMode === "CONTENT") {
-      if (focusArea === "CASH_TABS") {
-        if (e.key === "ArrowRight") {
-          setNavTabIndex((prev) => prev < 2 ? prev + 1 : prev);
-        } else if (e.key === "ArrowLeft") {
-          if (navTabIndex > 0) setNavTabIndex((prev) => prev - 1);
-          else setNavMode("SIDEBAR");
-        } else if (e.key === "ArrowDown") {
-          setFocusArea("CASH_INPUTS");
-          setActionBtnIndex(0);
-        } else if (e.key === "ArrowUp") {
-          setNavMode("SIDEBAR");
-        }
-      } else if (focusArea === "CASH_INPUTS") {
-        if (e.key === "ArrowUp") {
-          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
-          else setFocusArea("CASH_TABS");
-        } else if (e.key === "ArrowDown") {
-          if (actionBtnIndex < 2) setActionBtnIndex((prev) => prev + 1);
-        }
-      } else if (focusArea === "NAV_TABS") {
-        if (e.key === "ArrowRight") {
-          if (navTabIndex < counts.navTabs - 1) {
-            setNavTabIndex((prev) => prev + 1);
-          }
-        } else if (e.key === "ArrowLeft") {
-          if (navTabIndex > 0) {
-            setNavTabIndex((prev) => prev - 1);
-          } else {
-            setNavMode("SIDEBAR");
-          }
-        } else if (e.key === "ArrowDown") {
-          setFocusArea("TABLE");
-          setTableRowIndex(0);
-        } else if (e.key === "ArrowUp") {
-          setNavMode("SIDEBAR");
-        }
-      } else if (focusArea === "TABLE") {
-        if (e.key === "ArrowDown") {
-          if (tableRowIndex < counts.tableRows - 1) {
-            setTableRowIndex((prev) => prev + 1);
-          }
-        } else if (e.key === "ArrowUp") {
-          if (tableRowIndex > 0) {
-            setTableRowIndex((prev) => prev - 1);
-          } else {
-            setFocusArea("NAV_TABS");
-          }
-        } else if (e.key === "ArrowRight") {
-          setFocusArea("ACTIONS");
-          setActionBtnIndex(0);
-        } else if (e.key === "ArrowLeft") {
-          setNavMode("SIDEBAR");
-        }
-      } else if (focusArea === "ACTIONS") {
-        if (e.key === "ArrowRight") {
-          if (actionBtnIndex < counts.actionBtns - 1) {
-            setActionBtnIndex((prev) => prev + 1);
-          }
-        } else if (e.key === "ArrowLeft") {
-          if (actionBtnIndex > 0) {
-            setActionBtnIndex((prev) => prev - 1);
-          } else {
-            setFocusArea("TABLE");
-          }
-        } else if (e.key === "Enter") ;
-      } else if (focusArea === "TRANSACTION_FORM") {
-        if (e.key === "ArrowRight") {
-          setActionBtnIndex((prev) => prev + 1);
-        } else if (e.key === "ArrowLeft") {
-          setActionBtnIndex((prev) => prev > 0 ? prev - 1 : 0);
-        } else if (e.key === "ArrowDown") {
-          setActionBtnIndex((prev) => prev + 1);
-        } else if (e.key === "ArrowUp") {
-          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
-          else {
-            setFocusArea("ACTIONS");
-            setActionBtnIndex(0);
-          }
-        }
-      }
-    }
-  }, [navMode, focusArea, sidebarIndex, navTabIndex, tableRowIndex, actionBtnIndex, counts, sectionKeys]);
-  reactExports.useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(NavigationContext.Provider, { value: {
-    navMode,
-    focusArea,
-    sidebarIndex,
-    navTabIndex,
-    tableRowIndex,
-    actionBtnIndex,
-    registerCount,
-    setTableRowIndex,
-    setNavTabIndex,
-    setFocusArea,
-    setActionBtnIndex,
-    activeSectionKey: sectionKeys[sidebarIndex]
-  }, children });
-};
 const CashShortcuts = ({ onAction }) => {
   const [active, setActive] = reactExports.useState("add");
   const {
@@ -50661,11 +50745,49 @@ const DashboardHeader = ({
   accountTab,
   setAccountTab
 }) => {
+  const { registerCount, navMode, focusArea, navTabIndex } = useNavigation();
+  const HIST_TABS = ["All", "Cash", "Account", "Product", "Profit", "Capital"];
+  const SETT_TABS = ["Database", "Theme", "Font", "Shortcut", "Reset"];
+  const CASH_TABS = ["Add", "Withdraw", "Cost"];
+  React.useEffect(() => {
+    if (selectedKey === "history") {
+      registerCount("navTabs", HIST_TABS.length);
+    } else if (selectedKey === "settings") {
+      registerCount("navTabs", SETT_TABS.length);
+    } else if (selectedKey === "cash") {
+      registerCount("navTabs", CASH_TABS.length);
+    }
+  }, [selectedKey, registerCount]);
+  React.useEffect(() => {
+    if (navMode === "CONTENT" && focusArea === "NAV_TABS") {
+      if (selectedKey === "history") {
+        const tab = HIST_TABS[navTabIndex];
+        if (tab) setHistoryFilter(tab);
+      } else if (selectedKey === "settings") {
+        const tab = SETT_TABS[navTabIndex];
+        if (tab) setSettingsView(tab.id || tab);
+      }
+    }
+  }, [navMode, focusArea, navTabIndex, selectedKey]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.contentHeaderRow, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.headerLeft, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: styles$1.glassHeader, children: selectedKey.toUpperCase() }),
-      selectedKey === "settings" && /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsNavigation, { active: settingsView, onSelect: setSettingsView }),
-      selectedKey === "history" && /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryNavigation, { onFilterChange: setHistoryFilter }),
+      selectedKey === "settings" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SettingsNavigation,
+        {
+          active: settingsView,
+          onSelect: setSettingsView,
+          focusedIndex: navMode === "CONTENT" && focusArea === "NAV_TABS" ? navTabIndex : -1
+        }
+      ),
+      selectedKey === "history" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        HistoryNavigation,
+        {
+          onFilterChange: setHistoryFilter,
+          activeTab: settingsView,
+          externalActive: navMode === "CONTENT" && focusArea === "NAV_TABS" ? HIST_TABS[navTabIndex] : null
+        }
+      ),
       selectedKey === "cash" && /* @__PURE__ */ jsxRuntimeExports.jsx(CashShortcuts, { onAction: setCashMode }),
       selectedKey === "balance" && /* @__PURE__ */ jsxRuntimeExports.jsx(AccountNavigation, { active: accountTab, onSelect: setAccountTab })
     ] }),
@@ -56593,7 +56715,10 @@ const DashboardContent = ({ onLogout, userName }) => {
     sidebarIndex,
     navTabIndex,
     activeSectionKey,
-    registerCount
+    registerCount,
+    navbarIndex,
+    setNavMode,
+    setNavbarIndex
   } = useNavigation();
   const [selectedKey, setSelectedKey] = reactExports.useState("capital");
   const [isMobile, setIsMobile] = reactExports.useState(window.innerWidth < 880);
@@ -56611,8 +56736,11 @@ const DashboardContent = ({ onLogout, userName }) => {
       if (["capital", "cash", "balance", "stock", "profit"].includes(activeSectionKey)) {
         setSelectedKey(activeSectionKey);
       }
+    } else if (navMode === "NAVBAR") {
+      if (navbarIndex === 1) setSelectedKey("history");
+      else if (navbarIndex === 2) setSelectedKey("settings");
     }
-  }, [navMode, activeSectionKey]);
+  }, [navMode, activeSectionKey, navbarIndex]);
   reactExports.useEffect(() => {
     if (selectedKey === "balance") {
       registerCount("navTabs", ACCOUNT_TABS.length);
