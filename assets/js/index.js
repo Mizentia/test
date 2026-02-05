@@ -493,7 +493,7 @@ function requireReact_production() {
   react_production.useTransition = function() {
     return ReactSharedInternals.H.useTransition();
   };
-  react_production.version = "19.2.4";
+  react_production.version = "19.2.3";
   return react_production;
 }
 var hasRequiredReact;
@@ -921,7 +921,7 @@ function requireReactDom_production() {
   reactDom_production.useFormStatus = function() {
     return ReactSharedInternals.H.useHostTransitionStatus();
   };
-  reactDom_production.version = "19.2.4";
+  reactDom_production.version = "19.2.3";
   return reactDom_production;
 }
 var hasRequiredReactDom;
@@ -12365,12 +12365,12 @@ function requireReactDomClient_production() {
     }
   };
   var isomorphicReactPackageVersion$jscomp$inline_1840 = React2.version;
-  if ("19.2.4" !== isomorphicReactPackageVersion$jscomp$inline_1840)
+  if ("19.2.3" !== isomorphicReactPackageVersion$jscomp$inline_1840)
     throw Error(
       formatProdErrorMessage(
         527,
         isomorphicReactPackageVersion$jscomp$inline_1840,
-        "19.2.4"
+        "19.2.3"
       )
     );
   ReactDOMSharedInternals.findDOMNode = function(componentOrElement) {
@@ -12388,10 +12388,10 @@ function requireReactDomClient_production() {
   };
   var internals$jscomp$inline_2347 = {
     bundleType: 0,
-    version: "19.2.4",
+    version: "19.2.3",
     rendererPackageName: "react-dom",
     currentDispatcherRef: ReactSharedInternals,
-    reconcilerVersion: "19.2.4"
+    reconcilerVersion: "19.2.3"
   };
   if ("undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) {
     var hook$jscomp$inline_2348 = __REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -12458,7 +12458,7 @@ function requireReactDomClient_production() {
     listenToAllSupportedEvents(container2);
     return new ReactDOMHydrationRoot(initialChildren);
   };
-  reactDomClient_production.version = "19.2.4";
+  reactDomClient_production.version = "19.2.3";
   return reactDomClient_production;
 }
 var hasRequiredClient;
@@ -13169,10 +13169,10 @@ var FetchersContext = reactExports.createContext(
 FetchersContext.displayName = "Fetchers";
 var AwaitContext = reactExports.createContext(null);
 AwaitContext.displayName = "Await";
-var NavigationContext = reactExports.createContext(
+var NavigationContext$1 = reactExports.createContext(
   null
 );
-NavigationContext.displayName = "Navigation";
+NavigationContext$1.displayName = "Navigation";
 var LocationContext = reactExports.createContext(
   null
 );
@@ -13223,7 +13223,7 @@ function useHref(to, { relative } = {}) {
     // router loaded. We can help them understand how to avoid that.
     `useHref() may be used only in the context of a <Router> component.`
   );
-  let { basename, navigator: navigator2 } = reactExports.useContext(NavigationContext);
+  let { basename, navigator: navigator2 } = reactExports.useContext(NavigationContext$1);
   let { hash, pathname, search } = useResolvedPath(to, { relative });
   let joinedPathname = pathname;
   if (basename !== "/") {
@@ -13245,7 +13245,7 @@ function useLocation() {
 }
 var navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
 function useIsomorphicLayoutEffect$1(cb) {
-  let isStatic = reactExports.useContext(NavigationContext).static;
+  let isStatic = reactExports.useContext(NavigationContext$1).static;
   if (!isStatic) {
     reactExports.useLayoutEffect(cb);
   }
@@ -13262,7 +13262,7 @@ function useNavigateUnstable() {
     `useNavigate() may be used only in the context of a <Router> component.`
   );
   let dataRouterContext = reactExports.useContext(DataRouterContext);
-  let { basename, navigator: navigator2 } = reactExports.useContext(NavigationContext);
+  let { basename, navigator: navigator2 } = reactExports.useContext(NavigationContext$1);
   let { matches } = reactExports.useContext(RouteContext);
   let { pathname: locationPathname } = useLocation();
   let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
@@ -13328,7 +13328,7 @@ function useRoutesImpl(routes, locationArg, dataRouterState, onError, future) {
     // router loaded. We can help them understand how to avoid that.
     `useRoutes() may be used only in the context of a <Router> component.`
   );
-  let { navigator: navigator2 } = reactExports.useContext(NavigationContext);
+  let { navigator: navigator2 } = reactExports.useContext(NavigationContext$1);
   let { matches: parentMatches } = reactExports.useContext(RouteContext);
   let routeMatch = parentMatches[parentMatches.length - 1];
   let parentParams = routeMatch ? routeMatch.params : {};
@@ -13507,7 +13507,7 @@ function RSCErrorHandler({
   children,
   error
 }) {
-  let { basename } = reactExports.useContext(NavigationContext);
+  let { basename } = reactExports.useContext(NavigationContext$1);
   if (typeof error === "object" && error && "digest" in error && typeof error.digest === "string") {
     let redirect2 = decodeRedirectErrorDigest(error.digest);
     if (redirect2) {
@@ -13827,7 +13827,7 @@ function Router({
   if (locationContext == null) {
     return null;
   }
-  return /* @__PURE__ */ reactExports.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ reactExports.createElement(LocationContext.Provider, { children, value: locationContext }));
+  return /* @__PURE__ */ reactExports.createElement(NavigationContext$1.Provider, { value: navigationContext }, /* @__PURE__ */ reactExports.createElement(LocationContext.Provider, { children, value: locationContext }));
 }
 function Routes({
   children,
@@ -14444,7 +14444,7 @@ var Link = reactExports.forwardRef(
     unstable_defaultShouldRevalidate,
     ...rest
   }, forwardedRef) {
-    let { basename, unstable_useTransitions } = reactExports.useContext(NavigationContext);
+    let { basename, unstable_useTransitions } = reactExports.useContext(NavigationContext$1);
     let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX2.test(to);
     let parsed = parseToInfo(to, basename);
     to = parsed.to;
@@ -14503,7 +14503,7 @@ var NavLink = reactExports.forwardRef(
     let path = useResolvedPath(to, { relative: rest.relative });
     let location = useLocation();
     let routerState = reactExports.useContext(DataRouterStateContext);
-    let { navigator: navigator2, basename } = reactExports.useContext(NavigationContext);
+    let { navigator: navigator2, basename } = reactExports.useContext(NavigationContext$1);
     let isTransitioning = routerState != null && // Conditional usage is OK here because the usage of a data router is static
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useViewTransitionState(path) && viewTransition === true;
@@ -14572,7 +14572,7 @@ var Form = reactExports.forwardRef(
     unstable_defaultShouldRevalidate,
     ...props
   }, forwardedRef) => {
-    let { unstable_useTransitions } = reactExports.useContext(NavigationContext);
+    let { unstable_useTransitions } = reactExports.useContext(NavigationContext$1);
     let submit = useSubmit();
     let formAction = useFormAction(action, { relative });
     let formMethod = method.toLowerCase() === "get" ? "get" : "post";
@@ -14678,7 +14678,7 @@ function useSubmit() {
     "useSubmit"
     /* UseSubmit */
   );
-  let { basename } = reactExports.useContext(NavigationContext);
+  let { basename } = reactExports.useContext(NavigationContext$1);
   let currentRouteId = useRouteId();
   let routerFetch = router.fetch;
   let routerNavigate = router.navigate;
@@ -14719,7 +14719,7 @@ function useSubmit() {
   );
 }
 function useFormAction(action, { relative } = {}) {
-  let { basename } = reactExports.useContext(NavigationContext);
+  let { basename } = reactExports.useContext(NavigationContext$1);
   let routeContext = reactExports.useContext(RouteContext);
   invariant$1(routeContext, "useFormAction must be used inside a RouteContext");
   let [match] = routeContext.matches.slice(-1);
@@ -50095,7 +50095,7 @@ const icons = {
 const Icon = ({ name: name2, className, ...props }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, ...props, children: icons[name2] || null });
 };
-const CardItem = ({ card, onClick }) => {
+const CardItem = ({ card, onClick, isFocused }) => {
   const controls = useDragControls();
   const [isMobile, setIsMobile] = reactExports.useState(false);
   const [lastTap, setLastTap] = reactExports.useState(0);
@@ -50124,11 +50124,15 @@ const CardItem = ({ card, onClick }) => {
       dragListener: !isMobile,
       dragControls: controls,
       onTouchStart: isMobile ? handleMobileTouch : void 0,
-      className: styles.statCard,
+      className: `${styles.statCard} ${isFocused ? styles.focusedCard : ""}`,
       onClick,
       style: {
         borderLeft: `5px solid ${card.color}`,
-        touchAction: isMobile ? "pan-y" : "none"
+        touchAction: isMobile ? "pan-y" : "none",
+        // Highlighting Style
+        outline: isFocused ? "3px solid #fbbf24" : "none",
+        zIndex: isFocused ? 10 : 1,
+        transform: isFocused ? "scale(1.02)" : "scale(1)"
       },
       whileDrag: {
         scale: 1.05,
@@ -50163,7 +50167,7 @@ const CardItem = ({ card, onClick }) => {
     }
   );
 };
-function StatsCards({ cards, setCards, onCardSelect }) {
+function StatsCards({ cards, setCards, onCardSelect, isSidebarFocused, currentKey }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     ReorderGroup,
     {
@@ -50175,21 +50179,24 @@ function StatsCards({ cards, setCards, onCardSelect }) {
         CardItem,
         {
           card,
-          onClick: () => onCardSelect && onCardSelect(card)
+          onClick: () => onCardSelect && onCardSelect(card),
+          isFocused: currentKey === card.key
         },
         card.id
       ))
     }
   );
 }
-const DashboardSidebar = ({ cards, onCardSelect }) => {
+const DashboardSidebar = ({ cards, onCardSelect, isSidebarFocused, currentKey }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.sidebar, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
     StatsCards,
     {
       cards,
       setCards: () => {
       },
-      onCardSelect
+      onCardSelect,
+      isSidebarFocused,
+      currentKey
     }
   ) });
 };
@@ -50396,44 +50403,218 @@ const ShortcutIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width
   /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" }),
   /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "9 22 9 12 15 12 15 22" })
 ] });
+const NavigationContext = reactExports.createContext();
+const useNavigation = () => reactExports.useContext(NavigationContext);
+const NavigationProvider = ({ children, initialSection = "capital", sectionKeys = [] }) => {
+  const [navMode, setNavMode] = reactExports.useState("SIDEBAR");
+  const [focusArea, setFocusArea] = reactExports.useState("NAV_TABS");
+  const [sidebarIndex, setSidebarIndex] = reactExports.useState(0);
+  const [navTabIndex, setNavTabIndex] = reactExports.useState(0);
+  const [tableRowIndex, setTableRowIndex] = reactExports.useState(0);
+  const [actionBtnIndex, setActionBtnIndex] = reactExports.useState(0);
+  const [counts, setCounts] = reactExports.useState({
+    navTabs: 0,
+    tableRows: 0,
+    actionBtns: 3
+    // Default usually 3 (Transaction, Edit, Delete)
+  });
+  const registerCount = reactExports.useCallback((type, count) => {
+    setCounts((prev) => ({ ...prev, [type]: count }));
+  }, []);
+  reactExports.useEffect(() => {
+    const idx = sectionKeys.indexOf(initialSection);
+    if (idx !== -1) setSidebarIndex(idx);
+  }, [initialSection, sectionKeys]);
+  const handleKeyDown = reactExports.useCallback((e) => {
+    if (["INPUT", "TEXTAREA"].includes(e.target.tagName) || e.target.isContentEditable) return;
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+      e.preventDefault();
+    }
+    if (navMode === "SIDEBAR") {
+      if (e.key === "ArrowDown") {
+        setSidebarIndex((prev) => (prev + 1) % sectionKeys.length);
+      } else if (e.key === "ArrowUp") {
+        setSidebarIndex((prev) => (prev - 1 + sectionKeys.length) % sectionKeys.length);
+      } else if (e.key === "ArrowRight" || e.key === "Enter") {
+        const activeKey = sectionKeys[sidebarIndex];
+        setNavMode("CONTENT");
+        if (activeKey === "cash") {
+          setFocusArea("CASH_TABS");
+          setNavTabIndex(0);
+        } else {
+          setFocusArea("NAV_TABS");
+          setNavTabIndex(0);
+        }
+      }
+    } else if (navMode === "CONTENT") {
+      if (focusArea === "CASH_TABS") {
+        if (e.key === "ArrowRight") {
+          setNavTabIndex((prev) => prev < 2 ? prev + 1 : prev);
+        } else if (e.key === "ArrowLeft") {
+          if (navTabIndex > 0) setNavTabIndex((prev) => prev - 1);
+          else setNavMode("SIDEBAR");
+        } else if (e.key === "ArrowDown") {
+          setFocusArea("CASH_INPUTS");
+          setActionBtnIndex(0);
+        } else if (e.key === "ArrowUp") {
+          setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "CASH_INPUTS") {
+        if (e.key === "ArrowUp") {
+          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
+          else setFocusArea("CASH_TABS");
+        } else if (e.key === "ArrowDown") {
+          if (actionBtnIndex < 2) setActionBtnIndex((prev) => prev + 1);
+        }
+      } else if (focusArea === "NAV_TABS") {
+        if (e.key === "ArrowRight") {
+          if (navTabIndex < counts.navTabs - 1) {
+            setNavTabIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowLeft") {
+          if (navTabIndex > 0) {
+            setNavTabIndex((prev) => prev - 1);
+          } else {
+            setNavMode("SIDEBAR");
+          }
+        } else if (e.key === "ArrowDown") {
+          setFocusArea("TABLE");
+          setTableRowIndex(0);
+        } else if (e.key === "ArrowUp") {
+          setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "TABLE") {
+        if (e.key === "ArrowDown") {
+          if (tableRowIndex < counts.tableRows - 1) {
+            setTableRowIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowUp") {
+          if (tableRowIndex > 0) {
+            setTableRowIndex((prev) => prev - 1);
+          } else {
+            setFocusArea("NAV_TABS");
+          }
+        } else if (e.key === "ArrowRight") {
+          setFocusArea("ACTIONS");
+          setActionBtnIndex(0);
+        } else if (e.key === "ArrowLeft") {
+          setNavMode("SIDEBAR");
+        }
+      } else if (focusArea === "ACTIONS") {
+        if (e.key === "ArrowRight") {
+          if (actionBtnIndex < counts.actionBtns - 1) {
+            setActionBtnIndex((prev) => prev + 1);
+          }
+        } else if (e.key === "ArrowLeft") {
+          if (actionBtnIndex > 0) {
+            setActionBtnIndex((prev) => prev - 1);
+          } else {
+            setFocusArea("TABLE");
+          }
+        } else if (e.key === "Enter") ;
+      } else if (focusArea === "TRANSACTION_FORM") {
+        if (e.key === "ArrowRight") {
+          setActionBtnIndex((prev) => prev + 1);
+        } else if (e.key === "ArrowLeft") {
+          setActionBtnIndex((prev) => prev > 0 ? prev - 1 : 0);
+        } else if (e.key === "ArrowDown") {
+          setActionBtnIndex((prev) => prev + 1);
+        } else if (e.key === "ArrowUp") {
+          if (actionBtnIndex > 0) setActionBtnIndex((prev) => prev - 1);
+          else {
+            setFocusArea("ACTIONS");
+            setActionBtnIndex(0);
+          }
+        }
+      }
+    }
+  }, [navMode, focusArea, sidebarIndex, navTabIndex, tableRowIndex, actionBtnIndex, counts, sectionKeys]);
+  reactExports.useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(NavigationContext.Provider, { value: {
+    navMode,
+    focusArea,
+    sidebarIndex,
+    navTabIndex,
+    tableRowIndex,
+    actionBtnIndex,
+    registerCount,
+    setTableRowIndex,
+    setNavTabIndex,
+    setFocusArea,
+    setActionBtnIndex,
+    activeSectionKey: sectionKeys[sidebarIndex]
+  }, children });
+};
 const CashShortcuts = ({ onAction }) => {
   const [active, setActive] = reactExports.useState("add");
+  const {
+    navMode,
+    focusArea,
+    navTabIndex,
+    registerCount
+  } = useNavigation();
   const buttons = [
     {
+      id: 0,
       label: "Deposit / জমা",
       key: "add",
       icon: "fa-plus",
       className: "btn-add"
     },
     {
+      id: 1,
       label: "Withdraw / খরচ",
       key: "withdraw",
       icon: "fa-minus",
       className: "btn-withdraw"
     },
     {
+      id: 2,
       label: "Set Balance",
       key: "modified",
       icon: "fa-pen",
       className: "btn-modified"
     }
   ];
+  reactExports.useEffect(() => {
+    registerCount("navTabs", buttons.length);
+  }, [registerCount]);
+  reactExports.useEffect(() => {
+    if (navMode === "CONTENT" && focusArea === "CASH_TABS") {
+      const targetBtn = buttons.find((b) => b.id === navTabIndex);
+      if (targetBtn) {
+        handleClick(targetBtn.key);
+      }
+    }
+  }, [navMode, focusArea, navTabIndex]);
   const handleClick = (key) => {
     setActive(key);
     if (onAction) onAction(key);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "cash-shortcut-container", children: buttons.map((btn) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "button",
-    {
-      className: `cash-nav-btn ${btn.className} ${active === btn.key ? "active" : ""}`,
-      onClick: () => handleClick(btn.key),
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${btn.icon} btn-icon` }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: btn.label })
-      ]
-    },
-    btn.key
-  )) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "cash-shortcut-container", children: buttons.map((btn) => {
+    const isFocused = navMode === "CONTENT" && focusArea === "CASH_TABS" && navTabIndex === btn.id;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        className: `cash-nav-btn ${btn.className} ${active === btn.key ? "active" : ""}`,
+        onClick: () => handleClick(btn.key),
+        style: isFocused ? {
+          outline: "2px solid #fbbf24",
+          boxShadow: "0 0 15px rgba(251, 191, 36, 0.5)",
+          transform: "scale(1.05)",
+          zIndex: 10
+        } : {},
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${btn.icon} btn-icon` }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: btn.label })
+        ]
+      },
+      btn.key
+    );
+  }) });
 };
 const AccountNavigation = ({ active, onSelect }) => {
   const items = [
@@ -50494,10 +50675,21 @@ const DashboardHeader = ({
 const Cash = ({ mode, currentBalance, onUpdate }) => {
   const [amount, setAmount] = reactExports.useState("");
   const [note, setNote] = reactExports.useState("");
+  const { navMode, focusArea, actionBtnIndex } = useNavigation();
+  const amountRef = reactExports.useRef(null);
+  const noteRef = reactExports.useRef(null);
+  const submitRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     setAmount("");
     setNote("");
   }, [mode]);
+  reactExports.useEffect(() => {
+    if (navMode === "CONTENT" && focusArea === "CASH_INPUTS") {
+      if (actionBtnIndex === 0) amountRef.current?.focus();
+      else if (actionBtnIndex === 1) noteRef.current?.focus();
+      else if (actionBtnIndex === 2) submitRef.current?.focus();
+    }
+  }, [navMode, focusArea, actionBtnIndex]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!amount) return;
@@ -50535,6 +50727,7 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
+            ref: amountRef,
             type: "number",
             placeholder: "0.00",
             value: amount,
@@ -50547,7 +50740,8 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
               background: "rgba(0,0,0,0.2)",
               color: "white",
               fontSize: "18px",
-              outline: "none"
+              outline: "none",
+              borderColor: navMode === "CONTENT" && focusArea === "CASH_INPUTS" && actionBtnIndex === 0 ? "#fbbf24" : "rgba(255,255,255,0.1)"
             }
           }
         )
@@ -50557,6 +50751,7 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
+            ref: noteRef,
             type: "text",
             placeholder: "যেমন: ব্যক্তিগত ব্যবহার, ভুল সংশোধন",
             value: note,
@@ -50569,7 +50764,8 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
               background: "rgba(0,0,0,0.2)",
               color: "white",
               fontSize: "16px",
-              outline: "none"
+              outline: "none",
+              borderColor: navMode === "CONTENT" && focusArea === "CASH_INPUTS" && actionBtnIndex === 1 ? "#fbbf24" : "rgba(255,255,255,0.1)"
             }
           }
         )
@@ -50577,6 +50773,7 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
+          ref: submitRef,
           type: "submit",
           style: {
             padding: "18px",
@@ -50589,7 +50786,8 @@ const Cash = ({ mode, currentBalance, onUpdate }) => {
             cursor: "pointer",
             marginTop: "10px",
             boxShadow: `0 4px 15px ${info.color}60`,
-            transition: "transform 0.2s"
+            transition: "transform 0.2s",
+            outline: navMode === "CONTENT" && focusArea === "CASH_INPUTS" && actionBtnIndex === 2 ? "3px solid #fbbf24" : "none"
           },
           onMouseDown: (e) => e.target.style.transform = "scale(0.98)",
           onMouseUp: (e) => e.target.style.transform = "scale(1)",
@@ -50691,11 +50889,23 @@ const useDescoSettings = (activeDB) => {
     minRecharge: settings.minRecharge
   };
 };
-const DescoTransaction = ({ account, onBack, inline = false }) => {
+const DescoTransaction = ({ account, onBack, inline = false, isActive = false, focusIndex = 0 }) => {
   const { appData, updateGlobalState, formatNum, activeDB, showToast } = useApp();
   const { settings } = useDescoSettings(activeDB);
   const [mode, setMode] = reactExports.useState("Sale");
   const [amount, setAmount] = reactExports.useState("");
+  const saleBtnRef = React.useRef(null);
+  const loadBtnRef = React.useRef(null);
+  const amountRef = React.useRef(null);
+  const confirmBtnRef = React.useRef(null);
+  useEffect(() => {
+    if (isActive) {
+      if (focusIndex === 0) saleBtnRef.current?.focus();
+      else if (focusIndex === 1) loadBtnRef.current?.focus();
+      else if (focusIndex === 2) amountRef.current?.focus();
+      else if (focusIndex === 3) confirmBtnRef.current?.focus();
+    }
+  }, [isActive, focusIndex]);
   const inputAmount = parseFloat(amount) || 0;
   let customerTakes = 0;
   let balanceCuts = 0;
@@ -50828,6 +51038,7 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
+                ref: saleBtnRef,
                 onClick: () => setMode("Sale"),
                 style: {
                   flex: 1,
@@ -50839,7 +51050,8 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
                   cursor: "pointer",
                   fontWeight: "600",
                   fontSize: "13px",
-                  transition: "all 0.2s"
+                  transition: "all 0.2s",
+                  outline: isActive && focusIndex === 0 ? "3px solid #fbbf24" : "none"
                 },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-credit-card" }),
@@ -50850,6 +51062,7 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
+                ref: loadBtnRef,
                 onClick: () => setMode("Load"),
                 style: {
                   flex: 1,
@@ -50861,7 +51074,8 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
                   cursor: "pointer",
                   fontWeight: "600",
                   fontSize: "13px",
-                  transition: "all 0.2s"
+                  transition: "all 0.2s",
+                  outline: isActive && focusIndex === 1 ? "3px solid #fbbf24" : "none"
                 },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-wallet" }),
@@ -50875,6 +51089,7 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
+                ref: amountRef,
                 type: "number",
                 value: amount,
                 onChange: (e) => setAmount(e.target.value),
@@ -50890,10 +51105,11 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
                   color: "white",
                   outline: "none",
                   transition: "all 0.2s",
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
+                  borderColor: isActive && focusIndex === 2 ? "#fbbf24" : "rgba(59, 130, 246, 0.3)"
                 },
-                onFocus: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.8)",
-                onBlur: (e) => e.target.style.borderColor = "rgba(59, 130, 246, 0.3)"
+                onFocus: (e) => {
+                }
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { marginTop: "8px", fontSize: "11px", color: "#94a3b8" }, children: mode === "Sale" && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { style: { margin: 0 }, children: [
@@ -50905,6 +51121,7 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
+            ref: confirmBtnRef,
             onClick: handleTransactionInit,
             style: {
               width: "100%",
@@ -50919,7 +51136,8 @@ const DescoTransaction = ({ account, onBack, inline = false }) => {
               transition: "all 0.2s",
               boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
               textTransform: "uppercase",
-              letterSpacing: "0.3px"
+              letterSpacing: "0.3px",
+              outline: isActive && focusIndex === 3 ? "3px solid #fbbf24" : "none"
             },
             onMouseEnter: (e) => e.target.style.transform = "translateY(-2px)",
             onMouseLeave: (e) => e.target.style.transform = "translateY(0)",
@@ -51229,14 +51447,16 @@ const PaymentSettings = ({ onClose, operator = null }) => {
   const GP_LIKE = ["gp", "banglalink", "airtel", "robi", "due"];
   const renderType = (key) => {
     const d = form[key] || {};
-    const isGp = GP_LIKE.includes((key || "").toLowerCase());
+    const lowerKey = (key || "").toLowerCase();
+    const isGp = GP_LIKE.includes(lowerKey);
+    const isPersonal = ["personal", "parsonal"].includes(lowerKey);
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { borderTop: "1px solid #334155", paddingTop: "12px", marginTop: "12px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h4", { style: { color: "#f8fafc", margin: 0 }, children: [
         key,
         " রেট"
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "grid", gridTemplateColumns: isGp ? "1fr" : "1fr 1fr", gap: "8px", marginTop: "8px" }, children: [
-        !isGp && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        !isGp && !isPersonal && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1" }, children: "Cash Out (প্রতি ১০০০)" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", step: "0.01", value: d.cashOut ?? "", onChange: (e) => setForm({ ...form, [key]: { ...d, cashOut: parseFloat(e.target.value) || 0 } }), style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" } })
@@ -51244,6 +51464,18 @@ const PaymentSettings = ({ onClose, operator = null }) => {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1" }, children: "Cash In (প্রতি ১০০০)" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", step: "0.01", value: d.cashIn ?? "", onChange: (e) => setForm({ ...form, [key]: { ...d, cashIn: parseFloat(e.target.value) || 0 } }), style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" } })
+          ] })
+        ] }),
+        isPersonal && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1" }, children: "Money Receipt (Receive)" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", step: "0.01", value: d.cashOut ?? "", onChange: (e) => setForm({ ...form, [key]: { ...d, cashOut: parseFloat(e.target.value) || 0 } }), style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" }, placeholder: "Default 0" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "10px", color: "#64748b" }, children: "কাস্টমার থেকে টাকা আসলে (ফি 0)" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1" }, children: "Send Money (Fee)" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", step: "0.01", value: d.cashIn ?? "", onChange: (e) => setForm({ ...form, [key]: { ...d, cashIn: parseFloat(e.target.value) || 0 } }), style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "10px", color: "#64748b" }, children: "টাকা পাঠালে খরচ (প্রতি হাজারে)" })
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -51261,9 +51493,10 @@ const PaymentSettings = ({ onClose, operator = null }) => {
               style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" }
             }
           ),
+          isPersonal && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "10px", color: "#64748b" }, children: "মোবাইল রিচার্জ (ফি)" }),
           isGp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { color: "#94a3b8", marginTop: 6 }, children: "আপনি ১০০০ টাকা লোড করলে অতিরিক্ত ২৮ টাকা যুক্ত হবে।" })
         ] }),
-        !isGp && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        !isGp && !isPersonal && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { color: "#cbd5e1" }, children: "Account Open Fee (একাউন্ট খুললে)" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", step: "0.01", value: d.openAccount ?? "", onChange: (e) => setForm({ ...form, [key]: { ...d, openAccount: parseFloat(e.target.value) || 0 } }), style: { width: "100%", padding: "8px", borderRadius: "6px", background: "#0f172a", color: "white", border: "1px solid #334155" } })
         ] })
@@ -51284,14 +51517,30 @@ const PaymentSettings = ({ onClose, operator = null }) => {
     ] })
   ] }) });
 };
-const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
+const PaymentTransaction = ({ account, onClose, onBack, inline = false, isActive = false, focusIndex = 0 }) => {
   const { appData, updateGlobalState, formatNum, activeDB, showToast } = useApp();
   const { settings } = usePaymentSettings(activeDB);
+  const amountRef = React.useRef(null);
+  const modeTransRef = React.useRef(null);
+  const modeOpenRef = React.useRef(null);
+  reactExports.useEffect(() => {
+    if (isActive) {
+      if (focusIndex === 0) {
+        if (modeTransRef.current) modeTransRef.current.focus();
+        else if (amountRef.current) amountRef.current.focus();
+      } else if (focusIndex === 1) {
+        if (modeOpenRef.current) modeOpenRef.current.focus();
+      } else if (focusIndex === 2) {
+        if (amountRef.current) amountRef.current.focus();
+      }
+    }
+  }, [isActive, focusIndex]);
   const paymentType = (account?.type || "").trim();
   const lowerType = paymentType.toLowerCase();
   const rates = settings?.[paymentType] || {};
   const isRechargeOnlyOperator = ["gp", "banglalink", "airtel", "robi", "due"].includes(lowerType);
   const isAgentCashOutSupported = ["bkash", "nagad", "rocket"].includes(lowerType);
+  const isPersonal = ["personal", "parsonal"].includes(lowerType);
   const [mode, setMode] = reactExports.useState("transaction");
   const [subMode, setSubMode] = reactExports.useState(isRechargeOnlyOperator ? "recharge" : "cash_out");
   const [amount, setAmount] = reactExports.useState("");
@@ -51393,6 +51642,32 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
         return;
       }
       executeRechargeOperator(amt, balanceDeduct, custPay, totalProfit);
+      return;
+    }
+    if (isPersonal) {
+      const fee = getCommission(amt);
+      const markup = hasExtraCommission ? parseFloat(extraCommission) || 0 : 0;
+      if (subMode === "cash_in") {
+        const balanceDeduct = amt + fee;
+        if ((parseFloat(account.balance) || 0) < balanceDeduct) {
+          showToast("❌ অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই! (ফি সহ)", { type: "error" });
+          return;
+        }
+        executePersonalTransaction(amt, fee, markup, "send_money");
+      } else if (subMode === "cash_out") {
+        if ((appData.cash || 0) < amt - markup) {
+          showToast("❌ ক্যাশে পর্যাপ্ত টাকা নেই!", { type: "error" });
+          return;
+        }
+        executePersonalTransaction(amt, fee, markup, "receive_money");
+      } else if (subMode === "recharge") {
+        const balanceDeduct = amt + fee;
+        if ((parseFloat(account.balance) || 0) < balanceDeduct) {
+          showToast("❌ অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!", { type: "error" });
+          return;
+        }
+        executePersonalTransaction(amt, fee, markup, "recharge");
+      }
       return;
     }
     if (!isRechargeOnlyOperator) {
@@ -51539,6 +51814,44 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
     showToast("রিচার্জ সফল হয়েছে!", { type: "success" });
     closeAll();
   };
+  const executePersonalTransaction = (amt, fee, markup, type) => {
+    let updatedAccounts = [];
+    let newCash = parseFloat(appData.cash) || 0;
+    let newProfit = parseFloat(appData.profit) || 0;
+    let histType = "";
+    let profit = 0;
+    if (type === "receive_money") {
+      updatedAccounts = appData.accounts.map((a) => a.id === account.id ? { ...a, balance: parseFloat(a.balance) + amt } : a);
+      newCash -= amt - markup;
+      profit = markup;
+      histType = "money_receipt";
+    } else {
+      updatedAccounts = appData.accounts.map((a) => a.id === account.id ? { ...a, balance: parseFloat(a.balance) - (amt + fee) } : a);
+      newCash += amt + markup;
+      profit = markup - fee;
+      histType = type;
+    }
+    newProfit += profit;
+    const newHistory = {
+      id: Date.now(),
+      name: `${paymentType} ${type === "receive_money" ? "Received" : type === "send_money" ? "Sent" : "Recharge"}`,
+      type: histType,
+      category: "account",
+      amount: amt,
+      totalPrice: profit,
+      date: (/* @__PURE__ */ new Date()).toLocaleDateString("en-GB"),
+      time: (/* @__PURE__ */ new Date()).toLocaleTimeString(),
+      desc: `Amt: ${amt}, Fee: ${fee}, Markup: ${markup}, Net P/L: ${profit}`
+    };
+    updateGlobalState({
+      accounts: updatedAccounts,
+      cash: newCash,
+      profit: newProfit,
+      history: [newHistory, ...appData.history]
+    });
+    showToast("লেনদেন সফল হয়েছে!", { type: "success" });
+    closeAll();
+  };
   const closeAll = () => {
     if (onClose) onClose();
     if (onBack) onBack();
@@ -51641,6 +51954,61 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
         ] })
       ] });
     }
+    if (isPersonal) {
+      const fee = getCommission(amt);
+      const markup = hasExtraCommission ? parseFloat(extraCommission) || 0 : 0;
+      let balanceChange = 0;
+      let cashChange = 0;
+      let profit = 0;
+      let title = "";
+      if (subMode === "cash_out") {
+        title = "Money Receipt (Receive)";
+        balanceChange = amt;
+        cashChange = amt - markup;
+        profit = markup;
+      } else {
+        title = subMode === "cash_in" ? "Send Money" : "Recharge";
+        balanceChange = -(amt + fee);
+        cashChange = amt + markup;
+        profit = markup - fee;
+      }
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(59, 130, 246, 0.1)", borderRadius: "8px", padding: "15px", borderLeft: "4px solid #3b82f6" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { style: { margin: "0 0 10px 0", color: "#fbbf24", fontSize: "13px" }, children: title }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "পরিমাণ:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "700", color: "white" }, children: formatNum(amt) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            "অ্যাকাউন্ট ",
+            balanceChange > 0 ? "যোগ" : "কমবে",
+            ":"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: balanceChange > 0 ? "#4ade80" : "#f87171" }, children: [
+            balanceChange > 0 ? "+" : "",
+            formatNum(balanceChange)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "8px", color: "#cbd5e1", fontSize: "12px" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            "ক্যাশ ",
+            cashChange > 0 ? "যোগ" : "কমবে",
+            ":"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: "700", color: cashChange > 0 ? "#4ade80" : "#f87171" }, children: [
+            cashChange > 0 ? "+" : "",
+            formatNum(cashChange)
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "space-between", paddingTop: "8px", borderTop: "1px solid rgba(255,255,255,0.1)", color: profit >= 0 ? "#4ade80" : "#f87171", fontSize: "13px", fontWeight: "700" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "মোট লাভ/ক্ষতি:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+            profit >= 0 ? "+" : "",
+            formatNum(profit)
+          ] })
+        ] })
+      ] });
+    }
     const comm = isRechargeOnlyOperator ? 0 : getCommission(amt);
     if (isRechargeOnlyOperator && subMode === "recharge") {
       const extraComm = hasExtraCommission ? parseFloat(extraCommission) || 0 : 0;
@@ -51728,20 +52096,22 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
       borderRadius: "12px",
       border: "1px solid rgba(59, 130, 246, 0.1)"
     }, children: [
-      !isRechargeOnlyOperator && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", marginBottom: "20px", background: "rgba(0,0,0,0.2)", padding: "5px", borderRadius: "8px" }, children: [
+      !isRechargeOnlyOperator && !isPersonal && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px", marginBottom: "20px", background: "rgba(0,0,0,0.2)", padding: "5px", borderRadius: "8px" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
+            ref: modeTransRef,
             onClick: () => setMode("transaction"),
-            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "transaction" ? "#3b82f6" : "transparent", color: mode === "transaction" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold" },
+            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "transaction" ? "#3b82f6" : "transparent", color: mode === "transaction" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold", outline: isActive && focusIndex === 0 ? "3px solid #fbbf24" : "none" },
             children: "লেনদেন"
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
+            ref: modeOpenRef,
             onClick: () => setMode("open_account"),
-            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "open_account" ? "#10b981" : "transparent", color: mode === "open_account" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold" },
+            style: { flex: 1, padding: "10px", borderRadius: "6px", border: "none", background: mode === "open_account" ? "#10b981" : "transparent", color: mode === "open_account" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "13px", fontWeight: "bold", outline: isActive && focusIndex === 1 ? "3px solid #fbbf24" : "none" },
             children: "অ্যাকাউন্ট খোলা"
           }
         )
@@ -51766,6 +52136,11 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "20px" }, children: isRechargeOnlyOperator ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("recharge"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "recharge" ? "#10b981" : "rgba(255,255,255,0.05)", color: subMode === "recharge" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "বিক্রয় / রিচার্জ" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("add_balance"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "add_balance" ? "#f59e0b" : "rgba(255,255,255,0.05)", color: subMode === "add_balance" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "ব্যালেন্স লোড" })
+        ] }) : isPersonal ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("cash_out"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "cash_out" ? "#10b981" : "rgba(255,255,255,0.05)", color: subMode === "cash_out" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "Money Receipt" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("cash_in"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "cash_in" ? "#ef4444" : "rgba(255,255,255,0.05)", color: subMode === "cash_in" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "Send Money" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("recharge"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "recharge" ? "#3b82f6" : "rgba(255,255,255,0.05)", color: subMode === "recharge" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "Recharge" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSubMode("add_balance"), style: { flex: 1, padding: "8px", borderRadius: "6px", border: "none", background: subMode === "add_balance" ? "#f59e0b" : "rgba(255,255,255,0.05)", color: subMode === "add_balance" ? "white" : "#94a3b8", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }, children: "Load Bal" })
         ] }) : ["cash_out", "cash_in", "recharge", "add_balance"].map((sm) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
@@ -51818,10 +52193,10 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
+              ref: amountRef,
               type: "number",
               value: amount,
               onChange: (e) => setAmount(e.target.value),
-              autoFocus: true,
               placeholder: "0",
               style: {
                 width: "100%",
@@ -51832,6 +52207,7 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
                 color: "white",
                 fontSize: "24px",
                 fontWeight: "bold",
+                borderColor: isActive && focusIndex === 2 ? "#fbbf24" : "rgba(59, 130, 246, 0.3)",
                 outline: "none",
                 boxSizing: "border-box"
               },
@@ -51840,19 +52216,19 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false }) => {
             }
           )
         ] }),
-        isRechargeOnlyOperator && subMode === "recharge" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "8px", marginBottom: "15px" }, children: [
+        (isRechargeOnlyOperator && subMode === "recharge" || isPersonal && subMode !== "add_balance") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "8px", marginBottom: "15px" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "15px", marginBottom: "10px" }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasExtraCommission ? "#fbbf24" : "#94a3b8" }, children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasExtraCommission, onChange: (e) => setHasExtraCommission(e.target.checked) }),
-              "এক্সট্রা কমিশন?"
+              "এক্সট্রা কমিশন (লাভ)?"
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasCustomerPayment ? "#4ade80" : "#94a3b8" }, children: [
+            isRechargeOnlyOperator && /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { style: { display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", cursor: "pointer", color: hasCustomerPayment ? "#4ade80" : "#94a3b8" }, children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: hasCustomerPayment, onChange: (e) => setHasCustomerPayment(e.target.checked) }),
               "কাস্টমার পেমেন্ট?"
             ] })
           ] }),
           hasExtraCommission && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "10px" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "অতিরিক্ত কমিশন পরিমাণ" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { fontSize: "11px", color: "#94a3b8", display: "block", marginBottom: "4px" }, children: "পরিমাণ (কত টাকা রাখবেন)" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: extraCommission, onChange: (e) => setExtraCommission(e.target.value), placeholder: "0", style: { width: "100%", padding: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "white", borderRadius: "6px", boxSizing: "border-box" } })
           ] }),
           hasCustomerPayment && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -52356,6 +52732,16 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
   const { activeDB } = contextData;
   const { settings } = useDescoSettings(activeDB);
   const { settings: paymentSettings } = usePaymentSettings(activeDB);
+  const {
+    navMode,
+    focusArea,
+    tableRowIndex,
+    actionBtnIndex,
+    registerCount,
+    setTableRowIndex,
+    setFocusArea,
+    setActionBtnIndex
+  } = useNavigation();
   const [activeTab, setActiveTab] = reactExports.useState(accountFilter || "All");
   const [searchTerm, setSearchTerm] = reactExports.useState("");
   const [expandedAccountId, setExpandedAccountId] = reactExports.useState(null);
@@ -52365,6 +52751,12 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
   const [showAddModal, setShowAddModal] = reactExports.useState(false);
   const [showEditModal, setShowEditModal] = reactExports.useState(false);
   const [editingAccount, setEditingAccount] = reactExports.useState(null);
+  const rowRefs = reactExports.useRef([]);
+  reactExports.useEffect(() => {
+    if (expandedAccountId && focusArea !== "TRANSACTION_FORM") {
+      setExpandedAccountId(null);
+    }
+  }, [focusArea, expandedAccountId]);
   const calculateProfit = (balance, accountType) => {
     if ((accountType || "").toLowerCase() !== "desco" || !settings) {
       return 0;
@@ -52401,6 +52793,60 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
     }
     return accounts;
   }, [appData, activeTab, searchTerm]);
+  reactExports.useEffect(() => {
+    registerCount("tableRows", filteredAccounts.length);
+    setTableRowIndex(0);
+  }, [filteredAccounts, registerCount, setTableRowIndex]);
+  reactExports.useEffect(() => {
+    if (filteredAccounts.length > 0 && tableRowIndex < filteredAccounts.length) {
+      const acc = filteredAccounts[tableRowIndex];
+      const type = (acc.type || "").toLowerCase();
+      const isTransactable = type === "desco" || ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(type);
+      registerCount("actionBtns", isTransactable ? 3 : 2);
+    }
+  }, [tableRowIndex, filteredAccounts, registerCount]);
+  reactExports.useEffect(() => {
+    if (focusArea === "TABLE" || focusArea === "ACTIONS") {
+      if (rowRefs.current[tableRowIndex]) {
+        rowRefs.current[tableRowIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+    }
+  }, [tableRowIndex, focusArea]);
+  reactExports.useEffect(() => {
+    const handleEnter = (e) => {
+      if (e.key === "Enter" && focusArea === "ACTIONS") {
+        e.preventDefault();
+        e.stopPropagation();
+        const acc = filteredAccounts[tableRowIndex];
+        if (!acc) return;
+        const type = (acc.type || "").toLowerCase();
+        const isTransactable = type === "desco" || ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(type);
+        if (isTransactable) {
+          if (actionBtnIndex === 0) {
+            handleTransactionToggle(acc);
+            setFocusArea("TRANSACTION_FORM");
+            setActionBtnIndex(0);
+          }
+          if (actionBtnIndex === 1) {
+            setEditingAccount(acc);
+            setShowEditModal(true);
+          }
+          if (actionBtnIndex === 2) handleDelete(acc.id, acc.name);
+        } else {
+          if (actionBtnIndex === 0) {
+            setEditingAccount(acc);
+            setShowEditModal(true);
+          }
+          if (actionBtnIndex === 1) handleDelete(acc.id, acc.name);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleEnter);
+    return () => window.removeEventListener("keydown", handleEnter);
+  }, [focusArea, tableRowIndex, actionBtnIndex, filteredAccounts, expandedAccountId]);
   const handleAddAccountSubmit = (formData) => {
     const accountType = formData.type;
     const initialBalance = parseFloat(formData.balance) || 0;
@@ -52458,11 +52904,7 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
   };
   const handleTransactionToggle = (acc) => {
     const t = (acc.type || "").toLowerCase();
-    if (t === "desco") {
-      setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
-      return;
-    }
-    if (["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(t)) {
+    if (t === "desco" || ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(t)) {
       setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
       return;
     }
@@ -52551,138 +52993,146 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
           activeTab,
           " অ্যাকাউন্ট পাওয়া যায়নি।"
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            onClick: () => setShowAddModal(true),
-            style: {
-              marginTop: "15px",
-              padding: "10px 20px",
-              background: "#3b82f6",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition: "all 0.3s"
-            },
-            onMouseOver: (e) => e.target.style.background = "#2563eb",
-            onMouseOut: (e) => e.target.style.background = "#3b82f6",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus" }),
-              " ",
-              activeTab,
-              " অ্যাকাউন্ট তৈরি করুন"
-            ]
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowAddModal(true), style: { marginTop: "15px", padding: "10px 20px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-plus" }),
+          " ",
+          activeTab,
+          " অ্যাকাউন্ট তৈরি করুন"
+        ] })
+      ] }) }) }) : filteredAccounts.map((acc, index) => {
+        const isRowFocused = navMode === "CONTENT" && (focusArea === "TABLE" || focusArea === "ACTIONS") && tableRowIndex === index;
+        const isActionsFocused = navMode === "CONTENT" && focusArea === "ACTIONS" && tableRowIndex === index;
+        const type = (acc.type || "").toLowerCase();
+        const isTransactable = type === "desco" || ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(type);
+        const getBtnStyle = (baseStyle, btnIdx) => {
+          if (isActionsFocused && actionBtnIndex === btnIdx) {
+            return { ...baseStyle, outline: "3px solid #fbbf24", zIndex: 10, transform: "scale(1.1)" };
           }
-        )
-      ] }) }) }) : filteredAccounts.map((acc) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { borderBottom: "1px solid rgba(255,255,255,0.05)", background: expandedAccountId === acc.id ? "rgba(59, 130, 246, 0.1)" : "transparent", transition: "all 0.2s" }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "500" }, children: acc.name }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { padding: "4px 8px", background: "rgba(255,255,255,0.1)", borderRadius: "4px", fontSize: "11px" }, children: acc.type }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px", color: "#4ade80", fontWeight: "bold" }, children: formatNum(acc.balance) }),
-          activeTab.toLowerCase() === "desco" && /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px", color: "#fbbf24", fontWeight: "bold" }, children: formatNum(calculateProfit(acc.balance, acc.type)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { style: { padding: "15px", textAlign: "right" }, children: [
-            (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
+          return baseStyle;
+        };
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "tr",
+            {
+              ref: (el) => rowRefs.current[index] = el,
+              style: {
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                background: expandedAccountId === acc.id ? "rgba(59, 130, 246, 0.1)" : isRowFocused ? "rgba(255, 255, 255, 0.1)" : "transparent",
+                transition: "all 0.2s",
+                borderLeft: isRowFocused ? "4px solid #fbbf24" : "4px solid transparent"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontWeight: "500" }, children: acc.name }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { padding: "4px 8px", background: "rgba(255,255,255,0.1)", borderRadius: "4px", fontSize: "11px" }, children: acc.type }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px", color: "#4ade80", fontWeight: "bold" }, children: formatNum(acc.balance) }),
+                activeTab.toLowerCase() === "desco" && /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "15px", color: "#fbbf24", fontWeight: "bold" }, children: formatNum(calculateProfit(acc.balance, acc.type)) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { style: { padding: "15px", textAlign: "right" }, children: [
+                  isTransactable ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      onClick: () => handleTransactionToggle(acc),
+                      style: getBtnStyle({
+                        background: expandedAccountId === acc.id ? "#10b981" : "#3b82f6",
+                        color: "white",
+                        border: "none",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        marginRight: "8px",
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        fontWeight: "bold",
+                        fontSize: "12px"
+                      }, 0),
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${expandedAccountId === acc.id ? "fa-chevron-up" : "fa-chevron-down"}` }),
+                        " লেনদেন"
+                      ]
+                    }
+                  ) : null,
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      onClick: () => {
+                        setEditingAccount(acc);
+                        setShowEditModal(true);
+                      },
+                      style: getBtnStyle({
+                        color: "#fbbf24",
+                        background: "rgba(251, 191, 36, 0.15)",
+                        border: "1px solid rgba(251, 191, 36, 0.3)",
+                        marginRight: "10px",
+                        cursor: "pointer",
+                        padding: "8px 12px",
+                        fontSize: "14px",
+                        borderRadius: "6px",
+                        transition: "all 0.3s",
+                        fontWeight: "bold"
+                      }, isTransactable ? 1 : 0),
+                      title: "সম্পাদন করুন",
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-pen" }),
+                        " এডিট"
+                      ]
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      onClick: () => handleDelete(acc.id, acc.name),
+                      style: getBtnStyle({
+                        color: "#ef4444",
+                        background: "rgba(239, 68, 68, 0.15)",
+                        border: "1px solid rgba(239, 68, 68, 0.3)",
+                        cursor: "pointer",
+                        padding: "8px 12px",
+                        fontSize: "14px",
+                        borderRadius: "6px",
+                        transition: "all 0.3s",
+                        fontWeight: "bold"
+                      }, isTransactable ? 2 : 1),
+                      title: "মুছে ফেলুন",
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-trash" }),
+                        " ডিলিট"
+                      ]
+                    }
+                  )
+                ] })
+              ]
+            }
+          ),
+          expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { colSpan: "5", children: [
+            acc.type.toLowerCase() === "desco" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              DescoTransaction,
               {
-                onClick: () => handleTransactionToggle(acc),
-                style: {
-                  background: expandedAccountId === acc.id ? "#10b981" : "#3b82f6",
-                  color: "white",
-                  border: "none",
-                  padding: "6px 12px",
-                  borderRadius: "6px",
-                  marginRight: "8px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  fontWeight: "bold",
-                  fontSize: "12px"
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fa-solid ${expandedAccountId === acc.id ? "fa-chevron-up" : "fa-chevron-down"}` }),
-                  " লেনদেন"
-                ]
-              }
-            ) : ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => handleTransactionToggle(acc),
-                style: { background: "#3b82f6", color: "white", border: "none", padding: "6px 12px", borderRadius: "6px", marginRight: "8px", cursor: "pointer", transition: "all 0.2s", fontWeight: "bold", fontSize: "12px" },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-exchange-alt" }),
-                  " লেনদেন"
-                ]
+                account: acc,
+                settings,
+                appData,
+                updateGlobalState,
+                showToast: contextData.showToast,
+                formatNum,
+                inline: true,
+                isActive: focusArea === "TRANSACTION_FORM",
+                focusIndex: actionBtnIndex
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
+            ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(acc.type.toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              PaymentTransaction,
               {
-                onClick: () => {
-                  setEditingAccount(acc);
-                  setShowEditModal(true);
-                },
-                style: {
-                  color: "#fbbf24",
-                  background: "rgba(251, 191, 36, 0.15)",
-                  border: "1px solid rgba(251, 191, 36, 0.3)",
-                  marginRight: "10px",
-                  cursor: "pointer",
-                  padding: "8px 12px",
-                  fontSize: "14px",
-                  borderRadius: "6px",
-                  transition: "all 0.3s",
-                  fontWeight: "bold"
-                },
-                title: "সম্পাদন করুন",
-                onMouseOver: (e) => {
-                  e.target.style.background = "rgba(251, 191, 36, 0.25)";
-                  e.target.style.borderColor = "rgba(251, 191, 36, 0.6)";
-                },
-                onMouseOut: (e) => {
-                  e.target.style.background = "rgba(251, 191, 36, 0.15)";
-                  e.target.style.borderColor = "rgba(251, 191, 36, 0.3)";
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-pen" }),
-                  " এডিট"
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => handleDelete(acc.id, acc.name),
-                style: {
-                  color: "#ef4444",
-                  background: "rgba(239, 68, 68, 0.15)",
-                  border: "1px solid rgba(239, 68, 68, 0.3)",
-                  cursor: "pointer",
-                  padding: "8px 12px",
-                  fontSize: "14px",
-                  borderRadius: "6px",
-                  transition: "all 0.3s",
-                  fontWeight: "bold"
-                },
-                title: "মুছুন",
-                onMouseOver: (e) => {
-                  e.target.style.background = "rgba(239, 68, 68, 0.25)";
-                  e.target.style.borderColor = "rgba(239, 68, 68, 0.6)";
-                },
-                onMouseOut: (e) => {
-                  e.target.style.background = "rgba(239, 68, 68, 0.15)";
-                  e.target.style.borderColor = "rgba(239, 68, 68, 0.3)";
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fa-solid fa-trash" }),
-                  " ডিলিট"
-                ]
+                account: acc,
+                settings: paymentSettings,
+                appData,
+                updateGlobalState,
+                showToast: contextData.showToast,
+                formatNum,
+                inline: true,
+                isActive: focusArea === "TRANSACTION_FORM",
+                focusIndex: actionBtnIndex
               }
             )
-          ] })
-        ] }),
-        expandedAccountId === acc.id && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: "rgba(59, 130, 246, 0.05)", borderBottom: "2px solid rgba(59, 130, 246, 0.2)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", style: { padding: "20px" }, children: (acc.type || "").toLowerCase() === "desco" ? /* @__PURE__ */ jsxRuntimeExports.jsx(DescoTransaction, { account: acc, onBack: () => setExpandedAccountId(null), inline: true }) : ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes((acc.type || "").toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(PaymentTransaction, { account: acc, inline: true, onBack: () => setExpandedAccountId(null) }) }) })
-      ] }, acc.id)) })
+          ] }) })
+        ] }, acc.id);
+      }) })
     ] }) })
   ] });
 };
@@ -55053,6 +55503,27 @@ const ShortcutGuide = ({ isOpen = true, onClose, isModal = true }) => {
   if (isModal && !isOpen) return null;
   const content = /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     saveMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shortcut-success-message", children: saveMessage }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "standard-nav-guide", style: { marginBottom: "25px", padding: "15px", background: "rgba(59, 130, 246, 0.1)", borderRadius: "12px", border: "1px solid rgba(59, 130, 246, 0.2)" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { margin: "0 0 10px 0", color: "#60a5fa", fontSize: "16px" }, children: "📍 সাধারণ নেভিগেশন (Standard Navigation)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { style: { margin: 0, paddingLeft: "20px", color: "#e2e8f0", fontSize: "14px", lineHeight: "1.6" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "⬆ / ⬇ (Up/Down Arrow):" }),
+          " কার্ড বা লিস্টের মধ্যে উপরে/নিচে যেতে ব্যবহার করুন।"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "➡ (Right Arrow):" }),
+          " কার্ড থেকে বিস্তারিত সেকশনে বা টেবিলের অ্যাকশন বাটনে যেতে ব্যবহার করুন।"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "⬅ (Left Arrow):" }),
+          " সেকশন বা বাটন পরিবর্তন করতে বা ফিরে আসতে ব্যবহার করুন।"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Enter:" }),
+          " সিলেক্ট করা বাটন বা অ্যাকশন নিশ্চিত করতে ব্যবহার করুন।"
+        ] })
+      ] })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shortcut-tabs", children: Object.entries(categories2).map(([key, label]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
@@ -56101,8 +56572,29 @@ const QuickTransactionPanel = ({ isOpen, onClose, activeSection = "cash" }) => {
     ] }) })
   ] }) });
 };
-const Dashboard = ({ onLogout, userName }) => {
+const ACCOUNT_TABS = [
+  "All",
+  "Desco",
+  "Bkash",
+  "Nagad",
+  "Rocket",
+  "Parsonal",
+  "GP",
+  "Banglalink",
+  "Airtel",
+  "Robi",
+  "Due"
+];
+const DashboardContent = ({ onLogout, userName }) => {
   const { appData, updateGlobalState, dbName, formatNum, t } = useApp();
+  const {
+    navMode,
+    focusArea,
+    sidebarIndex,
+    navTabIndex,
+    activeSectionKey,
+    registerCount
+  } = useNavigation();
   const [selectedKey, setSelectedKey] = reactExports.useState("capital");
   const [isMobile, setIsMobile] = reactExports.useState(window.innerWidth < 880);
   const [showContent, setShowContent] = reactExports.useState(false);
@@ -56115,6 +56607,21 @@ const Dashboard = ({ onLogout, userName }) => {
   const { cards, totalCash } = useDashboardStats(appData, t, formatNum);
   const { filteredHistory, handleDelete, handleClearAll } = useHistoryManager(appData, updateGlobalState, historyFilter);
   reactExports.useEffect(() => {
+    if (navMode === "SIDEBAR" && activeSectionKey) {
+      if (["capital", "cash", "balance", "stock", "profit"].includes(activeSectionKey)) {
+        setSelectedKey(activeSectionKey);
+      }
+    }
+  }, [navMode, activeSectionKey]);
+  reactExports.useEffect(() => {
+    if (selectedKey === "balance") {
+      registerCount("navTabs", ACCOUNT_TABS.length);
+      if (navMode === "CONTENT" && focusArea === "NAV_TABS") {
+        setAccountTab(ACCOUNT_TABS[navTabIndex]);
+      }
+    }
+  }, [selectedKey, navMode, focusArea, navTabIndex, registerCount]);
+  reactExports.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 880);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -56122,7 +56629,9 @@ const Dashboard = ({ onLogout, userName }) => {
   const shortcutCallbacks = {
     onToggleMenu: () => setShowShortcutGuide(!showShortcutGuide),
     onFocusSearch: () => setShowShortcutGuide(true),
-    // সেকশন নেভিগেশন
+    // ... Keeping existing logic for shortcuts if needed, 
+    // but Sidebar overrides arrow keys via NavigationProvider
+    // সেকশন নেভিগেশন (Ctrl + Arrows still work via useKeyboardShortcuts)
     onNextSection: () => {
       const sectionKeys = ["capital", "balance", "stock", "cash", "profit", "history", "settings"];
       const currentIndex = sectionKeys.indexOf(selectedKey);
@@ -56135,7 +56644,7 @@ const Dashboard = ({ onLogout, userName }) => {
       const prevIndex = (currentIndex - 1 + sectionKeys.length) % sectionKeys.length;
       setSelectedKey(sectionKeys[prevIndex]);
     },
-    // ক্যাশ অ্যাকশন
+    // ... other shortcuts
     onCashAdd: () => {
       setSelectedKey("cash");
       setCashMode("add");
@@ -56146,7 +56655,6 @@ const Dashboard = ({ onLogout, userName }) => {
       setCashMode("withdraw");
       if (isMobile) setShowContent(true);
     },
-    // অ্যাকাউন্ট অ্যাকশন
     onAccountView: () => {
       setSelectedKey("balance");
       if (isMobile) setShowContent(true);
@@ -56155,7 +56663,6 @@ const Dashboard = ({ onLogout, userName }) => {
       setSelectedKey("balance");
       if (isMobile) setShowContent(true);
     },
-    // পণ্য অ্যাকশন
     onProductView: () => {
       setSelectedKey("stock");
       if (isMobile) setShowContent(true);
@@ -56165,10 +56672,8 @@ const Dashboard = ({ onLogout, userName }) => {
       if (isMobile) setShowContent(true);
     },
     onProductQuickSale: () => setShowQuickTransaction(true),
-    // লেনদেন অ্যাকশন
     onQuickComplete: () => setShowQuickTransaction(true),
     onCancelTransaction: () => setShowQuickTransaction(false),
-    // অন্যান্য
     onHistoryView: () => {
       setSelectedKey("history");
       if (isMobile) setShowContent(true);
@@ -56239,7 +56744,9 @@ const Dashboard = ({ onLogout, userName }) => {
         DashboardSidebar,
         {
           cards,
-          onCardSelect: handleCardSelect
+          onCardSelect: handleCardSelect,
+          isSidebarFocused: navMode === "SIDEBAR",
+          currentKey: selectedKey
         }
       ),
       (!isMobile || showContent) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.glassContent, style: { "--theme-color": "#fff" }, children: [
@@ -56293,6 +56800,16 @@ const Dashboard = ({ onLogout, userName }) => {
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DatabaseIndicator, { dbName })
   ] });
+};
+const Dashboard = (props) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    NavigationProvider,
+    {
+      initialSection: "capital",
+      sectionKeys: ["capital", "cash", "balance", "stock", "profit"],
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(DashboardContent, { ...props })
+    }
+  );
 };
 const STORAGE_KEYS = {
   // লোকাল স্টোরেজে এই নামেই 'true'/'false' সেভ হবে
