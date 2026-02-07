@@ -51020,13 +51020,21 @@ const DescoTransaction = ({ account, onBack, inline = false, isActive = false, f
   const loadBtnRef = React.useRef(null);
   const amountRef = React.useRef(null);
   const confirmBtnRef = React.useRef(null);
-  useEffect(() => {
+  reactExports.useEffect(() => {
     if (isActive) {
       if (focusIndex === 0) saleBtnRef.current?.focus();
       else if (focusIndex === 1) loadBtnRef.current?.focus();
       else if (focusIndex === 2) amountRef.current?.focus();
       else if (focusIndex === 3) confirmBtnRef.current?.focus();
     }
+    const handleGlobalKeyDown = (e) => {
+      if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+      if (/^[0-9]$/.test(e.key)) {
+        amountRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [isActive, focusIndex]);
   const inputAmount = parseFloat(amount) || 0;
   let customerTakes = 0;
@@ -51214,6 +51222,13 @@ const DescoTransaction = ({ account, onBack, inline = false, isActive = false, f
                 ref: amountRef,
                 type: "number",
                 value: amount,
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    handleTransactionInit();
+                  }
+                },
                 onChange: (e) => setAmount(e.target.value),
                 placeholder: "0",
                 style: {
@@ -51656,6 +51671,14 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false, isActive
         if (amountRef.current) amountRef.current.focus();
       }
     }
+    const handleGlobalKeyDown = (e) => {
+      if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+      if (/^[0-9]$/.test(e.key)) {
+        amountRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [isActive, focusIndex]);
   const paymentType = (account?.type || "").trim();
   const lowerType = paymentType.toLowerCase();
@@ -52318,6 +52341,13 @@ const PaymentTransaction = ({ account, onClose, onBack, inline = false, isActive
               ref: amountRef,
               type: "number",
               value: amount,
+              onKeyDown: (e) => {
+                if (e.key === "Enter") {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleTransactionInit();
+                }
+              },
               onChange: (e) => setAmount(e.target.value),
               placeholder: "0",
               style: {
@@ -53027,7 +53057,13 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
   const handleTransactionToggle = (acc) => {
     const t = (acc.type || "").toLowerCase();
     if (t === "desco" || ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(t)) {
-      setExpandedAccountId(expandedAccountId === acc.id ? null : acc.id);
+      if (expandedAccountId === acc.id) {
+        setExpandedAccountId(null);
+        setFocusArea("ACTIONS");
+      } else {
+        setExpandedAccountId(acc.id);
+        setFocusArea("TRANSACTION_FORM");
+      }
       return;
     }
     contextData.showToast("এই টাইপের জন্য লেনদেন সমর্থিত নেই।", { type: "warn" });
@@ -53235,7 +53271,11 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
                 formatNum,
                 inline: true,
                 isActive: focusArea === "TRANSACTION_FORM",
-                focusIndex: actionBtnIndex
+                focusIndex: actionBtnIndex,
+                onBack: () => {
+                  setExpandedAccountId(null);
+                  setFocusArea("ACTIONS");
+                }
               }
             ),
             ["bkash", "nagad", "rocket", "parsonal", "personal", "gp", "banglalink", "airtel", "robi", "due"].includes(acc.type.toLowerCase()) && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53249,7 +53289,15 @@ const Account = ({ accountFilter, appData: propAppData, updateGlobalState: propU
                 formatNum,
                 inline: true,
                 isActive: focusArea === "TRANSACTION_FORM",
-                focusIndex: actionBtnIndex
+                focusIndex: actionBtnIndex,
+                onClose: () => {
+                  setExpandedAccountId(null);
+                  setFocusArea("ACTIONS");
+                },
+                onBack: () => {
+                  setExpandedAccountId(null);
+                  setFocusArea("ACTIONS");
+                }
               }
             )
           ] }) })
@@ -55253,6 +55301,7 @@ const HardResetZone = ({ currentPassword }) => {
 const DEFAULT_SHORTCUTS = {
   TOGGLE_MENU: { key: "Escape", ctrl: false, shift: false, label: "মেনু টগল" },
   OPEN_SHORTCUTS: { key: "m", ctrl: true, shift: false, label: "শর্টকাট গাইড খুলুন" },
+  SECTION_NAV_START: { key: "s", ctrl: true, shift: true, label: "সেকশন নেভিগেশন চালু" },
   NEXT_SECTION: { key: "ArrowDown", ctrl: true, shift: false, label: "পরবর্তী সেকশন" },
   PREV_SECTION: { key: "ArrowUp", ctrl: true, shift: false, label: "আগের সেকশন" },
   CASH_ADD: { key: "a", ctrl: true, shift: false, label: "ক্যাশ যোগ করুন" },
@@ -55580,7 +55629,7 @@ const ShortcutGuide = ({ isOpen = true, onClose, isModal = true }) => {
     const all = getFormattedShortcuts();
     return {
       "NEXT_SECTION": all.filter(
-        (s) => ["NEXT_SECTION", "PREV_SECTION", "TOGGLE_MENU", "OPEN_SHORTCUTS"].includes(s.name)
+        (s) => ["NEXT_SECTION", "PREV_SECTION", "TOGGLE_MENU", "OPEN_SHORTCUTS", "SECTION_NAV_START"].includes(s.name)
       ),
       "CASH_ADD": all.filter((s) => s.name.startsWith("CASH")),
       "ACCOUNT_VIEW": all.filter((s) => s.name.startsWith("ACCOUNT")),
@@ -56346,7 +56395,8 @@ const useKeyboardShortcuts = (callbacks = {}, activeDB = null) => {
         if (isInputFocused && !["SUBMIT_TRANSACTION", "CANCEL_TRANSACTION"].includes(name2)) {
           return;
         }
-        const callbackName = `on${name2.replace(/_/g, "").replace(/\b\w/g, (l) => l.toUpperCase())}`;
+        const pascalCaseName = name2.split("_").map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join("");
+        const callbackName = `on${pascalCaseName}`;
         const callback = callbacksRef.current[callbackName];
         if (callback) {
           callback();
@@ -56760,6 +56810,10 @@ const DashboardContent = ({ onLogout, userName }) => {
     // ... Keeping existing logic for shortcuts if needed, 
     // but Sidebar overrides arrow keys via NavigationProvider
     // সেকশন নেভিগেশন (Ctrl + Arrows still work via useKeyboardShortcuts)
+    onSectionNavStart: () => {
+      setNavMode("SIDEBAR");
+      if (isMobile) setShowContent(false);
+    },
     onNextSection: () => {
       const sectionKeys = ["capital", "balance", "stock", "cash", "profit", "history", "settings"];
       const currentIndex = sectionKeys.indexOf(selectedKey);
